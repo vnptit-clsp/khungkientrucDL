@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bức tranh tổng quan Kiến trúc số Quốc gia – Bộ – Tỉnh – Xã (bản 2.0)</title>
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2129; --line:#2d333b;
+  --txt:#e6edf3; --dim:#8b949e;
+  --qg:#f2762e; --bo:#4f8ef7; --tinh:#2ea043; --xa:#a371f7;
+  --l1:#e5534b; --l2:#d29922; --l3:#3fb950; --l4:#58a6ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:"Segoe UI",system-ui,-apple-system,"Noto Sans",Arial,sans-serif;font-size:14px;line-height:1.55}
+header{padding:20px 26px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#11161d,#0d1117)}
+h1{margin:0 0 6px;font-size:21px;letter-spacing:.2px}
+.sub{color:var(--dim);font-size:12.6px;max-width:1180px}
+.sub b{color:#c9d1d9;font-weight:600}
+.counters{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.ct{background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:7px 13px;font-size:11.5px;color:var(--dim)}
+.ct b{display:block;font-size:19px;color:var(--qg);font-weight:700;line-height:1.25}
+nav{display:flex;gap:2px;padding:0 18px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap;position:sticky;top:0;z-index:20}
+nav button{background:none;border:none;color:var(--dim);padding:12px 13px;cursor:pointer;font-size:13px;font-weight:600;border-bottom:2px solid transparent;font-family:inherit;white-space:nowrap}
+nav button:hover{color:var(--txt)}
+nav button.on{color:#fff;border-bottom-color:var(--qg)}
+main{padding:22px 26px 70px;max-width:1640px}
+.tab{display:none}.tab.on{display:block}
+h2{font-size:17px;margin:0 0 4px}
+h3.sec{font-size:14.5px;margin:26px 0 6px;color:#c9d1d9}
+.hint{color:var(--dim);font-size:12.5px;margin:0 0 18px;max-width:1150px}
+
+/* matrix */
+.matrix{display:grid;grid-template-columns:152px repeat(4,1fr);gap:8px;min-width:1080px}
+.mh{padding:9px 10px;font-weight:700;font-size:12.5px;text-align:center;border-radius:6px}
+.mh.qg{background:rgba(242,118,46,.16);color:var(--qg);border:1px solid rgba(242,118,46,.4)}
+.mh.bo{background:rgba(79,142,247,.14);color:var(--bo);border:1px solid rgba(79,142,247,.4)}
+.mh.tinh{background:rgba(46,160,67,.14);color:var(--tinh);border:1px solid rgba(46,160,67,.4)}
+.mh.xa{background:rgba(163,113,247,.14);color:var(--xa);border:1px solid rgba(163,113,247,.4)}
+.mh.corner{background:transparent;border:none}
+.rowlab{padding:12px 10px;border-radius:6px;font-weight:700;font-size:12.5px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.rowlab small{font-weight:400;color:var(--dim);font-size:11px}
+.cell{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:9px;display:flex;flex-direction:column;gap:5px}
+.chip{background:var(--panel2);border:1px solid var(--line);border-left-width:3px;border-radius:4px;padding:6px 8px;font-size:11.7px;cursor:pointer;transition:.12s}
+.chip:hover{background:#272d36;transform:translateX(2px)}
+.chip .t{font-weight:600}
+.chip .o{color:var(--dim);font-size:10.5px;display:block;margin-top:1px}
+.chip.dc{border-left-color:var(--qg)}
+.chip.dr{border-left-color:#8b949e}
+.chip.kt{border-left-color:#3fb950;border-style:dashed}
+.nt{display:inline-block;background:rgba(242,118,46,.2);color:var(--qg);font-size:9.5px;font-weight:700;padding:0 5px;border-radius:3px;margin-left:5px;vertical-align:1px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:16px 0 6px;font-size:12px;color:var(--dim)}
+.legend span{display:flex;align-items:center;gap:6px}
+.sw{width:14px;height:10px;border-radius:2px;display:inline-block}
+
+/* flow */
+.flow{display:flex;flex-direction:column;max-width:1180px}
+.band{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--panel)}
+.band h3{margin:0 0 10px;font-size:13.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:.4px}
+.tag.qg{background:rgba(242,118,46,.18);color:var(--qg)}
+.tag.bo{background:rgba(79,142,247,.18);color:var(--bo)}
+.tag.tinh{background:rgba(46,160,67,.18);color:var(--tinh)}
+.tag.xa{background:rgba(163,113,247,.18);color:var(--xa)}
+.boxes{display:flex;gap:8px;flex-wrap:wrap}
+.box{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:7px 11px;font-size:12px}
+.box.hi{border-color:var(--qg);background:rgba(242,118,46,.09)}
+.box.hi2{border-color:var(--tinh);background:rgba(46,160,67,.09)}
+.arrow{display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 0;color:var(--dim);font-size:11.5px;text-align:center}
+.arrow b{color:#c9d1d9;font-weight:600}
+.arrow .ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:12.7px;margin-top:8px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-size:12px;color:#c9d1d9;font-weight:700}
+#ptab th{position:sticky;top:44px;z-index:5}
+tr:nth-child(even) td{background:rgba(255,255,255,.014)}
+td small{color:var(--dim)}
+.pill{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.p-qg{background:rgba(242,118,46,.18);color:var(--qg)}
+.p-bo{background:rgba(79,142,247,.18);color:var(--bo)}
+.p-tinh{background:rgba(46,160,67,.18);color:var(--tinh)}
+.p-xa{background:rgba(163,113,247,.18);color:var(--xa)}
+.p-l1{background:rgba(229,83,75,.18);color:var(--l1)}
+.p-l2{background:rgba(210,153,34,.2);color:var(--l2)}
+.p-l3{background:rgba(63,185,80,.18);color:var(--l3)}
+.p-l4{background:rgba(88,166,255,.18);color:var(--l4)}
+.p-a{background:rgba(242,118,46,.22);color:var(--qg)}
+.p-b{background:rgba(139,148,158,.2);color:#adbac7}
+
+/* filter bar */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0 4px;padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;position:sticky;top:44px;z-index:8}
+.fbar input,.fbar select{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:5px;padding:7px 10px;font-size:12.5px;font-family:inherit}
+.fbar input{min-width:230px}
+.fbar label{font-size:11.5px;color:var(--dim);margin-right:2px}
+#cnt{margin-left:auto;font-size:12px;color:var(--dim)}
+#cnt b{color:var(--qg)}
+
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.66);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.ov.on{display:flex}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:10px;max-width:640px;width:100%;padding:22px 24px;max-height:82vh;overflow:auto}
+.modal h3{margin:0 0 3px;font-size:16px}
+.modal .who{color:var(--dim);font-size:12px;margin-bottom:14px}
+.modal p{margin:0 0 10px;font-size:13px}
+.modal .kv{display:grid;grid-template-columns:120px 1fr;gap:6px 12px;font-size:12.5px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.modal .kv b{color:var(--dim);font-weight:600}
+.close{float:right;background:none;border:1px solid var(--line);color:var(--dim);border-radius:5px;cursor:pointer;padding:3px 9px;font-size:16px;line-height:1}
+
+.note{background:rgba(242,118,46,.07);border-left:3px solid var(--qg);padding:11px 14px;border-radius:0 6px 6px 0;font-size:12.6px;margin:16px 0}
+.note.g{background:rgba(46,160,67,.07);border-left-color:var(--tinh)}
+.note.r{background:rgba(229,83,75,.08);border-left-color:var(--l1)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:1050px){.grid2,.grid3{grid-template-columns:1fr}}
+.scroll{overflow-x:auto;padding-bottom:8px}
+ul{margin:6px 0 0;padding-left:20px}
+li{margin-bottom:6px;font-size:12.8px}
+code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px;color:#79c0ff}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:15px 17px}
+.card h4{margin:0 0 8px;font-size:13.5px}
+.card.acc{border-top:3px solid var(--qg)}
+.card.acc2{border-top:3px solid var(--tinh)}
+.card.acc3{border-top:3px solid var(--l1)}
+.step{display:flex;gap:12px;margin-bottom:14px}
+.num{flex:none;width:26px;height:26px;border-radius:50%;background:rgba(242,118,46,.16);color:var(--qg);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;border:1px solid rgba(242,118,46,.4)}
+.step div b{display:block;margin-bottom:2px;font-size:13.2px}
+.step div span{font-size:12.6px;color:var(--dim)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Bức tranh tổng quan Kiến trúc số Việt Nam: Quốc gia ↔ Bộ ngành ↔ Tỉnh ↔ Xã</h1>
+  <div class="sub">
+    <b>Bản 3.1</b> — tích hợp Danh mục <b>79 nền tảng số dùng chung quốc gia</b> (QĐ 1132/QĐ-TTg) và <b>lát cắt 3 bộ ngành</b>: Nông nghiệp &amp; Môi trường, Văn hóa – Thể thao – Du lịch, Giáo dục &amp; Đào tạo.
+    Nguồn: QĐ 1425/QĐ-TTg (29/7/2026) · QĐ 2439/QĐ-TTg (04/11/2025) · QĐ 11/2026/QĐ-TTg · QĐ 1132/QĐ-TTg · QĐ 1805/QĐ-BNNMT (19/5/2026) · Bộ tài liệu Khung kiến trúc Bộ VHTTDL PB 1.0 (4 phần, 361 trang) · Khung KTDL và Khung QTQL dữ liệu Bộ GD&amp;ĐT PB 1.0 · QĐ 31/QĐ-BVHTTDL (07/01/2026) · mẫu Khung KTDL cấp tỉnh · Tài liệu hướng dẫn Mô hình CĐS cấp xã (BKHCN, 2026) · đối chiếu thực tiễn Thanh Hóa, Sơn La, Quảng Ngãi, Cần Thơ.
+  </div>
+  <div class="counters">
+    <div class="ct"><b>04</b>lớp kiến trúc thống nhất</div>
+    <div class="ct"><b>79</b>nền tảng số dùng chung QG</div>
+    <div class="ct"><b>20</b>cơ sở dữ liệu quốc gia</div>
+    <div class="ct"><b>06</b>miền dữ liệu cơ bản</div>
+    <div class="ct"><b>06</b>tháng để tỉnh ban hành khung</div>
+  </div>
+</header>
+
+<nav>
+  <button class="on" data-t="w">① Vì sao tỉnh phải có khung</button>
+  <button data-t="m">② Ma trận 4 lớp × 4 cấp</button>
+  <button data-t="n">③ 79 nền tảng dùng chung QG</button>
+  <button data-t="f">④ Luồng dữ liệu</button>
+  <button data-t="d">⑤ Dùng chung vs. dùng riêng</button>
+  <button data-t="s">⑥ Sở/ngành &amp; ứng dụng chuyên ngành</button>
+  <button data-t="b">⑦ Cắt lớp 3 bộ: NN&amp;MT · VHTTDL · GD&amp;ĐT</button>
+  <button data-t="r">⑧ Đối chiếu thực tiễn</button>
+  <button data-t="p">⑨ Căn cứ pháp lý</button>
+</nav>
+
+<main>
+
+<!-- ============ TAB 1: VÌ SAO ============ -->
+<section class="tab on" id="tab-w">
+  <h2>Vì sao tỉnh bắt buộc phải có Khung kiến trúc số và Khung kiến trúc dữ liệu cấp tỉnh</h2>
+  <p class="hint">Bối cảnh đã đảo ngược logic đầu tư. Trước đây tỉnh hỏi "mình cần gì thì xây". Từ 2026, câu hỏi đầu tiên là <b>"trên đã có gì rồi"</b> — 79 nền tảng dùng chung quốc gia và 20 CSDL quốc gia. Hai khung của tỉnh chính là công cụ trả lời câu hỏi đó một cách có hệ thống và có giá trị pháp lý.</p>
+
+  <div class="grid2">
+    <div class="card acc">
+      <h4 style="color:var(--qg)">Khung kiến trúc số cấp tỉnh</h4>
+      <p style="font-size:12.8px;color:var(--dim);margin:0 0 10px"><b style="color:var(--txt)">Trả lời:</b> Tỉnh có những hệ thống nào, nằm ở lớp nào, ai chủ quản, cái nào khai thác của TW, cái nào tỉnh tự làm, cái nào giao xã.</p>
+      <b style="font-size:12.5px">Sản phẩm phải ban hành:</b>
+      <ul>
+        <li>Mô hình kiến trúc 4 lớp của tỉnh (thống nhất với Khung KTTT quốc gia số)</li>
+        <li>Danh mục thành phần dùng chung cấp tỉnh</li>
+        <li><b>Kiến trúc của Mô hình chuyển đổi số cấp xã</b> — là một thành phần của khung tỉnh, không phải văn bản riêng</li>
+        <li><b>Lộ trình xử lý các hệ thống chưa phù hợp hoặc trùng lặp</b></li>
+        <li>Khung kiến trúc an ninh mạng cấp tỉnh</li>
+      </ul>
+    </div>
+    <div class="card acc2">
+      <h4 style="color:var(--tinh)">Khung kiến trúc dữ liệu cấp tỉnh</h4>
+      <p style="font-size:12.8px;color:var(--dim);margin:0 0 10px"><b style="color:var(--txt)">Trả lời:</b> Dữ liệu gì, ai là chủ quản, chuẩn hóa theo cấu trúc nào, chia sẻ ra sao, ai chịu trách nhiệm chất lượng.</p>
+      <b style="font-size:12.5px">Sản phẩm phải ban hành:</b>
+      <ul>
+        <li>Danh mục CSDL dùng chung cấp tỉnh</li>
+        <li><b>Từ điển dữ liệu dùng chung cấp tỉnh</b> — ánh xạ với Từ điển dữ liệu dùng chung quốc gia</li>
+        <li>Khung quản trị, quản lý dữ liệu cấp tỉnh</li>
+        <li><b>Danh mục dữ liệu cấp xã phải cập nhật</b> + biểu mẫu số</li>
+        <li>Cơ chế kiểm soát chất lượng dữ liệu và chia sẻ dữ liệu liên thông</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sec">Bốn lý do bắt buộc, xếp theo mức độ khẩn</h3>
+
+  <div class="step"><div class="num">1</div><div>
+    <b>Nghĩa vụ pháp lý có hạn định — khoảng cuối tháng 01/2027</b>
+    <span>QĐ 1425 Điều 3 khoản 4: trong <b style="color:var(--txt)">06 tháng</b> kể từ ngày hiệu lực (29/7/2026), UBND tỉnh phải hoàn thành xây dựng mới hoặc rà soát, cập nhật và ban hành Khung kiến trúc số của mình phù hợp Khung KTTT quốc gia số. Việc rà soát <b style="color:var(--txt)">phải xác định lộ trình xử lý hạ tầng, hệ thống, nền tảng, CSDL chưa phù hợp hoặc trùng lặp</b>, bảo đảm kế thừa kết quả đầu tư và tránh lãng phí. Khung hiện hành chỉ được tiếp tục áp dụng cho đến khi được thay thế, với điều kiện không trái Khung KTTT quốc gia số.</span>
+  </div></div>
+
+  <div class="step"><div class="num">2</div><div>
+    <b>Không có khung thì không có thước đo để thẩm định dự án</b>
+    <span>NĐ 224/2026/NĐ-CP (24/6/2026) — khoản 1 Điều 37 và Chương VI — đặt "tuân thủ khung kiến trúc" thành điều kiện thẩm định đối với mọi hoạt động <b style="color:var(--txt)">đầu tư, mua sắm, thuê dịch vụ chuyển đổi số sử dụng ngân sách nhà nước</b>. QĐ 1425 nêu rõ: <i>"Cấp có thẩm quyền quyết định đầu tư chịu trách nhiệm về tính tuân thủ Khung kiến trúc tổng thể quốc gia số và Khung kiến trúc số của cơ quan, tổ chức."</i> Hội đồng thẩm định lấy gì làm căn cứ nếu tỉnh chưa ban hành khung? Đây là rủi ro pháp lý trực tiếp cho cả bên đề xuất lẫn bên phê duyệt.</span>
+  </div></div>
+
+  <div class="step"><div class="num">3</div><div>
+    <b>Đây là cửa ải kỹ thuật để dữ liệu của tỉnh đi lên được cấp quốc gia</b>
+    <span>QĐ 1425 mục 4b quy định: các CSDL, HTTT và nền tảng số <b style="color:var(--txt)">trước khi</b> kết nối, chia sẻ dữ liệu qua các nền tảng tích hợp, chia sẻ dữ liệu quốc gia <b style="color:var(--txt)">phải bảo đảm chuẩn hóa dữ liệu, ánh xạ dữ liệu, tuân thủ Từ điển dữ liệu dùng chung, Danh mục dữ liệu dùng chung quốc gia và Khung kiến trúc dữ liệu quốc gia</b>. Nếu tỉnh không có Từ điển dữ liệu cấp tỉnh ánh xạ với Từ điển quốc gia, kho dữ liệu dùng chung của tỉnh dù có hàng chục triệu bản ghi cũng không đẩy lên NDOP được. Đây chính là cơ chế sinh ra con số "chỉ khoảng 10% hệ thống thông tin, CSDL tại các bộ, ngành, địa phương có kết nối với nhau".</span>
+  </div></div>
+
+  <div class="step"><div class="num">4</div><div>
+    <b>Cấp xã không có căn cứ nếu tỉnh chưa ban hành</b>
+    <span>Kiến trúc Mô hình CĐS cấp xã được xác định là <b style="color:var(--txt)">một thành phần của Khung kiến trúc số cấp tỉnh</b>. Tỉnh giữ vai trò "cung cấp hạ tầng và nền tảng dùng chung cấp tỉnh; tích hợp, kết nối, chia sẻ dữ liệu giữa cấp xã với các nền tảng/CSDL quốc gia; tổ chức vận hành tập trung, giám sát và hỗ trợ người dùng cho cấp xã". Tỉnh chưa ban hành khung thì xã không biết mình được khai thác gì, phải tự làm gì, phải cập nhật dữ liệu nào — kết quả là mỗi xã tự mua sắm rời rạc, đúng thứ mà QĐ 1425 nghiêm cấm.</span>
+  </div></div>
+
+  <div class="note r">
+    <b>Lý do đặc thù giai đoạn này:</b> QĐ 1425 Điều 3 khoản 4b — với các tỉnh, thành phố hình thành sau <b>sắp xếp, hợp nhất đơn vị hành chính</b>, phải "ưu tiên hợp nhất, tích hợp, kế thừa các hệ thống hiện có; chỉ đầu tư, xây dựng mới khi chưa có thành phần dùng chung". Khung kiến trúc số cấp tỉnh là công cụ duy nhất có giá trị pháp lý để quyết định giữ hệ thống của tỉnh nào, bỏ hệ thống nào, hợp nhất theo lộ trình ra sao.
+  </div>
+
+  <h3 class="sec">Vị trí hai khung trong hệ thống văn bản</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:16%">Cấp</th><th style="width:30%">Khung kiến trúc số</th><th style="width:30%">Khung kiến trúc dữ liệu &amp; quản trị dữ liệu</th><th style="width:24%">Khung kiến trúc an ninh mạng</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill p-qg">QUỐC GIA</span><br><small>Bộ KH&amp;CN chủ trì kiến trúc · Bộ Công an chủ trì dữ liệu và an ninh mạng</small></td>
+        <td><b>Khung kiến trúc tổng thể quốc gia số</b><br><small>QĐ 1425/QĐ-TTg (29/7/2026) — bao trùm khung của Đảng, Quốc hội, MTTQ, Chính phủ số và các cơ quan khác</small></td>
+        <td><b>Khung KTDL quốc gia · Khung quản trị, quản lý dữ liệu quốc gia · Từ điển dữ liệu dùng chung</b><br><small>QĐ 2439/QĐ-TTg (04/11/2025)</small></td>
+        <td><b>Khung kiến trúc an ninh mạng quốc gia</b><br><small style="color:var(--l2)"><b>Đang dự thảo</b> — Bộ Công an chủ trì, lấy ý kiến 05/5/2026, chưa ban hành</small></td></tr>
+      <tr><td><span class="pill p-bo">CẤP BỘ</span></td>
+        <td>Khung kiến trúc Chính phủ số cấp bộ</td>
+        <td>Khung KTDL cấp bộ · Khung quản trị, quản lý dữ liệu cấp bộ · Từ điển dữ liệu dùng chung cấp bộ</td>
+        <td>Khung kiến trúc an ninh mạng cấp bộ</td></tr>
+      <tr style="background:rgba(46,160,67,.06)"><td><span class="pill p-tinh">CẤP TỈNH</span><br><b>← trọng tâm</b></td>
+        <td><b>Khung kiến trúc Chính quyền số cấp tỉnh</b><br><small>Nằm trong Khung kiến trúc tham chiếu tổng thể số cấp tỉnh — gồm cả thành phần của Đảng, MTTQ, Tòa án, Viện kiểm sát triển khai trên địa bàn</small></td>
+        <td><b>Khung KTDL cấp tỉnh · Khung quản trị, quản lý dữ liệu cấp tỉnh · Từ điển dữ liệu dùng chung cấp tỉnh</b></td>
+        <td><b>Khung kiến trúc an ninh mạng cấp tỉnh</b><br><small>Lớp 1 của khung tỉnh phải ghi rõ "Bảo đảm tuân thủ Khung kiến trúc an ninh mạng cấp tỉnh"</small></td></tr>
+      <tr><td><span class="pill p-xa">CẤP XÃ</span></td>
+        <td><b>Kiến trúc của Mô hình CĐS cấp xã</b> — là thành phần của khung cấp tỉnh, tỉnh hướng dẫn và kiểm tra thực hiện. Xã <b>không thiết kế, không ban hành mô hình riêng</b>.</td>
+        <td>Không ban hành riêng. Xã thực hiện theo Danh mục dữ liệu cấp xã phải cập nhật và biểu mẫu số do tỉnh ban hành.</td>
+        <td>Không ban hành riêng. Xã thực hiện biện pháp ATTT mức cơ sở, khai thác thành phần ANM dùng chung của TW và tỉnh.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Khung kiến trúc an ninh mạng quốc gia — trạng thái và những gì QĐ 1425 đã ràng buộc trước</h3>
+  <p class="hint">QĐ 1425 nhắc tới Khung kiến trúc an ninh mạng quốc gia ở <b>04 vị trí</b>, dù khung này <b>chưa được ban hành</b>. Nghĩa là tỉnh vẫn có đủ căn cứ để thiết kế phần an ninh mạng trong khung của mình ngay bây giờ.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:22%">Vị trí trong QĐ 1425</th><th>Nội dung</th></tr></thead>
+    <tbody>
+      <tr><td><b>Điều 2, khoản 3, điểm a</b><br><small>Trách nhiệm Bộ Công an</small></td>
+        <td>"Chủ trì xây dựng, cập nhật Khung kiến trúc dữ liệu quốc gia, Khung quản trị, quản lý dữ liệu quốc gia, Từ điển dữ liệu dùng chung và <b>Khung kiến trúc an ninh mạng quốc gia</b> bảo đảm đồng bộ với Khung kiến trúc tổng thể quốc gia số theo quy định của pháp luật."</td></tr>
+      <tr style="background:rgba(242,118,46,.07)"><td><b>Phần II, mục 2.2, điểm g</b><br><small>Nguyên tắc thiết kế — <b>quan trọng nhất</b></small></td>
+        <td>"<b>Nguyên tắc đồng bộ với Khung kiến trúc an ninh mạng quốc gia.</b> Bảo đảm an ninh mạng theo mô hình <b>phòng thủ chiều sâu</b> và <b>bảo mật ngay từ khâu thiết kế</b>, gồm:<br>
+        — Tuân thủ các nguyên tắc cốt lõi: <b>Phòng thủ chiều sâu (Defense-in-Depth)</b>, <b>Lấy dữ liệu làm trung tâm (Data-Centric)</b>, <b>Phòng vệ chủ động (Active Defense)</b> trong nguyên tắc thiết kế kiến trúc theo Khung kiến trúc an ninh mạng.<br>
+        — <b>Thiết kế an toàn ngay từ đầu (Security by Design)</b>: an ninh mạng phải được lồng ghép trong toàn bộ vòng đời hệ thống từ kiến trúc, mã nguồn đến vận hành.<br>
+        — <b>Quản trị rủi ro theo cấp độ</b>: áp dụng cơ chế bảo vệ an ninh mạng hệ thống thông tin theo cấp độ, triển khai đồng bộ các biện pháp kỹ thuật, tổ chức, nghiệp vụ tương ứng."</td></tr>
+      <tr><td><b>Mô hình khái quát — Lớp 1</b><br><small>Hình 1, Hình 2 và các khung tham chiếu</small></td>
+        <td>Nhánh <b>AN NINH MẠNG</b> của Lớp 1 được chú thích rõ: <i>"(Bảo đảm tuân thủ Khung kiến trúc an ninh mạng quốc gia)"</i>. Ở khung tham chiếu cấp bộ và cấp tỉnh, chú thích tương ứng là <i>"Bảo đảm tuân thủ Khung kiến trúc an ninh mạng cấp bộ / cấp tỉnh"</i>.</td></tr>
+      <tr><td><b>Phần III, mục 1</b><br><small>Cơ chế điều phối chung</small></td>
+        <td>"Bộ Công an chủ trì các nội dung liên quan đến dữ liệu và an ninh mạng, bao gồm Khung kiến trúc dữ liệu quốc gia, Khung quản trị, quản lý dữ liệu quốc gia, Từ điển dữ liệu dùng chung và <b>Khung kiến trúc an ninh mạng quốc gia</b>."</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note r">
+    <b>Trạng thái ban hành:</b> Bộ Công an đã xây dựng <b>dự thảo Quyết định của Thủ tướng Chính phủ ban hành Khung kiến trúc an ninh mạng quốc gia</b>, đăng lấy ý kiến trên Cổng TTĐT Chính phủ ngày <b>05/5/2026</b> (gồm tờ trình, dự thảo quyết định, phụ lục Khung kiến trúc, báo cáo đánh giá tác động). Thời hạn góp ý đã kết thúc, <b>chưa có thông tin ban hành chính thức</b>. Khi viết tờ trình, nên ghi "đang trong quá trình xây dựng, dự kiến ban hành" thay vì dẫn như văn bản đã có hiệu lực.
+  </div>
+
+  <div class="note g">
+    <b>Tỉnh làm gì trong lúc chờ:</b> QĐ 1425 đã chốt sẵn <b>03 nguyên tắc cốt lõi</b> (Phòng thủ chiều sâu · Data-Centric · Phòng vệ chủ động) cộng Security by Design và quản trị rủi ro theo cấp độ. Tỉnh hoàn toàn có thể thiết kế Khung kiến trúc an ninh mạng cấp tỉnh dựa trên năm nguyên tắc này cùng mô hình bảo vệ 4 lớp hiện hành, rồi cập nhật khi khung quốc gia ban hành. Ba văn bản an ninh mạng đã có hiệu lực để dẫn: <b>QĐ 437/QĐ-TTg</b> (16/3/2026 — kế hoạch thi hành Luật An ninh mạng), <b>QĐ 515/QĐ-TTg</b> (30/3/2026 — nâng cao năng lực lực lượng bảo vệ ANM quốc gia), <b>QĐ 808/QĐ-TTg</b> (06/5/2026 — phát triển nền tảng bảo mật và ANM cho hạ tầng số quốc gia).
+  </div>
+
+  <div class="note">
+    <b>Điểm dễ bỏ sót khi lập dự toán:</b> QĐ 1425 nêu rõ <b>Hệ thống phòng vệ mạng quốc gia</b> cung cấp sẵn các dịch vụ dùng chung cốt lõi — tường lửa ứng dụng web quốc gia, phòng chống DDoS tập trung quy mô lớn, lọc và điều phối lưu lượng thông minh, ngăn chặn bot độc hại, bảo vệ API — và <i>"các cơ quan nhà nước <b>không cần đầu tư, xây dựng các giải pháp có tính năng tương tự</b>; được bảo vệ thông qua nền tảng dùng chung, tránh trùng lặp và tiết kiệm nguồn lực."</i> Đây là căn cứ trực tiếp để cắt các hạng mục WAF, anti-DDoS trong đề xuất đầu tư của sở/ngành.
+  </div>
+
+  <h3 class="sec">Trình tự công việc gợi ý cho tỉnh</h3>
+  <div class="grid3">
+    <div class="card"><h4>Bước 1 — Kiểm kê &amp; đối chiếu</h4>
+      <ul style="margin-top:2px">
+        <li>Lập danh sách toàn bộ HTTT, CSDL, nền tảng đang vận hành trên địa bàn (kể cả của sở/ngành và ngành dọc)</li>
+        <li>Đối chiếu từng cái với <b>79 nền tảng dùng chung QG</b> và <b>20 CSDL quốc gia</b></li>
+        <li>Gắn nhãn: <i>trùng chức năng</i> / <i>bổ trợ</i> / <i>đặc thù không thay thế được</i></li>
+        <li><b>Soi kỹ 4 nhóm dễ hiểu sai</b>: QLVB&amp;ĐH · thư điện tử công vụ · họp trực tuyến · Bàn làm việc số — đều đã có nền tảng dùng chung QG</li>
+      </ul></div>
+    <div class="card"><h4>Bước 2 — Dựng khung</h4>
+      <ul style="margin-top:2px">
+        <li>Xếp mọi thành phần vào đúng 1 trong 4 lớp</li>
+        <li>Phân vai 3 cấp: TW cung cấp / tỉnh cung cấp / xã triển khai</li>
+        <li>Ban hành Danh mục CSDL dùng chung + Từ điển dữ liệu cấp tỉnh ánh xạ Từ điển QG</li>
+        <li>Ban hành Danh mục dữ liệu cấp xã phải cập nhật</li>
+        <li>Dựng phần <b>an ninh mạng cấp tỉnh</b> theo 3 nguyên tắc QĐ 1425 đã chốt, cập nhật khi Khung KTANM quốc gia ban hành</li>
+      </ul></div>
+    <div class="card"><h4>Bước 3 — Lộ trình &amp; giám sát</h4>
+      <ul style="margin-top:2px">
+        <li>Lộ trình dừng, hợp nhất hoặc chuyển đổi hệ thống trùng lặp</li>
+        <li>Ban hành Bộ chỉ số KPI cấp tỉnh, ưu tiên thu thập tự động</li>
+        <li>Đăng ký, công bố khung lên <b>Hệ thống quản lý kiến trúc số quốc gia (NAS)</b></li>
+        <li>Gắn thẩm định tuân thủ kiến trúc vào quy trình phê duyệt đầu tư của tỉnh</li>
+      </ul></div>
+  </div>
+
+  <h3 class="sec">Cấu trúc mẫu của Khung kiến trúc dữ liệu cấp tỉnh — 07 lớp</h3>
+  <p class="hint">Theo mẫu Phụ lục 01 "Khung kiến trúc dữ liệu, Khung quản trị, quản lý dữ liệu, Từ điển dữ liệu, Danh mục dữ liệu tỉnh X" — ban hành kèm Quyết định của UBND tỉnh. Lưu ý: 07 lớp này là <b>cách phân lớp riêng của khung dữ liệu</b>, khác với 04 lớp kiến trúc số tổng thể ở tab ②.</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:48px">Lớp</th><th style="width:22%">Tên lớp</th><th>Nội dung chính</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td><b>Hạ tầng công nghệ</b></td>
+        <td><b>Ưu tiên đưa hạ tầng điện toán của tỉnh lên Trung tâm dữ liệu quốc gia.</b> Trong quá trình dịch chuyển, dùng kết hợp Trung tâm tích hợp dữ liệu tỉnh (on-premise) cho HTTT/CSDL hiện hữu và điện toán đám mây cho hệ thống phát sinh mới. Mạng TSLCD cho kết nối nội bộ. Lưu trữ RDBMS cho dữ liệu giao dịch và dữ liệu chủ; NoSQL/Big Data cho IoT, logs, dữ liệu phi cấu trúc. <b>Phối hợp với TTDL quốc gia xây dựng phương án phục hồi, diễn tập định kỳ.</b></td></tr>
+      <tr><td><b>2</b></td><td><b>Nguồn dữ liệu</b></td>
+        <td>Bốn nhóm nguồn: hệ thống và nền tảng số dùng chung của tỉnh · hệ thống nghiệp vụ của các sở, ban, ngành · nguồn khác (IoT, camera, cảm biến, UAV, dữ liệu doanh nghiệp điện lực – viễn thông, mạng xã hội) · CSDL quốc gia và bộ, ngành đồng bộ về qua NDXP/NDOP.</td></tr>
+      <tr style="background:rgba(242,118,46,.07)"><td><b>3</b></td><td><b>Tích hợp, chia sẻ và điều phối dữ liệu</b></td>
+        <td><b>LDOP cấp tỉnh</b> chia sẻ, điều phối dữ liệu nội tỉnh và kết nối với NDXP, NDOP qua <b>Agent Node</b>. Kèm công cụ thu thập – xử lý, quản lý API tập trung, quản lý Agent Node tập trung, kiểm soát truy cập, lưu vết (log audit), mã hóa.</td></tr>
+      <tr><td><b>4</b></td><td><b>Lưu trữ dữ liệu</b></td>
+        <td>Phân theo loại: dữ liệu lớn · dữ liệu đặc tả (siêu dữ liệu kỹ thuật, siêu dữ liệu hoạt động, siêu dữ liệu nghiệp vụ) · dữ liệu dùng chung · dữ liệu chủ · dữ liệu giao dịch · dữ liệu tổng hợp · dữ liệu phân tích (kết quả ML/AI) · dữ liệu mở.</td></tr>
+      <tr><td><b>5</b></td><td><b>Khai thác và ứng dụng dữ liệu</b></td>
+        <td>IOC trực quan hóa chỉ số KT-XH theo thời gian thực và xây dựng kịch bản điều hành · công cụ tổng hợp, phân tích, mô phỏng dự báo bằng AI/ML · ứng dụng công dân số · cổng dữ liệu mở tạo vòng tuần hoàn dữ liệu.</td></tr>
+      <tr style="background:rgba(46,160,67,.07)"><td><b>6</b></td><td><b>Quản trị và quản lý dữ liệu</b></td>
+        <td><b>Ban Chỉ đạo về dữ liệu của tỉnh</b> · Từ điển dữ liệu dùng chung để thống nhất khái niệm giữa các sở và UBND cấp xã · quản lý chất lượng dữ liệu (quy tắc kiểm tra, làm sạch tự động, đo lường chỉ số định kỳ) · Danh mục dữ liệu (Data Catalog) và truy vết nguồn gốc (Lineage) · vận hành, giám sát vòng đời dữ liệu.</td></tr>
+      <tr><td><b>7</b></td><td><b>An toàn, bảo mật, tuân thủ</b></td>
+        <td>Tuân thủ Luật Dữ liệu, Luật An ninh mạng · tự động gán nhãn dữ liệu để áp chính sách bảo vệ tương ứng · mã hóa đường truyền và dữ liệu nhạy cảm · quản lý định danh tập trung, xác thực đa yếu tố · tích hợp log hệ thống dữ liệu vào SOC của tỉnh.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:12.8px;margin-top:12px"><b>06 nhóm dữ liệu ở mô hình khái niệm cấp tỉnh</b> — kế thừa đúng 06 miền dữ liệu cơ bản quốc gia:</p>
+  <div class="boxes">
+    <div class="box hi">Con người <small>(trung tâm)</small></div>
+    <div class="box">Tổ chức</div><div class="box">Tài sản</div>
+    <div class="box">Địa chính</div><div class="box">Địa chỉ</div><div class="box">Nền địa lý</div>
+  </div>
+  <div class="note g">
+    <b>Ví dụ minh họa rất đắt trong mẫu này:</b> "Xây dựng và duy trì bộ từ điển dữ liệu để thống nhất các khái niệm — ví dụ định nghĩa như thế nào là <b>'Hộ nghèo'</b> phải thống nhất giữa Sở Nội vụ và UBND các phường, xã." Đây là cách giải thích ngắn gọn nhất về việc vì sao cần Từ điển dữ liệu cấp tỉnh, dùng được ngay khi báo cáo lãnh đạo.
+  </div>
+</section>
+
+<!-- ============ TAB 2: MA TRẬN ============ -->
+<section class="tab" id="tab-m">
+  <h2>Ma trận kiến trúc: 4 lớp thống nhất × 4 cấp trách nhiệm</h2>
+  <p class="hint">QĐ 1425 quy định mọi khung kiến trúc số đều dùng chung <b>một cấu trúc 04 lớp</b>. Các thành phần có nhãn <span class="nt">NT</span> là <b>nền tảng số dùng chung quốc gia</b> thuộc danh mục 79 nền tảng (QĐ 1132) — tỉnh và xã <b>không được đầu tư hệ thống có chức năng tương tự</b>. Bấm vào từng ô để xem chi tiết.</p>
+
+  <div class="scroll"><div class="matrix" id="mx"></div></div>
+
+  <div class="legend">
+    <span><i class="sw" style="background:var(--qg)"></i> Thành phần dùng chung do cấp trên xây dựng &amp; vận hành</span>
+    <span><i class="sw" style="background:#3fb950"></i> Cấp dưới <b>khai thác lại</b>, không đầu tư mới</span>
+    <span><i class="sw" style="background:#8b949e"></i> Cấp đó tự đầu tư (đặc thù / chuyên ngành)</span>
+    <span><i class="nt" style="margin:0">NT</i> Thuộc danh mục 79 nền tảng dùng chung QG</span>
+  </div>
+
+  <div class="note">
+    <b>Hai điều khoản gác cửa mọi đề xuất đầu tư từ 2026:</b><br>
+    • <b>QĐ 1425, Điều 2:</b> "Ưu tiên sử dụng chung, chuẩn hóa, kế thừa, tích hợp và nâng cấp… chỉ đầu tư, xây dựng mới khi <b>chưa có thành phần dùng chung</b> hoặc việc kế thừa, nâng cấp không đáp ứng yêu cầu quản lý, kỹ thuật, an ninh mạng hoặc yêu cầu đặc thù theo quy định của pháp luật."<br>
+    • <b>QĐ 1132:</b> "Sau khi nền tảng dùng chung quốc gia được đưa vào vận hành, cơ quan, tổ chức <b>không đầu tư, mua sắm, thuê dịch vụ hoặc mở rộng hệ thống có chức năng, mục tiêu, phạm vi sử dụng tương tự</b>, trừ trường hợp đặc thù về quốc phòng, an ninh, cơ yếu hoặc theo quy định chuyên ngành."
+  </div>
+</section>
+
+<!-- ============ TAB 3: 79 NỀN TẢNG ============ -->
+<section class="tab" id="tab-n">
+  <h2>Danh mục 79 nền tảng số dùng chung quốc gia</h2>
+  <p class="hint">Theo <b>QĐ 1132/QĐ-TTg ngày 24/6/2026</b>, phân lớp theo <b>Phụ lục II QĐ 1425/QĐ-TTg</b>. <b>Nhóm A (17)</b>: phạm vi dùng chung rộng, phục vụ nhiều ngành lĩnh vực, hỗ trợ kết nối dữ liệu cấp quốc gia. <b>Nhóm B (62)</b>: nghiệp vụ chuyên ngành nhưng triển khai thống nhất toàn quốc. Bộ KH&amp;CN được giao <b>định kỳ đề xuất điều chỉnh danh mục</b> — con số 79 là tại thời điểm 24/6/2026.</p>
+
+  <div class="fbar">
+    <input id="q" placeholder="Tìm theo tên nền tảng hoặc cơ quan…">
+    <label>Nhóm</label>
+    <select id="fg"><option value="">Tất cả</option><option>A</option><option>B</option></select>
+    <label>Lớp</label>
+    <select id="fl"><option value="">Tất cả</option><option value="1">Lớp 1 – Hạ tầng &amp; ANM</option><option value="2">Lớp 2 – Dữ liệu &amp; nền tảng lõi</option><option value="3">Lớp 3 – Ứng dụng &amp; nghiệp vụ</option><option value="4">Lớp 4 – Kênh &amp; đo lường</option></select>
+    <label>Cơ quan</label>
+    <select id="fo"><option value="">Tất cả</option></select>
+    <span id="cnt"></span>
+  </div>
+
+  <div class="scroll">
+  <table id="ptab">
+    <thead><tr>
+      <th style="width:38px">#</th><th style="width:46px">Nhóm</th><th style="width:32%">Tên nền tảng</th>
+      <th style="width:82px">Lớp</th><th style="width:17%">Cơ quan chủ quản</th><th>Ý nghĩa với cấp tỉnh / cấp xã</th>
+    </tr></thead>
+    <tbody id="pbody"></tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Cách dùng danh mục này khi rà soát đầu tư</h3>
+  <div class="grid3">
+    <div class="card acc"><h4 style="color:var(--qg)">Nhóm A — 17 nền tảng lõi</h4>
+      <p style="font-size:12.6px;color:var(--dim);margin:0">Đây là <b style="color:var(--txt)">xương sống kỹ thuật</b>. Tỉnh phải kết nối vào, tuyệt đối không xây thay thế. Mọi hệ thống mới của tỉnh phải chứng minh được đã tích hợp định danh (VNeID), đã chia sẻ dữ liệu qua NDXP/NDOP, đã dùng chữ ký số chuyên dùng công vụ, đã đăng ký API.</p></div>
+    <div class="card acc2"><h4 style="color:var(--tinh)">Nhóm B — 62 nền tảng ngành dọc</h4>
+      <p style="font-size:12.6px;color:var(--dim);margin:0">Đây là nơi <b style="color:var(--txt)">nguy cơ trùng lặp cao nhất</b> với phần mềm chuyên ngành của các sở. Ví dụ: sở nào đề xuất phần mềm quản lý cán bộ riêng thì phải đối chiếu với Nền tảng quản lý CBCCVC quốc gia; đề xuất hệ thống quản lý văn thư lưu trữ riêng thì đối chiếu Nền tảng số quốc gia về văn thư, lưu trữ.</p></div>
+    <div class="card acc3"><h4 style="color:var(--l1)">Điểm hay bị bỏ sót</h4>
+      <p style="font-size:12.6px;color:var(--dim);margin:0">17/62 nền tảng Nhóm B là <b style="color:var(--txt)">HTTT giải quyết TTHC của từng bộ</b>. Kết hợp với quy định tại QĐ 1425: hệ thống TTHC của địa phương <b style="color:var(--txt)">không tiếp nhận, giải quyết</b> các TTHC đã cung cấp DVCTT theo mô hình tập trung tại hệ thống của bộ, ngành — chỉ đồng bộ dữ liệu về qua Cổng DVCQG để tra cứu, thống kê, đánh giá.</p></div>
+  </div>
+</section>
+
+<!-- ============ TAB 4: LUỒNG ============ -->
+<section class="tab" id="tab-f">
+  <h2>Luồng dữ liệu: từ nơi phát sinh đến nơi ra quyết định</h2>
+  <p class="hint">Theo Sơ đồ logic luồng chia sẻ, điều phối dữ liệu quốc gia (QĐ 2439). Mọi hoạt động <b>kết nối, chia sẻ dữ liệu bắt buộc</b> đều phải thực hiện qua NDOP để giám sát, truy vết và đánh giá hiệu quả.</p>
+
+  <div class="flow">
+    <div class="band">
+      <h3><span class="tag qg">TRUNG TÂM</span> Trung tâm dữ liệu quốc gia — Bộ Công an chủ trì</h3>
+      <div class="boxes">
+        <div class="box hi">CƠ SỞ DỮ LIỆU TỔNG HỢP QUỐC GIA</div>
+        <div class="box">Hệ thống Quản trị dữ liệu QG</div>
+        <div class="box hi">Nền tảng số Từ điển dữ liệu dùng chung</div>
+        <div class="box hi">Cổng dữ liệu quốc gia</div>
+        <div class="box">Sàn dữ liệu</div>
+        <div class="box hi">Nền tảng SOC quốc gia thế hệ mới</div>
+        <div class="box hi">Nền tảng định danh &amp; xác thực điện tử · VNeID</div>
+        <div class="box hi">Cổng Dịch vụ công quốc gia</div>
+        <div class="box hi">Nền tảng đám mây trong TTDLQG · HPC</div>
+        <div class="box hi">Nền tảng chuỗi khối quốc gia</div>
+      </div>
+    </div>
+
+    <div class="arrow"><span class="ln"></span><b>↑ Tích hợp dữ liệu QG</b> (thời gian thực / định kỳ) &nbsp;|&nbsp; <b>↓ Phân phối dữ liệu QG</b> (theo yêu cầu / chủ động) <span class="ln"></span></div>
+
+    <div class="band" style="border-color:var(--qg)">
+      <h3><span class="tag qg">XƯƠNG SỐNG</span> NDOP – Nền tảng chia sẻ, điều phối dữ liệu QG (Bộ Công an) &nbsp;•&nbsp; NDXP – Nền tảng tích hợp, chia sẻ dữ liệu QG (Bộ KH&amp;CN)</h3>
+      <div class="boxes">
+        <div class="box hi">Tích hợp dữ liệu</div>
+        <div class="box hi">Phân phối dữ liệu</div>
+        <div class="box hi">Chia sẻ dữ liệu (A↔B trực tiếp, có giám sát)</div>
+        <div class="box">AGN – Agent Node: bảo mật điểm kết nối, đặt tại từng bộ/tỉnh</div>
+      </div>
+      <p style="margin:10px 0 0;font-size:12.2px;color:var(--dim)">VDXP là nền tảng của Văn phòng Chính phủ. Cả ba nền tảng đều phải nâng cấp kiến trúc để phù hợp Khung KTDL quốc gia.</p>
+    </div>
+
+    <div class="arrow"><span class="ln"></span> qua <b>AGN</b> · dữ liệu + dữ liệu đặc tả (metadata) · sau khi đã chuẩn hóa và ánh xạ theo Từ điển dữ liệu dùng chung <span class="ln"></span></div>
+
+    <div class="grid2">
+      <div class="band">
+        <h3><span class="tag bo">CẤP BỘ</span> Cơ quan chủ quản dữ liệu chuyên ngành</h3>
+        <div class="boxes">
+          <div class="box">LGSP / LDOP cấp bộ</div>
+          <div class="box">Kho dữ liệu dùng chung cấp bộ</div>
+          <div class="box">Kho quản lý dữ liệu điện tử của tổ chức, cá nhân</div>
+          <div class="box">CSDL quốc gia &amp; CSDL chuyên ngành</div>
+          <div class="box hi">HTTT giải quyết TTHC của bộ (17 nền tảng Nhóm B)</div>
+          <div class="box hi">Các nền tảng ngành dọc Nhóm B</div>
+          <div class="box">Nền tảng tổng hợp, phân tích dữ liệu · Nền tảng AI cấp bộ</div>
+        </div>
+      </div>
+      <div class="band">
+        <h3><span class="tag tinh">CẤP TỈNH</span> UBND tỉnh / thành phố trực thuộc TW</h3>
+        <div class="boxes">
+          <div class="box hi2">LGSP / LDOP cấp tỉnh</div>
+          <div class="box hi2">Kho dữ liệu dùng chung cấp tỉnh</div>
+          <div class="box hi2">Từ điển dữ liệu dùng chung cấp tỉnh</div>
+          <div class="box">Kho quản lý dữ liệu điện tử của tổ chức, cá nhân</div>
+          <div class="box">CSDL dùng chung &amp; chuyên ngành cấp tỉnh</div>
+          <div class="box" style="border-color:var(--l2);background:rgba(210,153,34,.09)">⚠ HTTT giải quyết TTHC của địa phương — thu hẹp phạm vi từ 01/7/2026</div>
+          <div class="box">IOC · Dashboard cấp tỉnh</div>
+          <div class="box">Nền tảng tổng hợp, phân tích dữ liệu · AI cấp tỉnh</div>
+          <div class="box">Nền tảng kết nối IoT · VMS · HTTT nguồn</div>
+          <div class="box" style="border-color:var(--l1);background:rgba(229,83,75,.09)">⚠ QLVB&amp;ĐH · thư công vụ · họp trực tuyến — kết nối lên nền tảng QG, không mở rộng</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow"><span class="ln"></span> Tỉnh <b>tích hợp – kết nối – chia sẻ</b> dữ liệu giữa cấp xã với nền tảng/CSDL quốc gia; tổ chức <b>vận hành tập trung</b>, giám sát và hỗ trợ người dùng cấp xã <span class="ln"></span></div>
+
+    <div class="band" style="border-color:var(--xa)">
+      <h3><span class="tag xa">CẤP XÃ</span> Xã · Phường · Đặc khu — nơi dữ liệu phát sinh và được cập nhật</h3>
+      <div class="boxes">
+        <div class="box">Số hóa hồ sơ &amp; kết quả giải quyết TTHC</div>
+        <div class="box">Cập nhật dữ liệu KT-XH &amp; quản lý địa bàn theo danh mục của tỉnh</div>
+        <div class="box">Bộ phận Một cửa điện tử</div>
+        <div class="box">Xử lý hồ sơ công việc điện tử · Ký số</div>
+        <div class="box">Trang/cổng TTĐT cấp xã · Kênh phản ánh, kiến nghị</div>
+        <div class="box">Tổ công nghệ số cộng đồng · Điểm hỗ trợ CĐS</div>
+      </div>
+      <p style="margin:10px 0 0;font-size:12.2px;color:var(--dim)">Cấp xã <b>không đầu tư riêng lẻ</b> các hệ thống đã có ở cấp tỉnh hoặc TW; chỉ khai thác theo phân cấp. Khai thác dữ liệu từ CSDL quốc gia và chuyên ngành thông qua NDXP/NDOP → LGSP/LDOP tỉnh.</p>
+    </div>
+
+    <div class="arrow"><span class="ln"></span> ↕ Kênh tương tác cuối: <b>Cổng DVC quốc gia (web)</b> và <b>Ứng dụng VNeID (di động)</b> — hai kênh giao tiếp chính thức <span class="ln"></span></div>
+
+    <div class="band" style="border-color:var(--bo)">
+      <h3>NGƯỜI DÙNG</h3>
+      <div class="boxes">
+        <div class="box">Người dân</div><div class="box">Doanh nghiệp</div>
+        <div class="box">Cán bộ, công chức, viên chức (qua Bàn làm việc số)</div>
+        <div class="box">Du khách</div><div class="box">Cơ quan, tổ chức khác</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:22px">
+    <b>Bốn phương thức chia sẻ dữ liệu</b> (QĐ 2439): <b>Thời gian thực</b> · <b>Định kỳ</b> · <b>Theo yêu cầu</b> (bên dùng gọi API) · <b>Chủ động</b> (bên chủ quản đẩy theo sự kiện). Dữ liệu chủ thuộc danh mục CSDL quốc gia <b>phải đồng bộ ngay</b> về CSDL tổng hợp quốc gia khi phát sinh thay đổi trong nghiệp vụ hoặc quy trình giải quyết TTHC.
+  </div>
+</section>
+
+<!-- ============ TAB 5: DÙNG CHUNG / RIÊNG ============ -->
+<section class="tab" id="tab-d">
+  <h2>Ai đầu tư cái gì — ranh giới dùng chung và dùng riêng</h2>
+  <p class="hint">Phần này quyết định trực tiếp việc lập, thẩm định và phê duyệt dự án CNTT của tỉnh và xã từ 2026 trở đi. Các mục in đậm là nền tảng thuộc danh mục 79.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:15%">Nhóm</th><th style="width:29%">TW đầu tư – tỉnh/xã chỉ khai thác</th><th style="width:28%">Tỉnh đầu tư – xã khai thác</th><th style="width:28%">Xã tự triển khai (tối thiểu bắt buộc)</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hạ tầng số</b></td>
+        <td><b>Nền tảng điện toán đám mây trong TTDLQG</b>; <b>Trung tâm tính toán hiệu năng cao của TTDLQG</b>; Trung tâm dữ liệu quốc gia; Mạng thông tin diện rộng của Đảng; Mạng Truyền số liệu chuyên dùng; Hệ thống chứng thực chữ ký số chuyên dùng công vụ (Ban Cơ yếu CP); Hạ tầng chứng thực điện tử quốc gia</td>
+        <td>Trung tâm dữ liệu cấp tỉnh <i>(ưu tiên dùng cái hiện có)</i> hoặc hạ tầng đám mây cấp tỉnh; hạ tầng mạng diện rộng; hội nghị trực tuyến dùng chung</td>
+        <td>Mạng LAN/Intranet &amp; Internet băng rộng; kết nối TSLCD; thiết bị đầu cuối; thiết bị số hóa hồ sơ; thiết bị hội nghị trực tuyến</td></tr>
+      <tr><td><b>An ninh mạng</b></td>
+        <td><b>Hệ thống phòng vệ mạng quốc gia</b> (WAF QG, chống DDoS tập trung, lọc lưu lượng, chặn bot, bảo vệ API) — <i>"các cơ quan nhà nước không cần đầu tư giải pháp có tính năng tương tự"</i>; <b>Nền tảng SOC quốc gia thế hệ mới</b></td>
+        <td>Hệ thống giám sát ATTT/SOC cấp tỉnh hoặc mô hình tương đương</td>
+        <td>Biện pháp ATTT mức cơ sở; bảo vệ thiết bị đầu cuối; sao lưu dữ liệu; an toàn truy cập mạng</td></tr>
+      <tr><td><b>Dữ liệu</b></td>
+        <td>20 CSDL quốc gia (QĐ 11/2026); CSDL tổng hợp quốc gia; CSDL QG về AI và về hệ thống AI; Bản đồ số quốc gia + mã bưu chính; <b>Nền tảng số Từ điển dữ liệu dùng chung</b></td>
+        <td>Kho dữ liệu dùng chung cấp tỉnh; Kho quản lý dữ liệu điện tử của tổ chức/cá nhân; CSDL dùng chung &amp; chuyên ngành cấp tỉnh; <b>Danh mục dữ liệu cấp xã phải cập nhật</b>; Khung KTDL + Từ điển dữ liệu cấp tỉnh</td>
+        <td>Số hóa hồ sơ/kết quả TTHC; cập nhật dữ liệu KT-XH &amp; quản lý địa bàn theo danh mục, biểu mẫu số của tỉnh; chuẩn hóa – lưu trữ – chia sẻ theo "đúng, đủ, sạch, sống, thống nhất, dùng chung"</td></tr>
+      <tr><td><b>Nền tảng lõi</b></td>
+        <td><b>NDXP</b> (Bộ KH&amp;CN); <b>NDOP</b> (Bộ Công an); <b>Nền tảng định danh &amp; xác thực điện tử</b>; <b>Nền tảng chuỗi khối quốc gia</b>; Nền tảng phân tích dữ liệu lớn &amp; AI dùng chung</td>
+        <td>LGSP/LDOP cấp tỉnh; Nền tảng tổng hợp – phân tích dữ liệu cấp tỉnh; Nền tảng kết nối IoT; Nền tảng quản lý video (VMS)</td>
+        <td>Không đầu tư — chỉ khai thác theo thẩm quyền</td></tr>
+      <tr><td><b>Ứng dụng &amp; nghiệp vụ</b></td>
+        <td><b>Trục liên thông văn bản QG</b>; <b>Trợ lý ảo QG</b>; <b>Nền tảng quản lý dữ liệu thống kê</b>; <b>Công báo điện tử</b>; <b>Cổng Pháp luật QG</b>; Nền tảng điều hành số quốc gia; Thành phần dùng chung phục vụ giải quyết TTHC; Thư điện tử công vụ thống nhất; Họp trực tuyến QG; + <b>62 nền tảng Nhóm B</b> (TTHC các bộ, thuế, hải quan, đấu thầu, CBCCVC, văn thư lưu trữ, Sổ SKĐT, giáo dục, ATTP, thiên tai…)</td>
+        <td><b>Đúng theo danh mục Lớp 3 cấp tỉnh của QĐ 1425:</b> HTTT phục vụ chỉ đạo, điều hành cấp tỉnh · HTTT, ứng dụng nghiệp vụ của các sở, ngành · ứng dụng hỗ trợ hoạt động nội bộ · IOC cấp tỉnh · HTTT nguồn cấp tỉnh · Nền tảng AI cấp tỉnh · Ứng dụng bản sao số<br><br><span style="color:var(--l1)"><b>⚠ HTTT giải quyết TTHC của địa phương</b></span> — có trong danh mục nhưng <b>phải thu hẹp phạm vi</b>, không tiếp nhận TTHC đã tập trung tại bộ.<br><span style="color:var(--l1)"><b>⚠ QLVB &amp; điều hành · thư điện tử công vụ · họp trực tuyến · Bàn làm việc số</b></span> — <b>KHÔNG nằm trong danh mục Lớp 3 cấp tỉnh của QĐ 1425</b>; đều đã có nền tảng dùng chung quốc gia tương ứng. Xem mục cảnh báo bên dưới.</td>
+        <td>Xử lý hồ sơ công việc điện tử; ký số; giải quyết TTHC trực tuyến; báo cáo số; vận hành Một cửa điện tử; công cụ tác nghiệp số; quản lý tài chính theo hệ thống ngành</td></tr>
+      <tr><td><b>Kênh tương tác &amp; đo lường</b></td>
+        <td><b>Cổng DVC quốc gia</b>; <b>Nền tảng VNeID</b>; <b>Cổng dữ liệu quốc gia</b>; Cổng TTĐT một cửa về AI; Bàn làm việc số; Nền tảng thống kê – đo lường – giám sát CĐS; Hệ thống quản lý kiến trúc số quốc gia (NAS); Bộ chỉ số KPI</td>
+        <td>Cổng TTĐT của UBND tỉnh; Dashboard/IOC &amp; khung KPI cấp tỉnh; ứng dụng DVCTT cấp tỉnh; cơ chế tổng hợp báo cáo, đánh giá mức độ CĐS cấp xã</td>
+        <td>Bộ phận Một cửa điện tử; trang/cổng TTĐT cấp xã; kênh tiếp nhận phản ánh, kiến nghị; khảo sát mức độ hài lòng</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Cảnh báo: bốn thành phần cấp tỉnh dễ bị hiểu sai</h3>
+  <p class="hint">Bốn thành phần dưới đây thường được liệt kê là "cấp tỉnh đầu tư" nhưng thực tế <b>không nằm trong danh mục Lớp 3 cấp tỉnh của QĐ 1425</b>, hoặc đã có nền tảng dùng chung quốc gia tương ứng. Nguồn gây nhầm là <b>Tài liệu hướng dẫn Mô hình chuyển đổi số cấp xã</b> của Bộ KH&amp;CN — ban hành <b>trước</b> QĐ 1425 và ở cấp thấp hơn.</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:20%">Thành phần</th><th style="width:24%">Nguồn nêu là "cấp tỉnh"</th><th style="width:28%">QĐ 1425 quy định thế nào</th><th>Khuyến nghị</th></tr></thead>
+    <tbody>
+      <tr style="background:rgba(229,83,75,.08)"><td><b>Bàn làm việc số / Không gian làm việc số cấp tỉnh</b></td>
+        <td>Tài liệu hướng dẫn Mô hình CĐS cấp xã, mục 5.2 điểm d</td>
+        <td>Lớp 4 quốc gia: <i>"Giao diện tương tác của Nền tảng điều hành số quốc gia (Bàn làm việc số): là kênh tương tác dùng chung giữa các cơ quan nhà nước, là <b>kênh làm việc số duy nhất</b> cho cán bộ, công chức, viên chức khi khai thác và sử dụng các hệ thống, nền tảng và ứng dụng dùng chung."</i><br><b>Không có "Bàn làm việc số cấp tỉnh" trong danh mục Lớp 3 cấp tỉnh.</b></td>
+        <td><b>Tỉnh không đầu tư Bàn làm việc số riêng.</b> Tích hợp các hệ thống của tỉnh vào Bàn làm việc số quốc gia theo lộ trình Nền tảng điều hành số quốc gia (Bộ Công an chủ trì). Nếu đã đầu tư, chuyển sang phương án kết nối và chờ hợp nhất.</td></tr>
+      <tr style="background:rgba(229,83,75,.08)"><td><b>Hệ thống quản lý văn bản và điều hành</b></td>
+        <td>Tài liệu hướng dẫn Mô hình CĐS cấp xã, mục 4.1 điểm b</td>
+        <td>Lớp 3 quốc gia có <b>Trục liên thông văn bản quốc gia</b> (Nhóm A #10, Văn phòng Chính phủ). Danh mục Lớp 3 cấp tỉnh của QĐ 1425 <b>không liệt kê</b> hệ thống QLVB&amp;ĐH cấp tỉnh.</td>
+        <td>Hệ thống hiện có tiếp tục vận hành và <b>kết nối lên Trục liên thông văn bản quốc gia</b>. Không đầu tư mở rộng. Ưu tiên hợp nhất các hệ thống QLVB trùng lặp trong tỉnh.</td></tr>
+      <tr style="background:rgba(229,83,75,.08)"><td><b>Thư điện tử công vụ · Họp trực tuyến</b></td>
+        <td>Tài liệu hướng dẫn Mô hình CĐS cấp xã, mục 4.1 điểm b</td>
+        <td>Lớp 3 quốc gia có <b>Hệ thống thư điện tử (email) công vụ thống nhất</b> và <b>Nền tảng họp trực tuyến quốc gia</b>.</td>
+        <td>Không đầu tư mới. Chờ lộ trình triển khai nền tảng quốc gia; hệ thống hiện có duy trì đến khi chuyển đổi.</td></tr>
+      <tr style="background:rgba(210,153,34,.08)"><td><b>HTTT giải quyết TTHC của địa phương</b></td>
+        <td>Có trong danh mục Lớp 3 cấp tỉnh của QĐ 1425</td>
+        <td>Vẫn được liệt kê, <b>nhưng kèm Ghi chú</b>: không tiếp nhận, giải quyết các TTHC đã cung cấp DVCTT theo mô hình tập trung tại hệ thống của bộ, ngành. Thực tế: mô hình tập trung vận hành toàn quốc từ 01/7/2026.</td>
+        <td><b>Thu hẹp phạm vi</b>, không bỏ. Rà soát danh mục TTHC còn thuộc thẩm quyền tỉnh; chuyển trọng tâm đầu tư sang đồng bộ dữ liệu về kho dữ liệu dùng chung.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note r">
+    <b>Nguyên tắc xử lý khi hai văn bản nói khác nhau:</b> QĐ 1425/QĐ-TTg ban hành <b>29/7/2026</b>, cấp <b>Thủ tướng Chính phủ</b>, là Khung kiến trúc tổng thể quốc gia số. Tài liệu hướng dẫn Mô hình CĐS cấp xã là văn bản hướng dẫn của <b>Bộ KH&amp;CN</b>, ban hành trước. Khi có khác biệt, <b>áp dụng QĐ 1425</b>. Ngoài ra QĐ 1132 bổ sung điều cấm trực tiếp: không đầu tư, mua sắm, thuê dịch vụ hoặc mở rộng hệ thống có chức năng, mục tiêu, phạm vi sử dụng tương tự nền tảng dùng chung quốc gia.
+  </div>
+
+  <h3 class="sec">Thành phần bổ sung theo loại địa bàn (cấp xã)</h3>
+  <p class="hint">Không bắt buộc áp dụng thống nhất toàn quốc; xã làm sau khi xin ý kiến cấp tỉnh.</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:14%">Địa bàn</th><th style="width:29%">Hạ tầng số</th><th style="width:29%">Dữ liệu</th><th style="width:28%">Ứng dụng</th></tr></thead>
+    <tbody>
+      <tr><td><b>Đô thị</b></td>
+        <td>Wi-Fi công cộng; camera giám sát an ninh, trật tự; hạ tầng truyền thanh ứng dụng CNTT-VT; hạ tầng IoT &amp; bảng điện tử công cộng (kết nối IOC tỉnh)</td>
+        <td>Trật tự đô thị; môi trường; hạ tầng đô thị trong phạm vi quản lý; phản ánh hiện trường</td>
+        <td>Phản ánh hiện trường; quản lý trật tự đô thị; giám sát môi trường; truyền thanh cơ sở</td></tr>
+      <tr><td><b>Nông thôn</b></td>
+        <td>Điểm truy cập Internet công cộng tại nhà văn hóa, điểm sinh hoạt cộng đồng; hạ tầng truyền thanh ứng dụng CNTT-VT</td>
+        <td>Sản xuất nông nghiệp; sản phẩm OCOP; hợp tác xã; chuỗi cung ứng sản phẩm địa phương</td>
+        <td>Quản lý sản xuất nông nghiệp; hỗ trợ OCOP, HTX; TMĐT nông sản; truy xuất nguồn gốc</td></tr>
+      <tr><td><b>Miền núi, biên giới, hải đảo</b></td>
+        <td>Băng rộng di động 4G/5G; giải pháp thay thế nơi chưa phủ sóng (vệ tinh, trạm phát sóng cộng đồng); điểm hỗ trợ số cộng đồng; hạ tầng cho điểm DVC lưu động</td>
+        <td>Dân tộc &amp; chính sách xã hội; giảm nghèo; du lịch cộng đồng; dữ liệu đặc thù theo quy hoạch tỉnh</td>
+        <td>DVC có trợ giúp tại Một cửa; y tế từ xa; học trực tuyến; DVC lưu động; hỗ trợ nhóm yếu thế</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ TAB 6: SỞ NGÀNH ============ -->
+<section class="tab" id="tab-s">
+  <h2>Ứng dụng của các sở, ban, ngành nằm ở đâu và nối vào đâu</h2>
+  <p class="hint">Đây là câu hỏi hay gặp nhất khi thẩm định dự án của sở/ngành. QĐ 1425 đặt các ứng dụng chuyên ngành ở <b>Lớp 3</b>, nhưng bắt buộc chúng phải "cắm" xuống Lớp 2 (dữ liệu &amp; nền tảng lõi) của tỉnh, đồng thời <b>đối chiếu trước với 79 nền tảng dùng chung quốc gia</b>.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:21%">Loại hệ thống</th><th style="width:11%">Thuộc lớp</th><th style="width:16%">Ai chủ quản</th><th>Ràng buộc kết nối bắt buộc</th></tr></thead>
+    <tbody>
+      <tr><td><b>Phần mềm/HTTT quản lý chuyên ngành của các Sở</b> (y tế, giáo dục, đất đai, xây dựng, nông nghiệp, VHTT&amp;DL…)</td>
+        <td><span class="pill p-l3">Lớp 3</span></td><td>Sở chuyên ngành, UBND tỉnh</td>
+        <td><b>Bước 0 — đối chiếu danh mục 79 nền tảng:</b> nếu trùng chức năng với một nền tảng Nhóm B thì không được đầu tư mới. Nếu không trùng: phải phù hợp Khung KTTT QG số + Khung kiến trúc số cấp tỉnh; tuân thủ tiêu chuẩn, mô hình dữ liệu, yêu cầu kết nối – chia sẻ; ưu tiên kế thừa/mở rộng nền tảng dùng chung đã có. Dữ liệu chảy về Kho dữ liệu dùng chung cấp tỉnh qua LGSP/LDOP.</td></tr>
+      <tr><td><b>CSDL chuyên ngành do bộ chủ quản, triển khai ngành dọc xuống tỉnh/xã</b></td>
+        <td><span class="pill p-l2">Lớp 2</span></td><td>Bộ, cơ quan ngang bộ</td>
+        <td>Đồng bộ dữ liệu chủ về CSDL tổng hợp quốc gia; áp dụng chung Từ điển dữ liệu dùng chung và Danh mục dữ liệu dùng chung QG; chia sẻ cho tỉnh qua NDXP/NDOP.</td></tr>
+      <tr style="background:rgba(229,83,75,.07)"><td><b>HTTT giải quyết TTHC của địa phương</b><br><small style="color:var(--l1)"><b>ĐANG CHUYỂN ĐỔI MÔ HÌNH</b></small></td>
+        <td><span class="pill p-l3">Lớp 3</span></td><td>UBND tỉnh</td>
+        <td>Ưu tiên tái sử dụng Thành phần dùng chung phục vụ giải quyết TTHC; kết nối, đồng bộ với Cổng DVCQG và HTTT giải quyết TTHC của bộ ngành. <b>Không tiếp nhận/giải quyết</b> các TTHC đã cung cấp DVCTT theo mô hình tập trung tại hệ thống của bộ, ngành (17 nền tảng Nhóm B) — chỉ đồng bộ dữ liệu về để tra cứu, thống kê, đánh giá. <b>Xem mục riêng bên dưới về lộ trình chuyển sang mô hình tập trung.</b></td></tr>
+      <tr><td><b>IOC cấp tỉnh &amp; Dashboard chỉ đạo điều hành</b></td>
+        <td><span class="pill p-l3">Lớp 3–4</span></td><td>UBND tỉnh</td>
+        <td>Trực quan hóa dữ liệu từ Kho dữ liệu dùng chung; áp dụng thống nhất tiêu chí, phương pháp, cấu trúc dữ liệu đo lường; ưu tiên trích xuất tự động thời gian thực; API mở.</td></tr>
+      <tr><td><b>Nền tảng AI của sở/tỉnh</b></td>
+        <td><span class="pill p-l3">Lớp 3</span></td><td>UBND tỉnh / sở</td>
+        <td>Phải theo hướng <b>tích hợp, dùng chung và mở rộng năng lực</b> của Nền tảng phân tích dữ liệu lớn &amp; AI dùng chung quốc gia; ưu tiên khai thác hạ tầng AI quốc gia và HPC của TTDLQG; chỉ đầu tư mới khi thành phần dùng chung không đáp ứng.</td></tr>
+      <tr><td><b>Ứng dụng KT số – XH số cấp tỉnh</b> (bản đồ số nông nghiệp, chiếu sáng thông minh, CĐS du lịch, quan trắc môi trường, vé điện tử GTCC, bãi đỗ xe thông minh, đèn giao thông thông minh, logistics tỉnh, bản sao số)</td>
+        <td><span class="pill p-l3">Lớp 3</span></td><td>UBND tỉnh</td>
+        <td>Là <b>thành phần tham chiếu</b>, ưu tiên triển khai — <i>không bắt buộc áp dụng đầy đủ, thống nhất với mọi địa phương</i>. Lưu ý đối chiếu với các nền tảng Nhóm B tương ứng (giao thông thông minh đường bộ – Bộ Xây dựng; du lịch – Bộ VHTT&amp;DL; chăn nuôi, trồng trọt – Bộ NN&amp;MT).</td></tr>
+      <tr><td><b>Kho quản lý dữ liệu điện tử của tổ chức, cá nhân</b></td>
+        <td><span class="pill p-l2">Lớp 2</span></td><td>Cấp bộ &amp; cấp tỉnh</td>
+        <td>Nền tảng để thực thi nguyên tắc "khai báo một lần, sử dụng nhiều lần" — người dân không phải nộp lại kết quả TTHC đã có.</td></tr>
+      <tr style="background:rgba(229,83,75,.08)"><td><b>Hệ thống QLVB &amp; điều hành · Thư điện tử công vụ · Họp trực tuyến · Bàn làm việc số</b><br><small style="color:var(--l1)"><b>ĐÃ CÓ NỀN TẢNG QG</b></small></td>
+        <td><span class="pill p-l3">Lớp 3–4</span></td><td>Cấp quốc gia</td>
+        <td><b>Bốn thành phần này KHÔNG nằm trong danh mục Lớp 3 cấp tỉnh của QĐ 1425.</b> Cấp quốc gia đã có: Trục liên thông văn bản QG (Nhóm A #10) · Hệ thống thư điện tử công vụ thống nhất · Nền tảng họp trực tuyến QG · Bàn làm việc số — giao diện Nền tảng điều hành số QG, được xác định là <b>"kênh làm việc số duy nhất"</b> cho cán bộ, công chức, viên chức. Sở/ngành đề xuất đầu tư hoặc mở rộng các hệ thống này đều phải bị chặn ở bước sàng lọc.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Hệ thống giải quyết TTHC — chuyển sang mô hình tập trung, mốc 01/7/2026</h3>
+  <p class="hint">Đây là thay đổi có ảnh hưởng lớn nhất tới quy mô đầu tư hệ thống một cửa cấp tỉnh. Cần phân biệt rõ <b>QĐ 1425 viết gì</b> và <b>thực tế đang triển khai thế nào</b> — hai thứ không hoàn toàn trùng.</p>
+
+  <div class="grid2">
+    <div class="card acc3"><h4 style="color:var(--l1)">QĐ 1425 viết gì — nguyên văn</h4>
+      <p style="font-size:12.5px;margin:0 0 8px"><b>Lớp 3 cấp quốc gia</b> chỉ có "<b>Thành phần dùng chung phục vụ giải quyết thủ tục hành chính</b>" — <i>không phải</i> một hệ thống TTHC quốc gia duy nhất. Nguyên văn: <i>"là thành phần góp phần bảo đảm tính thống nhất, đồng bộ trong triển khai… việc triển khai được thực hiện <b>theo lộ trình phù hợp, kế thừa tối đa</b> các hệ thống, dữ liệu và hạ tầng CNTT hiện có."</i></p>
+      <p style="font-size:12.5px;margin:0 0 8px"><b>Khung tham chiếu cấp bộ và cấp tỉnh vẫn liệt kê</b> "HTTT giải quyết TTHC của bộ, ngành" và "của địa phương" như thành phần do cấp đó triển khai.</p>
+      <p style="font-size:12.5px;margin:0"><b>Việc hợp nhất được viết dưới dạng điều kiện:</b> <i>"<b>Trường hợp</b> mô hình HTTT giải quyết TTHC dùng chung <b>được cấp có thẩm quyền quyết định</b>, việc chuyển đổi, tích hợp hoặc tổ chức lại hệ thống được thực hiện theo lộ trình…"</i> (cấp bộ) và <i>"Việc thay đổi mô hình tổ chức hệ thống được thực hiện <b>theo quyết định của cấp có thẩm quyền và lộ trình chuyển đổi được phê duyệt</b>…"</i> (cấp tỉnh).</p>
+    </div>
+    <div class="card acc2"><h4 style="color:var(--tinh)">Thực tế đang triển khai</h4>
+      <p style="font-size:12.5px;margin:0 0 8px">Mô hình đã chọn là <b>"HTTT giải quyết TTHC theo mô hình tập trung từ Trung ương đến địa phương"</b> — <b>mỗi bộ xây 01 hệ thống tập trung</b>, các Sở ngành dọc trên toàn quốc dùng chung. QĐ 1132 đưa <b>17 HTTT giải quyết TTHC của các bộ</b> vào Nhóm B nền tảng số dùng chung quốc gia.</p>
+      <p style="font-size:12.5px;margin:0 0 8px"><b>Ba trụ cột điều phối</b> (sau khi Cục Kiểm soát TTHC chuyển từ VPCP sang Bộ Tư pháp): <b>Bộ Tư pháp</b> chủ trì thể chế và điều phối · <b>Bộ Công an</b> chịu trách nhiệm dữ liệu, kết nối các CSDL · <b>Bộ KH&amp;CN</b> bảo đảm hạ tầng, nền tảng liên thông và ban hành tiêu chuẩn kỹ thuật.</p>
+      <p style="font-size:12.5px;margin:0"><b>Lộ trình:</b> 01/3 – 30/6/2026 chạy thí điểm, kiểm soát, hoàn thiện → <b>từ 01/7/2026 vận hành chính thức trên phạm vi toàn quốc</b>.</p>
+    </div>
+  </div>
+
+  <div class="note r">
+    <b>Cách diễn đạt chính xác khi viết tờ trình:</b> không nên viết "QĐ 1425 quy định chỉ còn 01 hệ thống TTHC toàn quốc". Chính xác hơn: <i>"QĐ 1425 xác lập Thành phần dùng chung phục vụ giải quyết TTHC ở cấp quốc gia và quy định hệ thống của bộ, ngành, địa phương phải ưu tiên sử dụng, tích hợp, tái sử dụng năng lực của thành phần này; đồng thời quy định hệ thống của địa phương không tiếp nhận, giải quyết các TTHC đã cung cấp DVCTT theo mô hình tập trung tại hệ thống của bộ, ngành. Trên cơ sở đó, mô hình tập trung từ Trung ương đến địa phương đang được triển khai, dự kiến vận hành chính thức toàn quốc từ 01/7/2026."</i>
+  </div>
+
+  <div class="note">
+    <b>Lưu ý về phạm vi "tập trung":</b> mô hình là <b>mỗi ngành một hệ thống dùng chung</b> (Cục Kiểm soát TTHC kiến nghị xây dựng "Quy chế quản lý, vận hành, khai thác HTTT giải quyết TTHC dùng chung <b>trong mỗi ngành</b>"), <b>không phải</b> một hệ thống duy nhất cho mọi ngành trên cả nước. Với người dân thì trải nghiệm là thống nhất — một cổng truy cập, một tài khoản qua Cổng DVCQG và VNeID. Với tỉnh, hệ quả là như nhau: <b>không còn vận hành hệ thống TTHC riêng cho các TTHC đã tập trung tại bộ</b>.
+  </div>
+
+  <h4 style="font-size:13.5px;margin:18px 0 6px">Ví dụ đã chạy: Bộ Khoa học và Công nghệ</h4>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:26%">Nội dung</th><th>Kết quả</th></tr></thead>
+    <tbody>
+      <tr><td>Mô hình</td><td>Bộ KH&amp;CN phối hợp <b>VNPT</b> xây dựng HTTT giải quyết TTHC tập trung thuộc thẩm quyền quản lý của Bộ, <b>triển khai tại cấp tỉnh</b></td></tr>
+      <tr><td>Thời điểm</td><td>Từ <b>01/01/2026</b>, toàn bộ TTHC thuộc phạm vi giải quyết của Bộ đã triển khai tập trung trên hệ thống</td></tr>
+      <tr><td>Quy mô</td><td><b>524 TTHC</b> — 323 cấp Bộ, 201 cấp tỉnh. Đủ điều kiện DVCTT toàn trình: 344; một phần: 180</td></tr>
+      <tr><td>Kết quả với địa phương</td><td>"Bộ KH&amp;CN và các địa phương <b>chỉ cần sử dụng một nền tảng duy nhất</b>, giảm thiểu chi phí vận hành"; Bộ cấp tài khoản quản trị cho các địa phương</td></tr>
+      <tr><td>Đặc điểm kỹ thuật</td><td>Đăng nhập tập trung bằng <b>VNeID</b> cho CBCCVC; kết nối Cổng DVCQG, CSDL quốc gia về dân cư và đăng ký doanh nghiệp; hỗ trợ <b>giải quyết hồ sơ phi địa giới hành chính</b></td></tr>
+      <tr style="background:rgba(229,83,75,.07)"><td><b>Hạn chế còn tồn tại</b></td><td>"Dữ liệu chưa được tái sử dụng hiệu quả, làm giảm ý nghĩa của mô hình tập trung… người dân và doanh nghiệp <b>vẫn phải kê khai lại nhiều thông tin</b>" — do hạn chế trong kết nối và chuẩn hóa dữ liệu</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note g">
+    <b>Hàm ý cho tỉnh khi lập kế hoạch đầu tư 2026–2027:</b><br>
+    • <b>Rà lại phạm vi hệ thống một cửa của tỉnh</b> — bao nhiêu TTHC còn thuộc thẩm quyền tỉnh, bao nhiêu đã chuyển lên hệ thống tập trung của bộ. Phần đã chuyển thì không đầu tư thêm.<br>
+    • <b>Chuyển trọng tâm đầu tư</b> từ "xây/nâng cấp hệ thống một cửa" sang <b>kết nối, đồng bộ dữ liệu</b> về kho dữ liệu dùng chung của tỉnh để tra cứu, thống kê, đánh giá.<br>
+    • <b>Giữ và nâng phần cấu hình đặc thù</b> — Cục Kiểm soát TTHC kiến nghị hệ thống tập trung phải "có cơ chế mở, linh hoạt để địa phương cấu hình, điều chỉnh quy trình thực hiện TTHC, phù hợp với thẩm quyền phân cấp, ủy quyền" và "bổ sung chức năng thêm mới các TTHC đặc thù của địa phương". Đây là phần tỉnh cần chủ động đề xuất với bộ chủ quản.<br>
+    • <b>Tập trung nguồn lực vào số hóa và tái sử dụng dữ liệu</b> — đây đang là điểm nghẽn được chính cơ quan trung ương thừa nhận.
+  </div>
+
+  <div class="note">
+    <b>Quy trình 4 câu hỏi khi thẩm định một đề xuất của sở/ngành:</b><br>
+    ① Chức năng này đã có trong <b>79 nền tảng dùng chung quốc gia</b> chưa? → Nếu có, dừng.<br>
+    ② Đã có trong <b>thành phần dùng chung cấp tỉnh</b> chưa? → Nếu có, tích hợp/mở rộng thay vì làm mới.<br>
+    ③ Dữ liệu sinh ra đã <b>ánh xạ với Từ điển dữ liệu dùng chung</b> và cam kết đẩy về Kho dữ liệu dùng chung cấp tỉnh chưa?<br>
+    ④ Có <b>API công bố</b>, có <b>chỉ số KPI trích xuất tự động</b>, có thiết kế <b>Security &amp; Privacy by Design</b> chưa?
+  </div>
+</section>
+
+<!-- ============ TAB 7: CẮT LỚP 3 BỘ ============ -->
+<section class="tab" id="tab-b">
+  <h2>Cắt lớp theo bộ ngành: Nông nghiệp &amp; Môi trường · Văn hóa, Thể thao &amp; Du lịch · Giáo dục &amp; Đào tạo</h2>
+  <p class="hint">Ba bộ đang ở <b>ba mức trưởng thành khác nhau</b> trong việc cụ thể hóa QĐ 2439. Đây là điểm quan trọng nhất khi tỉnh xây dựng Khung KTDL cấp tỉnh: mỗi sở chuyên ngành sẽ nhận được mức độ hướng dẫn từ bộ chủ quản hoàn toàn không đồng đều.</p>
+
+  <h3 class="sec">So sánh mức độ hoàn thiện — bốn hợp phần theo QĐ 1425 và QĐ 2439</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr>
+      <th style="width:15%">Tiêu chí</th>
+      <th style="width:28%">Bộ Nông nghiệp và Môi trường</th>
+      <th style="width:28%">Bộ Giáo dục và Đào tạo</th>
+      <th style="width:29%">Bộ Văn hóa, Thể thao và Du lịch</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><b>Văn bản</b></td>
+        <td><b>QĐ 1805/QĐ-BNNMT</b> ngày 19/5/2026<br><small style="color:var(--l3)"><b>ĐÃ BAN HÀNH</b>, hiệu lực từ ngày ký</small></td>
+        <td>Khung KTDL (PB 1.0) + Khung QTQL dữ liệu (PB 1.0)<br><small>Dự thảo hoàn thiện, trình ban hành tháng 6/2026</small></td>
+        <td><b>Bộ tài liệu Khung kiến trúc PB 1.0</b> — 4 phần A/B/C/D, 361 trang<br><small>Trình ban hành 2026. Trước đó có QĐ 31/QĐ-BVHTTDL (07/01/2026) là kế hoạch xây dựng khung du lịch</small></td></tr>
+      <tr style="background:rgba(242,118,46,.06)"><td><b>Khung kiến trúc SỐ cấp bộ</b><br><small>(4 lớp theo QĐ 1425)</small></td>
+        <td><span class="pill p-l1">—</span> Không nằm trong QĐ 1805</td>
+        <td><span class="pill p-l1">—</span> Chưa có trong bộ tài liệu này</td>
+        <td><span class="pill p-l3">✓</span> <b>Phần A</b> — đầy đủ 4 lớp, kèm phân tích khoảng cách, lộ trình dự án ưu tiên, quy trình thẩm định tuân thủ và chỉ số đo lường tuân thủ</td></tr>
+      <tr><td><b>Khung kiến trúc dữ liệu</b></td>
+        <td><span class="pill p-l3">✓</span> Chương II — 27 miền × 7 lớp dữ liệu</td>
+        <td><span class="pill p-l3">✓</span> PB 1.0 — 5 lớp kiến trúc, 5 miền dữ liệu</td>
+        <td><span class="pill p-l3">✓</span> <b>Phần B</b> — kèm phụ lục danh mục dữ liệu chủ, gốc, dùng chung, mở và bộ trường thông tin metadata</td></tr>
+      <tr><td><b>Khung quản trị, quản lý dữ liệu</b></td>
+        <td><span class="pill p-l3">✓</span> Chương III</td>
+        <td><span class="pill p-l3">✓</span> PB 1.0 — mô hình 2 cấp, 5 bộ phận</td>
+        <td><span class="pill p-l3">✓</span> <b>Phần C</b> — 4 lớp: quản lý nhà nước · quản trị · quản lý · vận hành dữ liệu</td></tr>
+      <tr><td><b>Từ điển dữ liệu dùng chung</b></td>
+        <td><span class="pill p-l3">✓</span> Chương IV</td>
+        <td><span class="pill p-l1">—</span> <b>Chưa có</b> — xây dựng PB 1.0.0 là nhiệm vụ Giai đoạn 1 (2026–2027)</td>
+        <td><span class="pill p-l3">✓</span> <b>Phần D</b> — bảng đối tượng dữ liệu chủ, bảng phần tử dữ liệu cốt lõi, bảng danh mục dùng chung</td></tr>
+      <tr><td><b>Phạm vi</b></td>
+        <td>Toàn ngành NN&amp;MT, TW đến địa phương</td>
+        <td>Toàn ngành GD&amp;ĐT: Bộ, Sở, cơ sở giáo dục công lập, ĐH tự chủ, ngoài công lập</td>
+        <td>Toàn Bộ: <b>văn hóa, thể thao, du lịch, báo chí, xuất bản và thông tin</b></td></tr>
+      <tr><td><b>Đơn vị đầu mối</b></td><td>Cục Chuyển đổi số</td><td>Cục Khoa học, Công nghệ và Thông tin</td><td>Trung tâm CĐS VHTTDL · Cục Du lịch Quốc gia VN (phần du lịch)</td></tr>
+      <tr><td><b>Ý nghĩa với tỉnh</b></td>
+        <td>Sở NN&amp;MT có bộ chuẩn <b>đã ban hành</b>, áp dụng ngay được</td>
+        <td>Sở GD&amp;ĐT có kiến trúc và tổ chức, nhưng <b>chưa có từ điển dữ liệu</b> để chuẩn hóa</td>
+        <td>Sở VHTT&amp;DL có <b>bộ tài liệu tham chiếu đầy đủ nhất</b>, kể cả mẫu Khung kiến trúc số cấp bộ 4 lớp</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note g">
+    <b>Đọc lại bức tranh:</b> không có bộ nào "đi trước" toàn diện. <b>NN&amp;MT</b> là bộ duy nhất <b>đã ban hành chính thức</b>. <b>VHTTDL</b> có <b>phạm vi đầy đủ nhất</b> — là bộ duy nhất trong ba bộ đã dựng cả Khung kiến trúc <i>số</i> cấp bộ theo cấu trúc 4 lớp của QĐ 1425, kèm phân tích khoảng cách và quy trình thẩm định tuân thủ. <b>GD&amp;ĐT</b> mạnh nhất về <b>mô hình tổ chức quản trị dữ liệu</b> và mục tiêu định lượng.
+  </div>
+
+  <div class="note r">
+    <b>Điểm cần rà khi thẩm định:</b> QĐ 31/QĐ-BVHTTDL (07/01/2026) căn cứ vào <b>QĐ 3090/QĐ-BKHCN ngày 08/10/2025</b> — văn bản này đã bị <b>bãi bỏ</b> tại Điều 3 khoản 2 QĐ 1425/QĐ-TTg. Tương tự, QĐ 1805/QĐ-BNNMT ban hành 19/5/2026 nên chưa dẫn được QĐ 1425 và QĐ 1132. Cả ba bộ tài liệu đều xây dựng trước 29/7/2026, nên khi Sở áp dụng tại địa phương cần rà lại tính tương thích với QĐ 1425 (Khung KTTT quốc gia số) và QĐ 1132 (79 nền tảng dùng chung).
+  </div>
+
+  <h3 class="sec">① Bộ Nông nghiệp và Môi trường — mô hình đầy đủ nhất, đáng học theo</h3>
+  <p class="hint">QĐ 1805 gộp cả ba hợp phần vào một văn bản, 5 chương, 43 điều, 11 phụ lục. Đây là mẫu tham chiếu tốt nhất hiện có cho cấu trúc một Khung KTDL chuyên ngành.</p>
+
+  <div class="grid2">
+    <div class="card acc"><h4>27 miền dữ liệu / 20 lĩnh vực chuyên ngành</h4>
+      <p style="font-size:12.4px;color:var(--dim);margin:0 0 8px">Mỗi miền có mã riêng, đơn vị chủ quản riêng, nghiệp vụ cốt lõi và thực thể dữ liệu cơ bản được đặc tả.</p>
+      <div class="boxes" style="gap:5px">
+        <div class="box" style="font-size:11px">TTTV · Trồng trọt &amp; BVTV</div>
+        <div class="box" style="font-size:11px">CNTY · Chăn nuôi &amp; Thú y</div>
+        <div class="box" style="font-size:11px">LNKL · Lâm nghiệp</div>
+        <div class="box" style="font-size:11px">TSKN · Thủy sản</div>
+        <div class="box" style="font-size:11px">TL · Thủy lợi</div>
+        <div class="box" style="font-size:11px">ĐĐPC · Đê điều &amp; PCTT</div>
+        <div class="box" style="font-size:11px">KTHT · Kinh tế hợp tác &amp; PTNT</div>
+        <div class="box" style="font-size:11px">CCPT · Chất lượng, chế biến, thị trường</div>
+        <div class="box hi2" style="font-size:11px">NTM · Nông thôn mới &amp; giảm nghèo</div>
+        <div class="box" style="font-size:11px">KN · Khuyến nông</div>
+        <div class="box hi2" style="font-size:11px">QLĐĐ · Đất đai</div>
+        <div class="box" style="font-size:11px">TNN · Tài nguyên nước</div>
+        <div class="box" style="font-size:11px">ĐCKS · Địa chất &amp; khoáng sản</div>
+        <div class="box hi2" style="font-size:11px">MT · Môi trường</div>
+        <div class="box" style="font-size:11px">BTTN · Bảo tồn &amp; đa dạng sinh học</div>
+        <div class="box" style="font-size:11px">KTTV · Khí tượng thủy văn</div>
+        <div class="box" style="font-size:11px">BĐKH · Biến đổi khí hậu</div>
+        <div class="box" style="font-size:11px">BHĐ · Biển &amp; hải đảo</div>
+        <div class="box" style="font-size:11px">ĐĐBĐ · Đo đạc, bản đồ, thông tin địa lý</div>
+        <div class="box" style="font-size:11px">VT · Viễn thám</div>
+        <div class="box" style="font-size:11px">CĐS · Chuyển đổi số</div>
+        <div class="box" style="font-size:11px">KHCN</div>
+        <div class="box" style="font-size:11px">HTQT</div>
+        <div class="box" style="font-size:11px">KHTC</div>
+        <div class="box" style="font-size:11px">PC · Pháp chế</div>
+        <div class="box" style="font-size:11px">TCCB</div>
+        <div class="box" style="font-size:11px">VP · Hành chính tổng hợp</div>
+      </div>
+      <p style="font-size:12.2px;color:var(--dim);margin:10px 0 0">Ô tô đậm là các miền có dữ liệu <b>phát sinh trực tiếp tại cấp xã</b> — đây là nơi tỉnh cần đặc biệt chú ý khi lập Danh mục dữ liệu cấp xã phải cập nhật.</p>
+    </div>
+
+    <div class="card acc2"><h4>07 lớp dữ liệu của mỗi lĩnh vực chuyên ngành</h4>
+      <p style="font-size:12.4px;color:var(--dim);margin:0 0 8px">Mỗi lớp có quy định riêng về nguồn tạo lập, đơn vị chủ quản, mã định danh, tần suất cập nhật, quy tắc chất lượng, mức độ chia sẻ, thời hạn lưu trữ và mức độ bảo vệ.</p>
+      <table style="margin-top:4px">
+        <thead><tr><th style="width:52px">Mã</th><th>Lớp dữ liệu</th></tr></thead>
+        <tbody>
+          <tr><td><b>SDL</b></td><td>Siêu dữ liệu — <i>bao trùm và quản trị toàn bộ 6 lớp còn lại</i></td></tr>
+          <tr><td><b>DLG</b></td><td>Dữ liệu gốc — thô, nguyên bản, thu nhận trực tiếp tại nguồn</td></tr>
+          <tr><td><b>DM</b></td><td>Dữ liệu danh mục — bảng mã, phân loại do cơ quan nhà nước ban hành</td></tr>
+          <tr style="background:rgba(242,118,46,.09)"><td><b>DLC</b></td><td><b>Dữ liệu chủ — trung tâm của mô hình</b>, chuẩn hóa theo DM, cập nhật từ DLG và GD</td></tr>
+          <tr><td><b>GD</b></td><td>Dữ liệu giao dịch — tạo ra từ DLG, DLC và DM</td></tr>
+          <tr><td><b>TH</b></td><td>Dữ liệu tổng hợp và phân tích</td></tr>
+          <tr><td><b>MO</b></td><td>Dữ liệu mở — dẫn xuất từ nhiều lớp</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12.2px;color:var(--dim);margin:10px 0 0">Áp dụng nguyên tắc <b>ghi một lần (single-writer)</b> cho dữ liệu chủ và danh mục dùng chung.</p>
+    </div>
+  </div>
+
+  <h3 class="sec">Phân cấp Bộ → Sở → Xã của ngành NN&amp;MT — mẫu rõ ràng nhất về vai trò cấp xã</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:14%">Cấp</th><th style="width:43%">Được làm gì</th><th>Ràng buộc</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill p-bo">BỘ NN&amp;MT</span></td>
+        <td>Ban hành khung kiến trúc, quản trị, quản lý, từ điển dữ liệu; quản lý tập trung dữ liệu nền tảng toàn ngành và dữ liệu các lĩnh vực chuyên ngành</td>
+        <td>Các Cục quản lý chuyên ngành phải trình Bộ trưởng ban hành Kiến trúc dữ liệu, Khung QTQL và Từ điển dữ liệu <b>của lĩnh vực mình</b></td></tr>
+      <tr style="background:rgba(46,160,67,.06)"><td><span class="pill p-tinh">SỞ NN&amp;MT</span></td>
+        <td>Quản trị dữ liệu cấp tỉnh theo phân cấp; <b>phân cấp cho cấp xã</b>; được <b>mở rộng cấu trúc dữ liệu theo nhu cầu đặc thù</b>; phát triển ứng dụng phần mềm; thu nhận, cập nhật, đồng bộ dữ liệu từ cấp xã lên hệ thống ngành</td>
+        <td>Trường bổ sung phải theo quy tắc đặt tên <code>dacThu_&lt;ma_tinh&gt;_&lt;ten_truong&gt;</code>; <b>không được tạo trường/bảng trùng lặp nội dung, ý nghĩa nghiệp vụ với Dữ liệu chủ và Dữ liệu danh mục dùng chung</b> đã ban hành; bảng bổ sung phải đăng ký với cơ quan chủ quản lĩnh vực; ứng dụng phải đáp ứng tiêu chí tích hợp vào hệ thống chung</td></tr>
+      <tr style="background:rgba(163,113,247,.06)"><td><span class="pill p-xa">CẤP XÃ</span></td>
+        <td>Là <b>đơn vị sử dụng dữ liệu</b>; được phân quyền truy cập, tra cứu dữ liệu thuộc phạm vi địa giới hành chính; được phân quyền nhập, cập nhật dữ liệu nghiệp vụ phát sinh trên địa bàn; số hóa dữ liệu gốc tại chỗ (vùng trồng, cơ sở chăn nuôi, hồ sơ hộ gia đình…)</td>
+        <td><b>Không có CSDL riêng, không có quyền quản trị hệ thống.</b> Việc phân quyền do Sở NN&amp;MT thực hiện</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note g">
+    <b>Câu đáng trích vào tờ trình:</b> "Cấp xã là đơn vị sử dụng dữ liệu, <b>không có cơ sở dữ liệu riêng, không có quyền quản trị hệ thống</b>." — QĐ 1805/QĐ-BNNMT, Điều 30 khoản 4. Đây là diễn giải cụ thể nhất, ở cấp ngành, cho nguyên tắc "cấp xã không đầu tư riêng lẻ" của QĐ 1425.
+  </div>
+
+  <p style="font-size:12.8px;margin-top:16px"><b>Ba điểm kỹ thuật của QĐ 1805 mà tỉnh nên sao chép vào khung của mình:</b></p>
+  <ul>
+    <li><b>Quy tắc mã định danh từ vựng có cấu trúc:</b> <code>NNMT-[Mã Miền]-[Mã Lớp]-TV-XXX</code>, ví dụ <code>NNMT-TSKN-DLC-TV-001</code> là từ vựng mô tả thực thể Tàu cá, thuộc miền Thủy sản và Kiểm ngư, lớp Dữ liệu chủ. Cấp phần tử kế thừa mã thực thể: <code>...-TV-001-0001</code>.</li>
+    <li><b>Hồ sơ đặc tả từ vựng có trường "từ đồng nghĩa/gần nghĩa"</b> — gom các thuật ngữ địa phương đang dùng khác nhau. Ví dụ thuật ngữ chuẩn "Thôn" gom cả Ấp (miền Nam), Bản (núi phía Bắc), Buôn (Tây Nguyên), Xóm, Khóm. Mục đích là hỗ trợ tìm kiếm và để AI xử lý ngữ nghĩa. Đây là chi tiết rất thực tế mà nhiều khung khác bỏ sót.</li>
+    <li><b>Điều kiện chặn đầu tư đặt ngay trong mô hình tham chiếu nghiệp vụ (BRM):</b> "Không xây dựng cơ sở dữ liệu hoặc ứng dụng mới nếu chưa xác định rõ dữ liệu cần hỗ trợ cho từng năng lực nghiệp vụ và nguồn dữ liệu đầu vào, đơn vị thực hiện và kết quả đầu ra của quy trình."</li>
+  </ul>
+
+  <h3 class="sec">② Bộ Giáo dục và Đào tạo — mạnh nhất về mục tiêu định lượng và tổ chức bộ máy</h3>
+  <p class="hint">Bộ GD&amp;ĐT có hai tài liệu song hành: <b>Khung kiến trúc dữ liệu (PB 1.0)</b> và <b>Khung quản trị, quản lý dữ liệu (PB 1.0)</b>, cùng trình ban hành tháng 6/2026. Điểm mạnh riêng là <b>bộ mục tiêu định lượng đến 2030</b> — thứ mà hai bộ còn lại không nêu cụ thể bằng.</p>
+
+  <h4 style="font-size:13.5px;margin:18px 0 6px">Sáu mục tiêu định lượng giai đoạn 2026–2030</h4>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:72px">Chỉ tiêu</th><th>Nội dung</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--qg);font-size:16px">100%</b></td><td>Dữ liệu về <b>người học, nhà giáo, cán bộ quản lý giáo dục, cơ sở giáo dục, học bạ số, văn bằng chứng chỉ số</b> được số hóa, chuẩn hóa và tích hợp vào CSDL quốc gia về Giáo dục và Đào tạo, đạt "Đúng – Đủ – Sạch – Sống – Thống nhất – Dùng chung", trở thành <b>nguồn dữ liệu chủ dùng chung toàn ngành</b></td></tr>
+      <tr><td><b style="color:var(--qg);font-size:16px">100%</b></td><td>CSDL chuyên ngành giáo dục được quản lý tập trung, kết nối đồng bộ, thông suốt với LGSP và Cổng dữ liệu của Bộ</td></tr>
+      <tr><td><b style="color:var(--qg);font-size:16px">100%</b></td><td>Hồ sơ, kết quả giải quyết TTHC, giấy tờ do Bộ ban hành được lưu trữ trong kho dữ liệu số của Bộ</td></tr>
+      <tr><td><b style="color:var(--qg);font-size:16px">80%</b></td><td>Dữ liệu được <b>chia sẻ và sử dụng lại</b> trong TTHC, hoạt động hành chính và <b>thay thế hoàn toàn bản giấy</b></td></tr>
+      <tr><td><b style="color:var(--qg);font-size:16px">100%</b></td><td>Công tác tổng hợp, báo cáo định kỳ và đột xuất được thực hiện <b>hoàn toàn trên môi trường số</b>; tự động hóa tối đa thu thập, tổng hợp, đối soát và trình ký</td></tr>
+      <tr><td><b style="color:var(--qg);font-size:16px">70%</b></td><td>Yêu cầu khai thác dữ liệu phục vụ xây dựng chính sách, quy hoạch mạng lưới trường lớp, tuyển sinh, đánh giá chất lượng, thẩm định chương trình, dự báo nhân lực được <b>ra quyết định dựa trên dữ liệu</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card acc"><h4>05 lớp của Khung kiến trúc dữ liệu GD&amp;ĐT</h4>
+      <table style="margin-top:2px">
+        <tbody>
+          <tr><td style="width:30%"><b>Người sử dụng</b></td><td>Người dân, cán bộ quản lý, nhà giáo, cơ sở giáo dục, tổ chức – doanh nghiệp, các Bộ/Sở/Ngành khai thác dữ liệu giáo dục</td></tr>
+          <tr><td><b>Truy cập và dịch vụ</b></td><td><b>Nội ngành</b>: HTTT của Bộ, Cổng DVCQG, Hệ thống giải quyết TTHC, ứng dụng di động, BI Platform · <b>Ngoại ngành</b>: HTTT của Bộ/Ngành khác</td></tr>
+          <tr style="background:rgba(242,118,46,.08)"><td><b>Tích hợp và liên thông</b></td><td><b>LDOP/LGSP Bộ GD&amp;ĐT</b> · <b>AGN</b> (đầu mối kết nối kỹ thuật duy nhất với TTDL quốc gia) · <b>NDOP</b></td></tr>
+          <tr><td><b>Lưu trữ và xử lý</b></td><td>Nguồn dữ liệu (nền tảng, HTTT, CSDL tạo lập tại các cơ quan và cơ sở giáo dục) + <b>CSDL quốc gia về GD&amp;ĐT</b> dạng Data Warehouse/Lakehouse</td></tr>
+          <tr><td><b>Quản trị và quản lý dữ liệu</b></td><td>Lớp nền tảng về thể chế, tổ chức và quy trình vận hành — chi tiết tại Khung QTQL dữ liệu</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card acc2"><h4>05 miền dữ liệu ngành Giáo dục</h4>
+      <ul style="margin-top:2px">
+        <li><b>Phục vụ người dân và doanh nghiệp</b> — TTHC, dịch vụ công trực tuyến, và các TTHC có thành phần hồ sơ có thể cắt giảm bằng dữ liệu của Bộ</li>
+        <li><b>Nghiệp vụ chuyên ngành giáo dục</b> <i>(miền cốt lõi)</i> — người học, nhà giáo, cán bộ quản lý, cơ sở giáo dục, cơ quan quản lý, <b>hồ sơ học tập suốt đời</b></li>
+        <li><b>Quản lý, chỉ đạo điều hành và xây dựng chính sách</b> — dữ liệu tổng hợp, báo cáo, phân tích, dự báo</li>
+        <li><b>Quản trị nội bộ</b> — tổ chức bộ máy, nhân sự, tài chính, nguồn lực</li>
+        <li><b>Thể chế và chính sách</b> — văn bản QPPL, cơ chế, chính sách, quy định quản lý</li>
+      </ul>
+      <p style="font-size:12.2px;color:var(--dim);margin:10px 0 0">Nguyên tắc vận hành: <b>Single Source of Truth</b> cho dữ liệu dùng chung; dữ liệu gốc tạo lập tại nơi phát sinh nghiệp vụ (cơ sở giáo dục), hợp nhất và điều phối tập trung tại CSDL quốc gia về GD&amp;ĐT.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Cách xử lý LGSP → LDOP rất đáng học:</b> Bộ GD&amp;ĐT nêu rõ "LGSP là nền tảng hiện hữu, LDOP là mô hình mục tiêu; LGSP <b>từng bước được nâng cấp, bổ sung chức năng</b> để đáp ứng đầy đủ vai trò của LDOP, bảo đảm tính kế thừa, <b>không gián đoạn vận hành và không phát sinh nền tảng song song</b>." Đây là cách diễn đạt chuẩn để tỉnh dùng khi lập luận về việc nâng cấp LGSP hiện có thay vì đầu tư LDOP mới.
+  </div>
+
+  <h4 style="font-size:13.5px;margin:18px 0 6px">Tổ chức bộ máy quản trị dữ liệu</h4>
+
+  <div class="grid2">
+    <div class="card acc"><h4>Ba vấn đề hiện trạng được Bộ tự nhận diện</h4>
+      <ul style="margin-top:2px">
+        <li><b>Thiết chế chỉ đạo và phân công trách nhiệm:</b> hệ thống nghiệp vụ đã triển khai nhưng <b>chưa thiết lập được mô hình quản trị dữ liệu</b>.</li>
+        <li><b>Tiêu chuẩn hóa và kiểm soát vòng đời:</b> thiếu đồng bộ chủ yếu do <b>chưa ban hành và áp dụng thống nhất Từ điển dữ liệu</b>.</li>
+        <li><b>Nhận thức và phương thức quản lý:</b> hệ thống phần lớn thiết kế để phục vụ <b>bài toán nghiệp vụ đơn lẻ</b>, không hướng tới dữ liệu dùng chung.</li>
+      </ul>
+      <p style="font-size:12.3px;color:var(--dim);margin:10px 0 0">Ba vấn đề này gần như đúng nguyên với hiện trạng của phần lớn các tỉnh — có thể trích dẫn khi lập luận về sự cần thiết trong tờ trình.</p>
+    </div>
+    <div class="card acc2"><h4>Mô hình quản trị dữ liệu 2 cấp</h4>
+      <p style="font-size:12.5px;margin:0 0 6px"><b style="color:var(--qg)">Cấp 1 — Bộ GD&amp;ĐT</b></p>
+      <div class="boxes" style="gap:5px;margin-bottom:10px">
+        <div class="box hi" style="font-size:11.3px">Ban Chỉ đạo về dữ liệu</div>
+        <div class="box" style="font-size:11.3px">Người chịu trách nhiệm quản trị, quản lý dữ liệu</div>
+        <div class="box" style="font-size:11.3px">Bộ phận tuân thủ</div>
+        <div class="box" style="font-size:11.3px">Bộ phận quản trị dữ liệu</div>
+        <div class="box" style="font-size:11.3px">Bộ phận chủ quản hệ thống</div>
+        <div class="box" style="font-size:11.3px">Bộ phận kỹ thuật dữ liệu</div>
+        <div class="box" style="font-size:11.3px">Bộ phận đổi mới sáng tạo</div>
+      </div>
+      <p style="font-size:12.5px;margin:0 0 6px"><b style="color:var(--tinh)">Cấp 2 — Sở GD&amp;ĐT / Cục, Vụ / Viện, trường</b></p>
+      <div class="boxes" style="gap:5px">
+        <div class="box hi2" style="font-size:11.3px">Quản lý dữ liệu cấp đơn vị (Giám đốc Sở)</div>
+        <div class="box" style="font-size:11.3px">Bộ phận chủ quản hệ thống</div>
+        <div class="box" style="font-size:11.3px">Bộ phận quản trị dữ liệu cấp đơn vị</div>
+        <div class="box" style="font-size:11.3px">Bộ phận tạo lập dữ liệu</div>
+      </div>
+      <p style="font-size:12.2px;color:var(--dim);margin:10px 0 0">Sở phải <b>phân công cán bộ phụ trách, gửi thông tin về Cục KHCN&amp;TT để theo dõi</b>; thay đổi người phụ trách phải thông báo kịp thời.</p>
+    </div>
+  </div>
+
+  <h3 class="sec">Lộ trình và mục tiêu đo lường của ngành Giáo dục</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:20%">Giai đoạn</th><th>Nội dung trọng tâm</th></tr></thead>
+    <tbody>
+      <tr><td><b>Giai đoạn 1<br>2026 – 2027</b><br><small>Kiện toàn tổ chức và thiết lập nền tảng</small></td>
+        <td>Kiện toàn mô hình tổ chức quản trị dữ liệu 2 cấp; thiết lập và giao nhiệm vụ cho <b>05 bộ phận chuyên trách</b> ở cấp Bộ; xác định rõ vai trò Quản lý dữ liệu cấp đơn vị ở cấp Sở/Cục/Vụ/Viện/Trường; <b>xây dựng và hoàn thiện danh mục dữ liệu dùng chung thống nhất và từ điển nghiệp vụ giáo dục đào tạo</b> làm cơ sở tổ chức, phân loại, làm sạch dữ liệu.</td></tr>
+      <tr><td><b>Giai đoạn 2<br>2027 – 2030</b><br><small>Tối ưu hóa, đổi mới sáng tạo, văn hóa dữ liệu</small></td>
+        <td>Xây dựng và lan tỏa văn hóa dữ liệu; <b>gắn tiêu chí chất lượng và mức độ sử dụng dữ liệu vào hệ thống đo lường, đánh giá năng lực của các đơn vị toàn ngành</b>; hoàn thiện liên thông dữ liệu hai chiều từ cơ sở đến trung ương; triển khai giám sát kho dữ liệu phân tích, giám sát dự án CNTT và giám sát khai thác gia tăng giá trị dữ liệu.</td></tr>
+      <tr style="background:rgba(242,118,46,.07)"><td><b>Mục tiêu đo lường</b></td>
+        <td>Đánh giá định kỳ hằng năm <b>mức độ trưởng thành quản trị dữ liệu theo QĐ 2439</b>. Đến năm 2030: Bộ GD&amp;ĐT và các Sở GD&amp;ĐT đạt <b>Mức 4 trở lên</b>; mặt bằng chung toàn ngành đạt <b>Mức 3 trở lên</b>.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">③ Bộ Văn hóa, Thể thao và Du lịch — bộ tài liệu đầy đủ nhất, đáng dùng làm khuôn mẫu</h3>
+  <p class="hint">Bộ tài liệu PB 1.0 gồm <b>04 phần, 361 trang</b>, phủ cả văn hóa, thể thao, du lịch, báo chí, xuất bản và thông tin. Đây là bộ duy nhất trong ba bộ đã dựng <b>cả Khung kiến trúc số cấp bộ theo cấu trúc 4 lớp của QĐ 1425</b> — nên có thể dùng trực tiếp làm khuôn mẫu khi tỉnh xây Khung kiến trúc số cấp tỉnh.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:52px">Phần</th><th style="width:26%">Nội dung</th><th>Các mục đáng tham khảo nhất</th></tr></thead>
+    <tbody>
+      <tr style="background:rgba(242,118,46,.07)"><td><b>A</b></td><td><b>Khung kiến trúc số của Bộ</b></td>
+        <td>Tầm nhìn 2030 · kế hoạch phát triển ngành theo 10 trụ cột · <b>Khung kiến trúc hiện trạng</b> (đánh giá chung, ưu điểm – hạn chế) · <b>Khung kiến trúc mục tiêu</b> theo đúng 4 lớp · <b>Phân tích khoảng cách</b> 5 mảng (nghiệp vụ, dữ liệu, ứng dụng, công nghệ, an ninh mạng) · lộ trình và danh mục dự án/nhiệm vụ ưu tiên · <b>quy trình thẩm định tuân thủ Khung kiến trúc</b> và <b>chỉ số đo lường tuân thủ</b></td></tr>
+      <tr><td><b>B</b></td><td><b>Khung kiến trúc dữ liệu</b></td>
+        <td>Tầm nhìn 2030 và 2045 · kiến trúc hiện trạng 4 mảng · kiến trúc mục tiêu (nghiệp vụ, dữ liệu, tích hợp – chia sẻ) · phụ lục danh mục <b>dữ liệu chủ · dữ liệu gốc · dữ liệu dùng chung · dữ liệu mở</b> và bộ trường thông tin metadata cho từng nhóm</td></tr>
+      <tr><td><b>C</b></td><td><b>Khung quản trị, quản lý dữ liệu</b></td>
+        <td>Cấu trúc 4 lớp: <b>Quản lý nhà nước về dữ liệu</b> (bộ máy, chiến lược, hành lang pháp lý, giám sát) → <b>Quản trị dữ liệu</b> (tổ chức, phân công vai trò chủ thể dữ liệu, cơ chế phối hợp và giám sát) → <b>Quản lý dữ liệu</b> (chất lượng, dữ liệu chủ và danh mục, từ điển và siêu dữ liệu) → <b>Vận hành dữ liệu</b> (vòng đời, hạ tầng kỹ thuật)</td></tr>
+      <tr><td><b>D</b></td><td><b>Từ điển dữ liệu dùng chung</b></td>
+        <td>Bảng đối tượng dữ liệu chủ · bảng phần tử dữ liệu cốt lõi · bảng danh mục dùng chung (Reference Data) · <b>cơ chế ánh xạ với danh mục dùng chung quốc gia và quản lý phiên bản</b> · lộ trình triển khai và quy định tuân thủ bắt buộc</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="card acc"><h4>Bốn phụ lục mô hình tham chiếu — phần hiếm gặp</h4>
+      <p style="font-size:12.5px;color:var(--dim);margin:0 0 8px">Phần A có 9 phụ lục, trong đó 5 phụ lục là các <b>mô hình tham chiếu</b> theo chuẩn kiến trúc tổng thể. Đây là thứ hầu hết khung cấp tỉnh hiện nay còn thiếu:</p>
+      <div class="boxes">
+        <div class="box hi">TRM — Hạ tầng, kỹ thuật, công nghệ</div>
+        <div class="box hi">SRM — An ninh mạng</div>
+        <div class="box hi">DRM — Dữ liệu</div>
+        <div class="box hi">BRM — Nghiệp vụ</div>
+        <div class="box hi">ARM — Ứng dụng</div>
+      </div>
+      <p style="font-size:12.3px;color:var(--dim);margin:10px 0 0">Kèm <b>Phụ lục 08 Danh mục dùng chung</b> và <b>Phụ lục 09 Khoảng cách từ khung hiện trạng đến khung mục tiêu</b>.</p>
+    </div>
+    <div class="card acc2"><h4>Đối tượng và kênh giao tiếp — rộng hơn hẳn hai bộ kia</h4>
+      <p style="font-size:12.5px;margin:0 0 6px"><b>Người dân, doanh nghiệp:</b> người dân, khách du lịch trong nước và quốc tế, doanh nghiệp du lịch, doanh nghiệp công nghiệp văn hóa, cơ quan báo chí, nhà xuất bản, doanh nghiệp quảng cáo, doanh nghiệp nội dung số, hợp tác xã, hộ kinh doanh cá thể, <b>văn nghệ sĩ, vận động viên, huấn luyện viên</b>.</p>
+      <p style="font-size:12.5px;margin:0 0 6px"><b>Cơ quan, tổ chức:</b> các bộ ban ngành, tỉnh/thành phố, <b>các hội, hiệp hội, liên đoàn thể thao, tổ chức quốc tế</b>.</p>
+      <p style="font-size:12.5px;margin:0"><b>Kênh giao tiếp:</b> Cổng DVCQG · VNeID · Cổng TTĐT/dữ liệu · ứng dụng di động (ứng dụng du lịch quốc gia, tra cứu di sản, thư viện số, vé điện tử).</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Vì sao Phần A đáng dùng làm khuôn mẫu cho tỉnh:</b> nó là ví dụ hiếm hoi cho thấy một khung kiến trúc số cấp bộ <i>đầy đủ</i> gồm những gì — không chỉ mô tả kiến trúc mục tiêu, mà còn có <b>đánh giá hiện trạng</b>, <b>phân tích khoảng cách</b>, <b>lộ trình dự án ưu tiên</b>, <b>giải pháp về tổ chức – nhân lực – cơ chế – tài chính</b>, và đặc biệt là <b>quy trình thẩm định tuân thủ kiến trúc kèm bộ chỉ số đo lường</b>. Đây chính là những phần QĐ 1425 yêu cầu tỉnh phải có nhưng không nói rõ trình bày thế nào.
+  </div>
+
+  <p style="font-size:12.8px;margin-top:14px"><b>Bối cảnh trước đó:</b> QĐ 31/QĐ-BVHTTDL ngày 07/01/2026 ban hành Kế hoạch xây dựng Khung kiến trúc dữ liệu du lịch Việt Nam (Cục Du lịch Quốc gia VN chủ trì, Trung tâm CĐS VHTTDL và MobiFone phối hợp, hoàn thành Quý 2/2026), kế thừa QĐ 2710/QĐ-BVHTTDL (17/9/2024) về Đề án "Hệ thống cơ sở dữ liệu ngành du lịch". Bộ tài liệu PB 1.0 chính là kết quả mở rộng từ kế hoạch này ra toàn Bộ.</p>
+
+  <h3 class="sec">Ba hàm ý cho tỉnh khi xây dựng Khung kiến trúc dữ liệu cấp tỉnh</h3>
+  <div class="grid3">
+    <div class="card acc3"><h4 style="color:var(--l1)">Không chờ đủ các bộ</h4>
+      <p style="font-size:12.5px;color:var(--dim);margin:0">Nếu tỉnh chờ tất cả các bộ ban hành xong khung ngành mới làm khung của mình thì sẽ trễ hạn 06 tháng của QĐ 1425. Cách làm khả thi: <b>dựng khung tỉnh theo cấu trúc chung trước</b>, để ngỏ phần từ điển dữ liệu chuyên ngành, cập nhật dần khi bộ ban hành. Ngay Bộ GD&amp;ĐT cũng làm vậy — ban hành kiến trúc và quản trị trước, từ điển dữ liệu để sang Giai đoạn 1.</p></div>
+    <div class="card acc"><h4 style="color:var(--qg)">Mượn cấu trúc từ ba bộ, mỗi bộ một phần</h4>
+      <p style="font-size:12.5px;color:var(--dim);margin:0"><b>VHTTDL Phần A</b> → khuôn mẫu Khung kiến trúc số cấp tỉnh (hiện trạng → mục tiêu → khoảng cách → lộ trình → thẩm định tuân thủ). <b>NN&amp;MT</b> → cấu trúc miền × lớp dữ liệu, quy tắc đặt tên và mã định danh. <b>GD&amp;ĐT</b> → bộ mục tiêu định lượng và mô hình tổ chức 2 cấp.</p></div>
+    <div class="card acc2"><h4 style="color:var(--tinh)">Bộ máy quan trọng hơn công nghệ</h4>
+      <p style="font-size:12.5px;color:var(--dim);margin:0">Phần yếu nhất của hầu hết các tỉnh là <b>bộ máy quản trị dữ liệu</b>. Mô hình 2 cấp của GD&amp;ĐT với các bộ phận tuân thủ – quản trị – chủ quản hệ thống – kỹ thuật – tạo lập dữ liệu áp thẳng được vào cấp tỉnh: Ban Chỉ đạo dữ liệu tỉnh ở cấp 1, các sở/ngành và UBND cấp xã ở cấp 2. Kết hợp lớp "Quản lý nhà nước về dữ liệu" của VHTTDL Phần C để hoàn chỉnh.</p></div>
+  </div>
+
+  <h3 class="sec">Bảng ánh xạ: lấy gì từ đâu khi tỉnh dựng khung</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:26%">Sản phẩm tỉnh phải ban hành</th><th style="width:22%">Nguồn tham chiếu tốt nhất</th><th>Ghi chú</th></tr></thead>
+    <tbody>
+      <tr><td>Mô hình Khung kiến trúc số cấp tỉnh 4 lớp</td><td><b>VHTTDL Phần A</b>, mục VII</td><td>Kèm luôn cách trình bày "cấu trúc các tầng và thành phần" + "cách thức kết nối, tích hợp và chia sẻ"</td></tr>
+      <tr><td>Đánh giá hiện trạng &amp; phân tích khoảng cách</td><td><b>VHTTDL Phần A</b>, mục VI và VIII</td><td>5 mảng: nghiệp vụ, dữ liệu, ứng dụng, công nghệ, an ninh mạng — đúng thứ QĐ 1425 yêu cầu để xác định lộ trình xử lý hệ thống trùng lặp</td></tr>
+      <tr><td>Quy trình thẩm định tuân thủ kiến trúc + chỉ số đo lường</td><td><b>VHTTDL Phần A</b>, mục IX.3</td><td>Gồm đăng ký và phê duyệt, danh mục tiêu chuẩn kỹ thuật, quy trình thẩm định, chỉ số đo lường tuân thủ</td></tr>
+      <tr><td>Cấu trúc miền dữ liệu × lớp dữ liệu</td><td><b>NN&amp;MT QĐ 1805</b>, Điều 7–8</td><td>27 miền × 7 lớp; mỗi lớp có quy định riêng về nguồn tạo lập, chủ quản, mã định danh, tần suất cập nhật, quy tắc chất lượng, mức chia sẻ, thời hạn lưu trữ</td></tr>
+      <tr><td>Quy tắc đặt tên bảng, trường, mã khóa chính</td><td><b>NN&amp;MT QĐ 1805</b>, Điều 22–24, 37–39</td><td>Kèm quy tắc <code>dacThu_&lt;ma_tinh&gt;_&lt;ten_truong&gt;</code> cho dữ liệu đặc thù địa phương</td></tr>
+      <tr><td>Từ điển dữ liệu dùng chung cấp tỉnh</td><td><b>VHTTDL Phần D</b> + <b>NN&amp;MT Chương IV</b></td><td>VHTTDL có cơ chế <b>ánh xạ với danh mục dùng chung quốc gia và quản lý phiên bản</b> — phần quan trọng nhất</td></tr>
+      <tr><td>Mô hình tổ chức quản trị dữ liệu</td><td><b>GD&amp;ĐT Khung QTQL</b> + <b>VHTTDL Phần C</b></td><td>GD&amp;ĐT cho mô hình 2 cấp và các bộ phận; VHTTDL bổ sung lớp "Quản lý nhà nước về dữ liệu" đứng trên</td></tr>
+      <tr><td>Bộ mục tiêu định lượng của tỉnh</td><td><b>GD&amp;ĐT Khung KTDL</b>, mục 2.2</td><td>Mẫu 6 chỉ tiêu 100%/80%/70% — chuyển thể sang bối cảnh tỉnh rất nhanh</td></tr>
+      <tr><td>Phân cấp trách nhiệm xuống cấp xã</td><td><b>NN&amp;MT QĐ 1805</b>, Điều 30</td><td>"Cấp xã là đơn vị sử dụng dữ liệu, không có CSDL riêng, không có quyền quản trị hệ thống"</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note">
+    <b>Rủi ro trùng lặp cần rà ngay:</b> ba lĩnh vực này đều đã có nền tảng dùng chung quốc gia trong danh mục 79 — Nền tảng quốc gia về chăn nuôi và thú y (#63), về trồng trọt và bảo vệ thực vật (#64), 3 nền tảng AI về thiên tai, biến đổi khí hậu và môi trường (#65–67), Nền tảng quản lý CSDL quốc gia về di sản văn hóa (#69), Nền tảng Quản trị và Kinh doanh du lịch (#70), Nền tảng số quản trị giáo dục quốc gia (#46), Nền tảng giáo dục thông minh quốc gia (#79). Trước khi Sở NN&amp;MT, Sở VHTT&amp;DL hay Sở GD&amp;ĐT đề xuất bất kỳ hệ thống nào, phải đối chiếu với các nền tảng này.
+  </div>
+</section>
+
+<!-- ============ TAB 8: THỰC TIỄN ============ -->
+<section class="tab" id="tab-r">
+  <h2>Đối chiếu thực tiễn địa phương</h2>
+  <p class="hint">Đối chiếu mô hình chuẩn với những gì các tỉnh đã và đang làm — để nhìn ra khoảng cách giữa văn bản và hiện trạng.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:13%">Địa phương</th><th style="width:44%">Hiện trạng ghi nhận</th><th>Đọc theo Khung kiến trúc</th></tr></thead>
+    <tbody>
+      <tr><td><b>Thanh Hóa</b></td>
+        <td>Danh mục CSDL dùng chung theo <b>QĐ 5355/QĐ-UBND (2020)</b>; Danh mục dữ liệu mở theo <b>QĐ 3111/QĐ-UBND (25/7/2024)</b>; Cổng dữ liệu mở đang có ~119 tập dữ liệu; IOC tỉnh chính thức vận hành cuối tháng 3/2026; đang yêu cầu các sở, ngành chuẩn hóa &amp; kết nối CSDL theo nguyên tắc "đúng, đủ, sạch, sống, thống nhất, dùng chung".</td>
+        <td>Đã có Lớp 2 (kho dữ liệu, danh mục CSDL) và Lớp 4 (IOC, cổng dữ liệu mở). <b>Khoảng trống lớn nhất:</b> danh mục CSDL ban hành từ 2020 — trước Luật Dữ liệu 2024, QĐ 2439, QĐ 11/2026 và QĐ 1425. Cần rà soát theo Từ điển dữ liệu dùng chung, bổ sung Danh mục dữ liệu cấp xã phải cập nhật, và đối chiếu toàn bộ hệ thống hiện có với 79 nền tảng QG.</td></tr>
+      <tr><td><b>Sơn La</b></td>
+        <td>Kho dữ liệu dùng chung với hơn <b>330 danh mục dữ liệu từ 18 sở, ngành</b>, gồm <b>990 bảng dữ liệu, 13.974 trường dữ liệu, ~31,5 triệu bản ghi</b> lưu trong gần 40.000 tệp; phục vụ IOC và cổng dữ liệu mở. Mạng TSLCD, hội nghị trực tuyến, thư công vụ, cổng TTĐT, HTTT báo cáo, eCabinet kết nối thông suốt <b>từ tỉnh xuống xã</b> và với TW. Đang "chấm KPI" xã, phường trong xây dựng CSDL đất đai.</td>
+        <td>Mô hình gần thiết kế chuẩn nhất: Lớp 2 mạnh, vận hành tập trung cấp tỉnh – xã khai thác (đúng nguyên tắc "không đầu tư riêng lẻ ở cấp xã"), đã áp dụng KPI theo Nguyên tắc 1. <b>Cần kiểm chứng:</b> tỷ lệ dữ liệu "sống" trên tổng bản ghi, và mức độ ánh xạ 13.974 trường dữ liệu với Từ điển dữ liệu dùng chung quốc gia — đây là điều kiện để đẩy lên NDOP.</td></tr>
+      <tr><td><b>Quảng Ngãi</b></td>
+        <td>Vừa ban hành Danh mục CSDL dùng chung, phủ các lĩnh vực KT-XH, đầu tư, tài chính, tài sản công, giáo dục, y tế, đất đai, nông nghiệp, TN-MT, KHCN, văn hóa – du lịch, an ninh mạng, hành chính công. CSDL của các sở, đơn vị được kết nối, tích hợp về LGSP tỉnh.</td>
+        <td>Đúng mô hình "CSDL sở/ngành → LGSP tỉnh → kho dữ liệu dùng chung". Là mẫu tham chiếu tốt cho việc rà soát danh mục theo lĩnh vực.</td></tr>
+      <tr><td><b>Cần Thơ</b></td>
+        <td>Đang tái cấu trúc các nền tảng số dùng chung; LGSP đã kết nối <b>17 hệ thống/CSDL</b> của bộ, ngành và địa phương; kho dữ liệu dùng chung của thành phố kết nối, tích hợp, chia sẻ với các CSDL lĩnh vực hành chính công, giáo dục &amp; đào tạo, y tế, thương mại, an sinh xã hội.</td>
+        <td>Minh họa rõ vai trò LGSP là "cửa ngõ" duy nhất giữa tỉnh và trung ương. Con số 17 hệ thống cho thấy mức liên thông thực tế còn khiêm tốn so với 20 CSDL quốc gia và 79 nền tảng dùng chung.</td></tr>
+      <tr><td><b>Bối cảnh chung</b></td>
+        <td>Đánh giá được nêu công khai: chỉ khoảng <b>10% hệ thống thông tin, cơ sở dữ liệu tại các bộ, ngành, địa phương có kết nối với nhau</b>.</td>
+        <td>Đây chính là lý do QĐ 1425, QĐ 2439 và QĐ 1132 siết chặt: bắt buộc mọi chia sẻ dữ liệu đi qua NDOP để giám sát – truy vết; đặt Bộ chỉ số KPI với trục "Liên thông và tích hợp"; cấm đầu tư trùng chức năng với nền tảng dùng chung QG; và gắn thẩm định tuân thủ kiến trúc vào quy trình phê duyệt đầu tư.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ TAB 8: PHÁP LÝ ============ -->
+<section class="tab" id="tab-p">
+  <h2>Căn cứ pháp lý &amp; hàm ý cho công tác tham mưu</h2>
+
+  <div class="grid2">
+    <div>
+      <h3 class="sec" style="margin-top:6px">Trục văn bản nền</h3>
+      <table>
+        <thead><tr><th style="width:33%">Văn bản</th><th>Vai trò trong bức tranh</th></tr></thead>
+        <tbody>
+          <tr><td><b>QĐ 1425/QĐ-TTg</b><br><small>29/7/2026</small></td><td>Khung kiến trúc tổng thể quốc gia số PB 1.0 — "hiến pháp kiến trúc". Thay thế QĐ 3090/QĐ-BKHCN (8/10/2025). <b>Phụ lục II</b> phân lớp 79 nền tảng dùng chung QG theo 4 lớp.</td></tr>
+          <tr><td><b>QĐ 1132/QĐ-TTg</b><br><small>24/6/2026</small></td><td>Tiêu chí và <b>Danh mục 79 nền tảng số dùng chung quốc gia</b> (Nhóm A: 17 · Nhóm B: 62). Bộ KH&amp;CN theo dõi, đánh giá hiệu quả khai thác và định kỳ đề xuất điều chỉnh danh mục.</td></tr>
+          <tr><td><b>QĐ 2439/QĐ-TTg</b><br><small>04/11/2025</small></td><td>Khung kiến trúc dữ liệu QG + Khung quản trị, quản lý dữ liệu QG + Từ điển dữ liệu dùng chung PB 1.0. Bộ Công an chủ trì.</td></tr>
+          <tr><td><b>QĐ 11/2026/QĐ-TTg</b><br><small>28/3/2026, hiệu lực 19/5/2026</small></td><td>Danh mục <b>20 CSDL quốc gia</b>.</td></tr>
+          <tr><td><b>NĐ 224/2026/NĐ-CP</b><br><small>24/6/2026</small></td><td>Quy định chi tiết Luật Chuyển đổi số — Chương VI &amp; khoản 1 Điều 37: <b>thẩm định, đánh giá tuân thủ khung kiến trúc</b> với đầu tư, mua sắm, thuê dịch vụ CĐS dùng NSNN.</td></tr>
+          <tr><td><b>NĐ 142/2026/NĐ-CP</b><br><small>30/4/2026</small></td><td>Quy định chi tiết Luật Trí tuệ nhân tạo.</td></tr>
+          <tr><td><b>QĐ 21/2026/QĐ-TTg</b><br><small>30/4/2026</small></td><td>Danh mục công nghệ chiến lược và sản phẩm công nghệ chiến lược — thiết kế hệ thống phải bám sát danh mục này.</td></tr>
+          <tr><td><b>TT 08/2025/TT-BCA</b></td><td>QCVN về cấu trúc thông điệp dữ liệu trao đổi với CSDL tổng hợp quốc gia — mô hình logic của 6 miền dữ liệu cơ bản.</td></tr>
+          <tr><td><b>CV 519/BKHCN-CĐSQG</b><br><small>28/01/2026</small></td><td>Danh mục phần mềm cơ bản và cấu hình tối thiểu máy tính, thiết bị đầu cuối cho cán bộ, công chức.</td></tr>
+          <tr style="background:rgba(242,118,46,.06)"><td><b>QĐ 1805/QĐ-BNNMT</b><br><small>19/5/2026</small></td><td>Khung KTDL + Khung QTQL dữ liệu + Từ điển dữ liệu ngành <b>Nông nghiệp và Môi trường</b> PB 1.0. 27 miền dữ liệu, 7 lớp dữ liệu, 5 chương 43 điều, 11 phụ lục.</td></tr>
+          <tr style="background:rgba(242,118,46,.06)"><td><b>Khung KTDL + Khung QTQL dữ liệu Bộ GD&amp;ĐT</b><br><small>PB 1.0, trình ban hành 6/2026</small></td><td>Khung kiến trúc dữ liệu 5 lớp, 5 miền dữ liệu, 6 mục tiêu định lượng 2026–2030, kiến trúc an toàn dữ liệu 8 lớp. Khung QTQL: mô hình 2 cấp, 05 bộ phận chuyên trách, mục tiêu mức trưởng thành ≥4 vào 2030.</td></tr>
+          <tr style="background:rgba(242,118,46,.06)"><td><b>Bộ tài liệu Khung kiến trúc Bộ VHTTDL</b><br><small>PB 1.0, 2026 — 4 phần, 361 trang</small></td><td>Phần A Khung kiến trúc số cấp bộ (4 lớp, phân tích khoảng cách, lộ trình, thẩm định tuân thủ) · Phần B Khung KTDL · Phần C Khung QTQL dữ liệu · Phần D Từ điển dữ liệu dùng chung. Phủ văn hóa, thể thao, du lịch, báo chí, xuất bản, thông tin.</td></tr>
+          <tr><td><b>QĐ 31/QĐ-BVHTTDL</b><br><small>07/01/2026</small></td><td>Kế hoạch xây dựng Khung kiến trúc dữ liệu du lịch Việt Nam, hoàn thành Quý 2/2026. Kế thừa QĐ 2710/QĐ-BVHTTDL (17/9/2024) về Đề án Hệ thống CSDL ngành du lịch.</td></tr>
+          <tr><td><b>NĐ 165/2025/NĐ-CP · NĐ 194/2025/NĐ-CP · NĐ 278/2025/NĐ-CP</b></td><td>Chi tiết Luật Dữ liệu · CSDL quốc gia, kết nối chia sẻ, dữ liệu mở · <b>kết nối, chia sẻ dữ liệu bắt buộc</b> giữa các cơ quan trong hệ thống chính trị.</td></tr>
+          <tr><td><b>NQ 214/NQ-CP</b> <small>23/7/2025</small></td><td>Kế hoạch hành động thúc đẩy, tạo lập dữ liệu phục vụ chuyển đổi số toàn diện.</td></tr>
+          <tr style="background:rgba(210,153,34,.07)"><td><b>Khung kiến trúc an ninh mạng quốc gia</b><br><small style="color:var(--l2)"><b>DỰ THẢO</b> — lấy ý kiến 05/5/2026</small></td><td>Bộ Công an chủ trì. <b>Chưa ban hành.</b> QĐ 1425 đã chốt trước 3 nguyên tắc cốt lõi: Phòng thủ chiều sâu · Data-Centric · Phòng vệ chủ động, cộng Security by Design và quản trị rủi ro theo cấp độ.</td></tr>
+          <tr style="background:rgba(63,185,80,.06)"><td><b>CV 39/TTg-KSTT</b> <small>09/01/2026</small></td><td>Chỉ đạo của Thủ tướng về triển khai <b>HTTT giải quyết TTHC theo mô hình tập trung</b>; giao Bộ KH&amp;CN ban hành quy định tiêu chuẩn, tính năng, chức năng kỹ thuật của hệ thống. Lộ trình: thí điểm 01/3–30/6/2026, vận hành chính thức toàn quốc từ <b>01/7/2026</b>.</td></tr>
+          <tr><td><b>TT 11/2025/TT-BKHCN</b> <small>30/6/2025</small></td><td>Sửa đổi TT 21/2023/TT-BTTTT — quy định tiêu chuẩn kỹ thuật cốt lõi của HTTT giải quyết TTHC cấp bộ, cấp tỉnh.</td></tr>
+          <tr><td><b>Luật Chuyển đổi số</b> <small>11/12/2025, hiệu lực 01/7/2026</small></td><td>Chính thức hóa Chương trình CĐS quốc gia, <b>Khung kiến trúc tổng thể quốc gia số</b> và Bộ chỉ số đo lường CĐS quốc gia ở tầm luật.</td></tr>
+          <tr><td><b>QĐ 437/QĐ-TTg</b> <small>16/3/2026</small></td><td>Kế hoạch triển khai thi hành Luật An ninh mạng.</td></tr>
+          <tr><td><b>QĐ 515/QĐ-TTg</b> <small>30/3/2026</small></td><td>Đề án nâng cao năng lực hoạt động của lực lượng bảo vệ an ninh mạng quốc gia.</td></tr>
+          <tr><td><b>QĐ 808/QĐ-TTg</b> <small>06/5/2026</small></td><td>Phát triển nền tảng bảo mật và an ninh mạng cho hạ tầng số quốc gia; phát triển nền tảng điện toán đám mây trong nước.</td></tr>
+          <tr><td><b>Quy định 05-QĐ/BCĐTW</b><br><small>27/8/2025</small></td><td>Mô hình liên thông số thống nhất trong hệ thống chính trị — nguồn của 7 nguyên tắc cốt lõi và cấu trúc 4 lớp.</td></tr>
+          <tr><td><b>NQ 57-NQ/TW</b> <small>22/12/2024</small></td><td>Nghị quyết nền của Bộ Chính trị.</td></tr>
+          <tr><td><b>Luật Dữ liệu 2024 · Luật CĐS 2025 · Luật AI 2025 · Luật BV DLCN 2025 · Luật ANM 2025 · Luật GDĐT 2023</b></td><td>Nền pháp lý cho dữ liệu, AI, bảo vệ dữ liệu cá nhân, an ninh mạng và giao dịch điện tử.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <h3 class="sec" style="margin-top:6px">20 Cơ sở dữ liệu quốc gia (QĐ 11/2026)</h3>
+      <table>
+        <tbody>
+          <tr><td>1. CSDL tổng hợp quốc gia</td><td>11. Đất đai</td></tr>
+          <tr><td>2. Dân cư</td><td>12. Biến đổi khí hậu</td></tr>
+          <tr><td>3. Định danh địa điểm</td><td>13. Cán bộ, công chức, viên chức</td></tr>
+          <tr><td>4. Danh tính điện tử</td><td>14. An sinh xã hội</td></tr>
+          <tr><td>5. Xuất nhập cảnh</td><td>15. Tài liệu lưu trữ phông lưu trữ nhà nước</td></tr>
+          <tr><td>6. Xử lý vi phạm hành chính</td><td>16. Thủ tục hành chính</td></tr>
+          <tr><td>7. Trí tuệ nhân tạo</td><td>17. Hoạt động xây dựng</td></tr>
+          <tr><td>8. Tài chính</td><td>18. Y tế</td></tr>
+          <tr><td>9. Đăng ký doanh nghiệp</td><td>19. Giáo dục và đào tạo</td></tr>
+          <tr><td>10. Bảo hiểm</td><td>20. Kiểm soát tài sản, thu nhập</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sec">06 miền dữ liệu cơ bản (QĐ 2439)</h3>
+      <p style="font-size:12.8px;color:var(--dim);margin:6px 0 0">Miền <b style="color:var(--txt)">Con người</b> là trung tâm, liên kết với các miền còn lại: Tổ chức/Doanh nghiệp · Địa chỉ – Địa chính · Nền địa lý/Bản đồ · Tài sản · và các miền chuyên ngành. Ưu tiên phát triển đến 2030 tại Trung tâm dữ liệu quốc gia.</p>
+
+      <h3 class="sec">Bốn số liệu cần nhớ khi viết tờ trình</h3>
+      <div class="boxes">
+        <div class="box hi"><b>79</b> nền tảng số dùng chung QG</div>
+        <div class="box hi"><b>17 + 62</b> Nhóm A và Nhóm B</div>
+        <div class="box hi"><b>20</b> CSDL quốc gia</div>
+        <div class="box hi"><b>04</b> lớp kiến trúc thống nhất</div>
+        <div class="box hi"><b>06</b> miền dữ liệu cơ bản</div>
+        <div class="box hi"><b>06</b> tháng hạn ban hành khung cấp tỉnh</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">Năm hàm ý thực tiễn</h3>
+  <ul>
+    <li><b>Mọi đề xuất đầu tư đều phải trả lời "đã có thành phần dùng chung chưa?".</b> Từ nay có hai danh mục cụ thể để đối chiếu: 79 nền tảng (QĐ 1132) và 20 CSDL quốc gia (QĐ 11/2026). Nếu có mà vẫn đề xuất làm mới, hồ sơ phải chứng minh việc kế thừa/nâng cấp không đáp ứng được yêu cầu quản lý, kỹ thuật, an ninh mạng hoặc yêu cầu đặc thù theo luật.</li>
+    <li><b>Thẩm định tuân thủ kiến trúc là bước bắt buộc trong toàn vòng đời dự án</b> — từ đề xuất, thiết kế, triển khai, vận hành, nâng cấp đến kết thúc sử dụng; giám sát trên Hệ thống quản lý kiến trúc số quốc gia (NAS) do Bộ KH&amp;CN vận hành.</li>
+    <li><b>API First là yêu cầu thiết kế, không phải tùy chọn.</b> API phải được đăng ký, công bố, quản lý vòng đời, phân quyền, quản lý phiên bản và truy vết. Tài liệu hướng dẫn cấp xã còn nêu nền tảng <code>V-APEX</code> — mọi hệ thống, kể cả cấp xã, phải đăng ký và công bố API.</li>
+    <li><b>Đo lường chuyển sang tự động.</b> KPI ưu tiên thu thập tự động từ dữ liệu vận hành hệ thống, hạn chế tối đa báo cáo thủ công. Hệ thống nào không xuất được số liệu vận hành sẽ trở thành điểm yếu khi đánh giá.</li>
+    <li><b>Danh mục 79 sẽ thay đổi.</b> Bộ KH&amp;CN được giao định kỳ đề xuất điều chỉnh. Khi viết báo cáo nên ghi kèm mốc "tại thời điểm QĐ 1132 ngày 24/6/2026" và thiết kế cơ chế rà soát định kỳ trong khung của tỉnh.</li>
+  </ul>
+
+  <div class="note" style="margin-top:22px">
+    <b>Lưu ý về nguồn:</b> Nội dung các tab ① → ⑦ trích trực tiếp từ các văn bản gốc nêu trên. Tab ⑧ tổng hợp từ báo chí và cổng thông tin địa phương — số liệu Sơn La, Thanh Hóa, Cần Thơ mang tính tham chiếu tại thời điểm công bố, nên đối chiếu lại với báo cáo chính thức của tỉnh trước khi đưa vào tờ trình. Khung QTQL dữ liệu Bộ GD&amp;ĐT là bản dự thảo hoàn thiện, cần kiểm tra số hiệu quyết định ban hành chính thức trước khi trích dẫn.
+  </div>
+</section>
+
+</main>
+
+<div class="ov" id="ov"><div class="modal" id="md"></div></div>
+
+<script>
+/* ===================== 79 NỀN TẢNG ===================== */
+const P=[
+// Nhóm A — 17
+[1,'A','Nền tảng điện toán đám mây trong Trung tâm dữ liệu quốc gia',1,'Bộ Công an','Tỉnh ưu tiên đưa hệ thống lên đây thay vì mở rộng TTDL riêng. QĐ 1425: chỉ xây TTDL mới khi thật sự cần thiết.'],
+[2,'A','Trung tâm tính toán hiệu năng cao của Trung tâm dữ liệu quốc gia',1,'Bộ Công an','Tỉnh khai thác cho tác vụ AI, phân tích dữ liệu lớn — không đầu tư cụm tính toán riêng.'],
+[3,'A','Nền tảng SOC quốc gia thế hệ mới (Nền tảng điều hành an ninh mạng quốc gia)',1,'Bộ Công an','SOC cấp tỉnh kết nối lên, không xây hệ thống điều hành ANM cấp quốc gia song song.'],
+[4,'A','Hệ thống phòng vệ mạng quốc gia',1,'Bộ Công an','Cung cấp WAF QG, chống DDoS tập trung, chặn bot, bảo vệ API. Cơ quan nhà nước KHÔNG cần đầu tư giải pháp tính năng tương tự.'],
+[5,'A','Nền tảng số Từ điển dữ liệu dùng chung',2,'Bộ Công an','Tỉnh phải ánh xạ Từ điển dữ liệu cấp tỉnh vào đây — điều kiện bắt buộc để chia sẻ dữ liệu lên trên.'],
+[6,'A','Nền tảng định danh và xác thực điện tử',2,'Bộ Công an','Mọi hệ thống của tỉnh, xã phải dùng làm cơ chế định danh duy nhất. Không xây SSO riêng thay thế.'],
+[7,'A','Nền tảng chia sẻ, điều phối dữ liệu của Trung tâm dữ liệu quốc gia (NDOP)',2,'Bộ Công an','LGSP/LDOP cấp tỉnh kết nối lên qua AGN. Mọi chia sẻ dữ liệu bắt buộc đi qua đây.'],
+[8,'A','Nền tảng tích hợp, chia sẻ dữ liệu quốc gia (NDXP)',2,'Bộ Khoa học và Công nghệ','Kênh khai thác CSDL quốc gia và chuyên ngành cho tỉnh, xã.'],
+[9,'A','Nền tảng chuỗi khối (blockchain) quốc gia',2,'Bộ Công an','Tỉnh dùng chung khi có nhu cầu về xác thực, truy xuất nguồn gốc — không xây blockchain riêng.'],
+[10,'A','Trục liên thông văn bản quốc gia',3,'Văn phòng Chính phủ','ĐIỂM RÀ SOÁT: hệ thống QLVB&ĐH cấp tỉnh KHÔNG nằm trong danh mục Lớp 3 cấp tỉnh của QĐ 1425. Hệ thống hiện có tiếp tục vận hành và kết nối lên Trục liên thông văn bản QG để liên thông 4 cấp; không đầu tư mở rộng, ưu tiên hợp nhất các hệ thống QLVB trùng lặp trong tỉnh.'],
+[11,'A','Nền tảng quản lý dữ liệu thống kê',3,'Bộ Tài chính','Thay thế các hệ thống báo cáo thống kê rời rạc cấp tỉnh.'],
+[12,'A','Hệ thống Công báo điện tử nước CHXHCN Việt Nam',3,'Văn phòng Chính phủ','Công báo cấp tỉnh cân nhắc tích hợp thay vì duy trì hệ thống riêng.'],
+[13,'A','Trợ lý ảo quốc gia',3,'Bộ Công an','Cấp xã bắt buộc có công cụ hỗ trợ tác nghiệp số — ưu tiên khai thác trợ lý ảo QG, không mua riêng.'],
+[14,'A','Cổng Pháp luật quốc gia',3,'Bộ Tư pháp','Kênh tra cứu pháp luật thống nhất cho cán bộ và người dân.'],
+[15,'A','Cổng Dịch vụ công quốc gia',4,'Bộ Công an','Một trong hai kênh giao tiếp chính thức. HTTT giải quyết TTHC của tỉnh phải kết nối, đồng bộ.'],
+[16,'A','Nền tảng VNeID',4,'Bộ Công an','Kênh giao tiếp chính trên di động. Xã có nhiệm vụ hỗ trợ người dân kích hoạt định danh điện tử.'],
+[17,'A','Cổng dữ liệu quốc gia',4,'Bộ Công an','Cổng dữ liệu mở của tỉnh cần đồng bộ, tránh trùng lặp chức năng công bố dữ liệu mở.'],
+// Nhóm B — 62 (Lớp 3)
+[18,'B','Hệ thống thông tin giải quyết TTHC của Đảng trên môi trường điện tử',3,'Văn phòng Trung ương Đảng','Ngành dọc — tỉnh không đầu tư song song.'],
+[19,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Công an','TTHC theo mô hình tập trung tại bộ: hệ thống của tỉnh KHÔNG tiếp nhận, chỉ đồng bộ dữ liệu về để tra cứu, thống kê.'],
+[20,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Quốc phòng','Như trên.'],
+[21,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Ngoại giao','Như trên.'],
+[22,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Nội vụ','Như trên.'],
+[23,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Tư pháp','Như trên.'],
+[24,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Tài chính','Như trên.'],
+[25,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Công Thương','Như trên.'],
+[26,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Nông nghiệp và Môi trường','Như trên.'],
+[27,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Xây dựng','Như trên.'],
+[28,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Văn hóa, Thể thao và Du lịch','Như trên.'],
+[29,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Khoa học và Công nghệ','Như trên.'],
+[30,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Giáo dục và Đào tạo','Như trên.'],
+[31,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Y tế','Như trên.'],
+[32,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Bộ Dân tộc và Tôn giáo','Như trên.'],
+[33,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Ngân hàng Nhà nước Việt Nam','Như trên.'],
+[34,'B','Hệ thống thông tin giải quyết thủ tục hành chính',3,'Thanh tra Chính phủ','Như trên.'],
+[35,'B','Hệ thống thông tin điều hành tác nghiệp trong các cơ quan Đảng',3,'Văn phòng Trung ương Đảng','Cơ quan Đảng cấp tỉnh, xã khai thác theo ngành dọc.'],
+[36,'B','Hệ thống thông tin lĩnh vực tổ chức – xây dựng Đảng',3,'Văn phòng Trung ương Đảng','Ngành dọc.'],
+[37,'B','Phần mềm theo dõi tình hình thực hiện Nghị quyết, Chỉ thị, Kết luận của Trung ương',3,'Văn phòng Trung ương Đảng','Ngành dọc.'],
+[38,'B','Hệ thống quản lý đấu giá tài sản',3,'Bộ Công an','Tỉnh không xây hệ thống đấu giá tài sản riêng.'],
+[39,'B','Nền tảng tài chính số quốc gia (CSDL tổng hợp về Tài chính)',3,'Bộ Tài chính','Sở Tài chính khai thác, không đầu tư kho dữ liệu tài chính riêng trùng phạm vi.'],
+[40,'B','Hệ thống CNTT thực hiện Hải quan số',3,'Bộ Tài chính','Ngành dọc.'],
+[41,'B','Nền tảng Cổng công khai ngân sách nhà nước',3,'Bộ Tài chính','Thay cho các trang công khai ngân sách riêng lẻ cấp tỉnh.'],
+[42,'B','Hệ thống thông tin quản lý thuế',3,'Bộ Tài chính','Ngành dọc.'],
+[43,'B','Hệ thống mạng đấu thầu quốc gia',3,'Bộ Tài chính','Tỉnh không xây hệ thống đấu thầu riêng.'],
+[44,'B','Nền tảng quản lý cán bộ công chức, viên chức quốc gia',3,'Bộ Nội vụ','Điểm rà soát quan trọng: sở/ngành đề xuất phần mềm quản lý cán bộ riêng phải đối chiếu với nền tảng này.'],
+[45,'B','Nền tảng số quốc gia về văn thư, lưu trữ',3,'Bộ Nội vụ','Điểm rà soát: hệ thống lưu trữ điện tử cấp tỉnh phải đối chiếu, tránh trùng.'],
+[46,'B','Nền tảng số quản trị giáo dục quốc gia',3,'Bộ Giáo dục và Đào tạo','Sở GD&ĐT khai thác thay vì đầu tư hệ thống quản trị giáo dục riêng.'],
+[47,'B','Nền tảng số pháp luật Việt Nam',3,'Bộ Tư pháp','Ngành dọc.'],
+[48,'B','Nền tảng số quản lý khoa học, công nghệ và đổi mới sáng tạo quốc gia',3,'Bộ Khoa học và Công nghệ','Sở KH&CN khai thác.'],
+[49,'B','Hệ thống thông tin tín dụng quốc gia',3,'Ngân hàng Nhà nước Việt Nam','Ngành dọc.'],
+[50,'B','Hệ thống thông tin ngân sách và kế toán nhà nước số (VDBAS)',3,'Bộ Tài chính','Ngành dọc — áp dụng tới cấp xã trong quản lý tài chính.'],
+[51,'B','Nền tảng/CSDL chuyên ngành quản lý chứng khoán',3,'Bộ Tài chính','Ngành dọc.'],
+[52,'B','Nền tảng số công tác tiếp công dân, xử lý đơn giải quyết khiếu nại, tố cáo',3,'Thanh tra Chính phủ','Điểm rà soát: hệ thống tiếp công dân cấp tỉnh phải đối chiếu, tránh trùng.'],
+[53,'B','Nền tảng số công tác thanh tra',3,'Thanh tra Chính phủ','Thanh tra tỉnh khai thác.'],
+[54,'B','Nền tảng số công tác kiểm soát tài sản, thu nhập',3,'Thanh tra Chính phủ','Ngành dọc.'],
+[55,'B','Nền tảng số công tác phòng, chống tham nhũng, lãng phí, tiêu cực',3,'Thanh tra Chính phủ','Ngành dọc.'],
+[56,'B','Nền tảng số công tác thực hiện trách nhiệm giải trình',3,'Thanh tra Chính phủ','Ngành dọc.'],
+[57,'B','Cổng thông tin một cửa quốc gia',3,'Bộ Tài chính','Ngành dọc — thương mại, xuất nhập khẩu.'],
+[58,'B','Nền tảng quản lý doanh nghiệp quốc gia (CSDLQG về đăng ký doanh nghiệp)',3,'Bộ Tài chính','Tỉnh khai thác dữ liệu doanh nghiệp thay vì tự thu thập lại.'],
+[59,'B','Nền tảng hợp đồng lao động điện tử',3,'Bộ Nội vụ','Xã hỗ trợ hộ kinh doanh, DN sử dụng hợp đồng điện tử qua nền tảng này.'],
+[60,'B','Sàn giao dịch việc làm quốc gia',3,'Bộ Nội vụ','Tỉnh không xây sàn việc làm riêng.'],
+[61,'B','Nền tảng Sổ sức khỏe điện tử',3,'Bộ Y tế','Tích hợp trên VNeID. Cơ sở y tế đồng bộ dữ liệu KCB lên nền tảng này.'],
+[62,'B','Hệ thống thông tin và CSDL quốc gia về An toàn thực phẩm',3,'Bộ Y tế','Sở Y tế, xã khai thác trong quản lý ATTP trên địa bàn.'],
+[63,'B','Nền tảng quốc gia về chăn nuôi và thú y',3,'Bộ Nông nghiệp và Môi trường','Xã nông thôn cập nhật dữ liệu chăn nuôi qua nền tảng này.'],
+[64,'B','Nền tảng quốc gia về trồng trọt và bảo vệ thực vật',3,'Bộ Nông nghiệp và Môi trường','Xã nông thôn cập nhật dữ liệu sản xuất nông nghiệp.'],
+[65,'B','Nền tảng trí tuệ nhân tạo (AI) hỗ trợ phân tích, cảnh báo thiên tai',3,'Bộ Nông nghiệp và Môi trường','Tỉnh, xã khai thác cảnh báo — không xây hệ thống cảnh báo thiên tai AI riêng.'],
+[66,'B','Nền tảng trí tuệ nhân tạo (AI) hỗ trợ ứng phó với biến đổi khí hậu',3,'Bộ Nông nghiệp và Môi trường','Khai thác chung.'],
+[67,'B','Nền tảng trí tuệ nhân tạo (AI) hỗ trợ bảo vệ môi trường',3,'Bộ Nông nghiệp và Môi trường','Điểm rà soát: hệ thống quan trắc, giám sát môi trường cấp tỉnh cần tích hợp thay vì làm mới toàn bộ.'],
+[68,'B','Nền tảng quản lý thương mại và thị trường',3,'Bộ Công Thương','Sở Công Thương khai thác.'],
+[69,'B','Nền tảng quản lý cơ sở dữ liệu quốc gia về di sản văn hóa',3,'Bộ Văn hóa, Thể thao và Du lịch','Xã đưa di sản văn hóa địa phương lên môi trường số qua nền tảng này.'],
+[70,'B','Nền tảng Quản trị và Kinh doanh du lịch',3,'Bộ Văn hóa, Thể thao và Du lịch','Điểm rà soát: giải pháp CĐS du lịch cấp tỉnh phải đối chiếu, tránh trùng.'],
+[71,'B','Nền tảng/Cơ sở dữ liệu dân tộc',3,'Bộ Dân tộc và Tôn giáo','Xã miền núi, biên giới cập nhật dữ liệu dân tộc và chính sách xã hội.'],
+[72,'B','Nền tảng/Cơ sở dữ liệu tôn giáo',3,'Bộ Dân tộc và Tôn giáo','Ngành dọc.'],
+[73,'B','Hệ thống thông tin quốc gia về khoa học, công nghệ và đổi mới sáng tạo',3,'Bộ Khoa học và Công nghệ','Sở KH&CN khai thác.'],
+[74,'B','Hệ thống thanh toán điện tử liên ngân hàng',3,'Ngân hàng Nhà nước Việt Nam','Nền tảng hạ tầng cho thanh toán không dùng tiền mặt tại xã.'],
+[75,'B','Nền tảng quản lý hệ thống giao thông thông minh đường bộ',3,'Bộ Xây dựng','Điểm rà soát quan trọng: hệ thống đèn giao thông thông minh, bãi đỗ xe, vé điện tử GTCC cấp tỉnh phải đối chiếu.'],
+[76,'B','Nền tảng phát thanh số quốc gia',3,'Đài Tiếng nói Việt Nam','Hệ thống truyền thanh cơ sở và HTTT nguồn cấp tỉnh cần đối chiếu, bảo đảm liên thông.'],
+[77,'B','Nền tảng truyền hình số trực tuyến quốc gia VTVGo',3,'Đài Truyền hình Việt Nam','Ngành dọc.'],
+[78,'B','Nền tảng dữ liệu đo lường hành vi khán giả xem truyền hình (VTV Big Data, VTV Rating)',3,'Đài Truyền hình Việt Nam','Ngành dọc.'],
+[79,'B','Nền tảng giáo dục thông minh quốc gia',3,'Bộ Giáo dục và Đào tạo','Sở GD&ĐT khai thác; xã triển khai học trực tuyến trên nền tảng này.']
+];
+
+const LNAME={1:'Lớp 1',2:'Lớp 2',3:'Lớp 3',4:'Lớp 4'};
+const pbody=document.getElementById('pbody'),q=document.getElementById('q'),fg=document.getElementById('fg'),fl=document.getElementById('fl'),fo=document.getElementById('fo'),cnt=document.getElementById('cnt');
+[...new Set(P.map(r=>r[4]))].sort((a,b)=>a.localeCompare(b,'vi')).forEach(o=>{const e=document.createElement('option');e.textContent=o;fo.appendChild(e)});
+function render(){
+  const s=q.value.trim().toLowerCase(),g=fg.value,l=fl.value,o=fo.value;
+  const rows=P.filter(r=>(!g||r[1]===g)&&(!l||String(r[3])===l)&&(!o||r[4]===o)&&(!s||(r[2]+' '+r[4]).toLowerCase().includes(s)));
+  pbody.innerHTML=rows.map(r=>`<tr>
+    <td>${r[0]}</td><td><span class="pill p-${r[1].toLowerCase()}">${r[1]}</span></td>
+    <td><b>${r[2]}</b></td><td><span class="pill p-l${r[3]}">${LNAME[r[3]]}</span></td>
+    <td>${r[4]}</td><td><small>${r[5]}</small></td></tr>`).join('')
+    ||'<tr><td colspan="6" style="text-align:center;color:var(--dim);padding:24px">Không có nền tảng nào khớp bộ lọc.</td></tr>';
+  const nA=rows.filter(r=>r[1]==='A').length;
+  cnt.innerHTML=`Hiển thị <b>${rows.length}</b>/79 &nbsp;·&nbsp; Nhóm A: ${nA} · Nhóm B: ${rows.length-nA}`;
+}
+[q,fg,fl,fo].forEach(el=>el.addEventListener('input',render));
+render();
+
+/* ===================== MA TRẬN ===================== */
+const DATA={
+ layers:[
+  {id:'l4',name:'Lớp 4 — Kênh tương tác & Đo lường hiệu quả',sub:'Nơi người dùng gặp hệ thống và nơi hiệu quả được đo',color:'var(--l4)'},
+  {id:'l3',name:'Lớp 3 — Ứng dụng & Nghiệp vụ dùng chung',sub:'Chính quyền số · Kinh tế số · Xã hội số',color:'var(--l3)'},
+  {id:'l2',name:'Lớp 2 — Dữ liệu & Nền tảng lõi',sub:'Lớp trung tâm, "trái tim" của kiến trúc',color:'var(--l2)'},
+  {id:'l1',name:'Lớp 1 — Hạ tầng số & An ninh mạng',sub:'Nền tảng vật lý và logic',color:'var(--l1)'}
+ ],
+ cells:{
+"l4-qg":[
+ {t:"Cổng Dịch vụ công quốc gia",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #15. Một trong hai kênh giao tiếp chính thức. Người dân chỉ cần một định danh duy nhất, không phải cung cấp lại thông tin đã có."},
+ {t:"Nền tảng VNeID",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #16. Kênh giao tiếp chính trên di động; phát triển thành hệ sinh thái thống nhất, thiết kế bao trùm (hướng dẫn giọng nói, ngôn ngữ dân tộc thiểu số)."},
+ {t:"Cổng dữ liệu quốc gia",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #17. Cổng công bố, tra cứu, khai thác dữ liệu mở và dữ liệu dùng chung quốc gia."},
+ {t:"Bàn làm việc số",o:"Giao diện Nền tảng điều hành số QG",k:"dc",d:"Kênh làm việc số duy nhất cho cán bộ, công chức, viên chức khi khai thác hệ thống, nền tảng, ứng dụng dùng chung."},
+ {t:"Cổng TTĐT một cửa về trí tuệ nhân tạo",o:"—",k:"dc",d:"Đầu mối thống nhất về AI."},
+ {t:"Hệ thống quản lý kiến trúc số QG (NAS)",o:"Bộ KH&CN",k:"dc",d:"Nơi công bố, cập nhật, quản lý phiên bản, tham chiếu Khung kiến trúc số; theo dõi tình trạng triển khai và mức độ tuân thủ trên toàn quốc. Tỉnh phải đăng ký khung của mình tại đây."},
+ {t:"Nền tảng thống kê, đo lường, giám sát CĐS",o:"—",k:"dc",d:"Thu thập tự động dữ liệu vận hành phục vụ Bộ chỉ số KPI."},
+ {t:"Bộ chỉ số đo lường kết quả (KPI)",o:"Bộ KH&CN chủ trì",k:"dc",d:"5 trục: Tuân thủ kiến trúc · Liên thông & tích hợp · Quản trị & vận hành · Kỹ thuật & an toàn · Kết quả triển khai."}
+],
+"l4-bo":[
+ {t:"Khai thác kênh dùng chung QG",o:"",k:"kt",d:"Bộ khai thác Cổng DVCQG, VNeID, Cổng dữ liệu QG, Bàn làm việc số, NAS."},
+ {t:"Cổng TTĐT của bộ, cơ quan ngang bộ",o:"Bộ chủ quản",k:"dr",d:""},
+ {t:"Dashboard giám sát, điều hành cấp bộ",o:"Bộ chủ quản",k:"dr",d:""},
+ {t:"Bộ chỉ số KPI cấp bộ",o:"Bộ chủ quản",k:"dr",d:""}
+],
+"l4-tinh":[
+ {t:"Khai thác kênh dùng chung QG",o:"",k:"kt",d:"Cổng DVCQG, VNeID, Cổng dữ liệu QG, Bàn làm việc số."},
+ {t:"Cổng TTĐT của UBND cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Kênh tương tác chính thức của chính quyền địa phương."},
+ {t:"Dashboard / IOC cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Áp dụng thống nhất tiêu chí, phương pháp, cấu trúc dữ liệu đo lường; ưu tiên trích xuất tự động thời gian thực; API mở."},
+ {t:"Bộ chỉ số KPI cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Kèm cơ chế tổng hợp báo cáo, đánh giá mức độ CĐS cấp xã."},
+ {t:"Ứng dụng DVCTT cấp tỉnh · kênh phản ánh, kiến nghị",o:"UBND tỉnh",k:"dr",d:"Nếu triển khai tập trung."}
+],
+"l4-xa":[
+ {t:"Bộ phận Một cửa điện tử",o:"UBND xã",k:"dr",d:"Bắt buộc."},
+ {t:"Trang / cổng TTĐT cấp xã",o:"UBND xã",k:"dr",d:"Bắt buộc."},
+ {t:"Kênh tiếp nhận phản ánh, kiến nghị",o:"UBND xã",k:"dr",d:"Bắt buộc."},
+ {t:"Khảo sát mức độ hài lòng & thu thập minh chứng",o:"UBND xã",k:"dr",d:"Bắt buộc — phục vụ đo lường KPI."},
+ {t:"Khai thác Cổng DVCQG · VNeID · Dashboard tỉnh",o:"",k:"kt",d:"Không xây kênh riêng trùng lặp."}
+],
+"l3-qg":[
+ {t:"Trục liên thông văn bản quốc gia",o:"Văn phòng Chính phủ",k:"dc",nt:1,d:"Nhóm A #10. Liên thông văn bản điện tử toàn hệ thống chính trị, 4 cấp."},
+ {t:"Trợ lý ảo quốc gia",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #13. Cấp xã bắt buộc có công cụ hỗ trợ tác nghiệp số — ưu tiên khai thác nền tảng này."},
+ {t:"Nền tảng quản lý dữ liệu thống kê",o:"Bộ Tài chính",k:"dc",nt:1,d:"Nhóm A #11."},
+ {t:"Hệ thống Công báo điện tử",o:"Văn phòng Chính phủ",k:"dc",nt:1,d:"Nhóm A #12."},
+ {t:"Cổng Pháp luật quốc gia",o:"Bộ Tư pháp",k:"dc",nt:1,d:"Nhóm A #14."},
+ {t:"Nền tảng điều hành số quốc gia",o:"Bộ Công an",k:"dc",d:"Triển khai theo lộ trình, kế thừa tối đa hệ thống, dữ liệu và hạ tầng hiện có; không làm gián đoạn hoạt động cơ quan và tính liên tục của dịch vụ công."},
+ {t:"Thành phần dùng chung phục vụ giải quyết TTHC",o:"—",k:"dc",d:"Hệ thống TTHC của bộ và tỉnh phải ưu tiên sử dụng, tích hợp và tái sử dụng năng lực của thành phần này."},
+ {t:"17 HTTT giải quyết TTHC của các bộ",o:"Các bộ, TTCP, NHNN, VPTW Đảng",k:"dc",nt:1,d:"Nhóm B #18–34. TTHC theo mô hình tập trung tại bộ thì hệ thống của địa phương KHÔNG tiếp nhận, giải quyết — chỉ đồng bộ dữ liệu về qua Cổng DVCQG để tra cứu, thống kê, đánh giá."},
+ {t:"Nền tảng quản lý CBCCVC quốc gia",o:"Bộ Nội vụ",k:"dc",nt:1,d:"Nhóm B #44. Điểm rà soát quan trọng với phần mềm quản lý cán bộ của tỉnh."},
+ {t:"Nền tảng số QG về văn thư, lưu trữ",o:"Bộ Nội vụ",k:"dc",nt:1,d:"Nhóm B #45. Điểm rà soát với hệ thống lưu trữ điện tử cấp tỉnh."},
+ {t:"Nhóm nền tảng tài chính – thuế – hải quan – đấu thầu – ngân sách",o:"Bộ Tài chính",k:"dc",nt:1,d:"Nhóm B #39–43, #50, #51, #57, #58. Bao gồm Nền tảng tài chính số QG, Hải quan số, Cổng công khai NSNN, HTTT quản lý thuế, Mạng đấu thầu QG, VDBAS, quản lý chứng khoán, Cổng một cửa QG, quản lý doanh nghiệp QG."},
+ {t:"Nhóm nền tảng thanh tra – tiếp công dân – phòng chống tham nhũng",o:"Thanh tra Chính phủ",k:"dc",nt:1,d:"Nhóm B #52–56."},
+ {t:"Thư điện tử công vụ thống nhất · Nền tảng họp trực tuyến QG",o:"—",k:"dc",d:"Thay thế các hệ thống email và họp trực tuyến rời rạc."},
+ {t:"Nhóm Kinh tế số – Xã hội số quốc gia",o:"Bộ Y tế, Bộ Nội vụ, Bộ GD&ĐT, Bộ NN&MT, Bộ VHTT&DL, Bộ Công Thương, Bộ Dân tộc và Tôn giáo, Bộ Xây dựng, NHNN, VOV, VTV",k:"dc",nt:1,d:"Nhóm B #59–79: Sổ sức khỏe điện tử, ATTP, hợp đồng lao động điện tử, sàn việc làm QG, chăn nuôi – thú y, trồng trọt – BVTV, 3 nền tảng AI (thiên tai, biến đổi khí hậu, môi trường), thương mại và thị trường, di sản văn hóa, du lịch, dân tộc, tôn giáo, KHCN&ĐMST, thanh toán liên ngân hàng, giao thông thông minh đường bộ, phát thanh số QG, VTVGo, VTV Big Data, giáo dục thông minh QG."},
+ {t:"Nền tảng Bình dân học vụ số",o:"—",k:"dc",d:"Phổ cập kỹ năng số toàn dân."}
+],
+"l3-bo":[
+ {t:"Khai thác ứng dụng dùng chung QG",o:"",k:"kt",d:""},
+ {t:"HTTT phục vụ chỉ đạo, điều hành cấp bộ",o:"Bộ chủ quản",k:"dr",d:""},
+ {t:"HTTT giải quyết TTHC của bộ, ngành",o:"Bộ chủ quản",k:"dr",nt:1,d:"Thuộc Nhóm B. Phải ưu tiên tích hợp và tái sử dụng Thành phần dùng chung phục vụ giải quyết TTHC; kết nối Cổng DVCQG và các CSDL chuyên ngành."},
+ {t:"HTTT, ứng dụng nghiệp vụ theo chức năng của bộ, ngành",o:"Bộ chủ quản",k:"dr",d:"Không trùng lặp với hệ thống dùng chung đã có do cơ quan khác chủ trì."},
+ {t:"Nền tảng AI cấp bộ",o:"Bộ chủ quản",k:"dr",d:"Theo hướng tích hợp, dùng chung và mở rộng năng lực Nền tảng AI dùng chung quốc gia."},
+ {t:"Ứng dụng hỗ trợ hoạt động nội bộ",o:"Bộ chủ quản",k:"dr",d:""}
+],
+"l3-tinh":[
+ {t:"Khai thác 79 nền tảng dùng chung QG",o:"",k:"kt",d:"Trước mọi đề xuất đầu tư ở lớp này, tỉnh phải đối chiếu với danh mục 79 nền tảng. QĐ 1132 cấm đầu tư hệ thống có chức năng, mục tiêu, phạm vi sử dụng tương tự."},
+ {t:"HTTT giải quyết TTHC của địa phương",o:"UBND tỉnh — ĐANG CHUYỂN ĐỔI",k:"dr",d:"QĐ 1425 nêu: 'Việc thay đổi mô hình tổ chức hệ thống được thực hiện theo quyết định của cấp có thẩm quyền và lộ trình chuyển đổi được phê duyệt, bảo đảm kế thừa dữ liệu, quy trình và kết quả đầu tư hiện có, không làm gián đoạn việc tiếp nhận, giải quyết và trả kết quả TTHC.' Ghi chú kèm theo: hệ thống của địa phương KHÔNG tiếp nhận, giải quyết các TTHC đã cung cấp DVCTT theo mô hình tập trung tại hệ thống của bộ, ngành — chỉ đồng bộ dữ liệu về qua Cổng DVCQG để tra cứu, thống kê, tổng hợp, đánh giá. THỰC TẾ TRIỂN KHAI: mô hình tập trung từ TW đến địa phương, mỗi bộ 01 hệ thống dùng chung cho toàn ngành; chạy thí điểm 01/3–30/6/2026, vận hành chính thức toàn quốc từ 01/7/2026."},
+ {t:"HTTT phục vụ chỉ đạo, điều hành cấp tỉnh",o:"UBND tỉnh",k:"dr",d:""},
+ {t:"HTTT, ứng dụng nghiệp vụ của các sở, ngành",o:"Sở chuyên ngành",k:"dr",d:"Phải phù hợp Khung KTTT QG số, Khung kiến trúc số cấp tỉnh, mô hình dữ liệu, yêu cầu kết nối – chia sẻ; ưu tiên kế thừa, mở rộng nền tảng dùng chung, tránh trùng lặp chức năng và dữ liệu."},
+ {t:"Trung tâm giám sát, điều hành thông minh (IOC) cấp tỉnh",o:"UBND tỉnh",k:"dr",d:""},
+ {t:"Hệ thống thông tin nguồn cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Phục vụ thông tin cơ sở, truyền thanh số. Cần đối chiếu với Nền tảng phát thanh số quốc gia (Nhóm B #76)."},
+ {t:"Nền tảng AI cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Theo hướng tích hợp và mở rộng Nền tảng AI dùng chung QG; ưu tiên khai thác hạ tầng AI quốc gia và HPC của TTDLQG."},
+ {t:"Ứng dụng bản sao số theo lĩnh vực chuyên ngành",o:"UBND tỉnh",k:"dr",d:"Phục vụ quản lý không gian, quy hoạch và ra quyết định."},
+ {t:"Nhóm KT số – XH số (tham chiếu, không bắt buộc)",o:"UBND tỉnh",k:"dr",d:"Bản đồ số nông nghiệp · chiếu sáng thông minh · CĐS du lịch · quan trắc & giám sát môi trường · vé điện tử GTCC · bãi đỗ xe thông minh · đèn giao thông thông minh · logistics tỉnh. Lưu ý đối chiếu với các nền tảng Nhóm B tương ứng."},
+ {t:"Không gian làm việc số / Bàn làm việc số cấp tỉnh",o:"⚠ MÂU THUẪN VĂN BẢN — xem chi tiết",k:"kt",d:"CẢNH BÁO: thành phần này KHÔNG có trong danh mục Lớp 3 cấp tỉnh của QĐ 1425. Nguồn duy nhất là Tài liệu hướng dẫn Mô hình CĐS cấp xã (BKHCN, mục 5.2 điểm d). Trong khi đó QĐ 1425 — ban hành sau, cấp Thủ tướng — quy định tại Lớp 4 quốc gia: 'Giao diện tương tác của Nền tảng điều hành số quốc gia (Bàn làm việc số): là kênh tương tác dùng chung giữa các cơ quan nhà nước, là KÊNH LÀM VIỆC SỐ DUY NHẤT cho cán bộ, công chức, viên chức khi khai thác và sử dụng các hệ thống, nền tảng và ứng dụng dùng chung'. Khuyến nghị: tỉnh KHÔNG đầu tư Bàn làm việc số riêng; tích hợp các hệ thống của tỉnh vào Bàn làm việc số quốc gia theo lộ trình Nền tảng điều hành số quốc gia (Bộ Công an chủ trì)."},
+ {t:"Hệ thống QLVB và điều hành · thư điện tử công vụ · họp trực tuyến cấp tỉnh",o:"⚠ Đối chiếu nền tảng dùng chung QG",k:"kt",d:"Ba thành phần này cũng KHÔNG nằm trong danh mục Lớp 3 cấp tỉnh của QĐ 1425 — nguồn là Tài liệu hướng dẫn Mô hình CĐS cấp xã mục 4.1 điểm b. QĐ 1425 đặt ở cấp quốc gia: Trục liên thông văn bản quốc gia (Nhóm A #10, VPCP) · Hệ thống thư điện tử (email) công vụ thống nhất · Nền tảng họp trực tuyến quốc gia. Khuyến nghị: hệ thống hiện có của tỉnh tiếp tục vận hành và kết nối lên nền tảng quốc gia; không đầu tư mở rộng, chờ lộ trình hợp nhất."}
+],
+"l3-xa":[
+ {t:"Xử lý hồ sơ công việc điện tử · Ký số văn bản",o:"UBND xã",k:"dr",d:"Bắt buộc."},
+ {t:"Giải quyết TTHC trực tuyến theo lộ trình",o:"UBND xã",k:"dr",d:"Bắt buộc."},
+ {t:"Thực hiện báo cáo số",o:"UBND xã",k:"dr",d:"Bắt buộc."},
+ {t:"Vận hành Bộ phận Một cửa điện tử",o:"UBND xã",k:"dr",d:"Bắt buộc."},
+ {t:"Công cụ hỗ trợ tác nghiệp số cho cán bộ",o:"Tỉnh/TW cung cấp",k:"kt",d:"Trợ lý ảo, tra cứu dữ liệu, tổng hợp thông tin, hỗ trợ soạn thảo văn bản, trợ giúp quy trình công vụ. Ưu tiên khai thác Trợ lý ảo quốc gia."},
+ {t:"Hỗ trợ hộ kinh doanh, DN chuyển đổi số · thanh toán số · tên miền .vn · hợp đồng điện tử",o:"UBND xã",k:"dr",d:"Nhóm Kinh tế số, bắt buộc tối thiểu. Hợp đồng điện tử dùng Nền tảng hợp đồng lao động điện tử QG."},
+ {t:"Điểm hỗ trợ CĐS · Tổ công nghệ số cộng đồng · kích hoạt định danh điện tử",o:"UBND xã",k:"dr",d:"Nhóm Xã hội số, bắt buộc tối thiểu."},
+ {t:"Khai thác QLVB&ĐH · thư công vụ · họp trực tuyến · chữ ký số",o:"Tỉnh cung cấp — đang chuyển lên QG",k:"kt",d:"Xã không tự đầu tư. Lưu ý: ba thành phần QLVB&ĐH, thư điện tử công vụ và họp trực tuyến đang chuyển dần lên nền tảng dùng chung quốc gia (Trục liên thông văn bản QG, Hệ thống thư điện tử công vụ thống nhất, Nền tảng họp trực tuyến QG). Xã tiếp tục dùng hệ thống của tỉnh cho đến khi có lộ trình chuyển đổi."}
+],
+"l2-qg":[
+ {t:"Cơ sở dữ liệu tổng hợp quốc gia",o:"Bộ Công an – TTDLQG",k:"dc",d:"Hạt nhân của toàn bộ kiến trúc dữ liệu. Các CSDL quốc gia, dùng chung, chuyên ngành và HTTT của các cơ quan là hệ thống vệ tinh cung cấp dữ liệu cho CSDL này."},
+ {t:"20 CSDL quốc gia (QĐ 11/2026)",o:"Các bộ chủ quản",k:"dc",d:"Dân cư · định danh địa điểm · danh tính điện tử · xuất nhập cảnh · xử lý VPHC · AI · tài chính · đăng ký DN · bảo hiểm · đất đai · biến đổi khí hậu · CBCCVC · an sinh xã hội · tài liệu lưu trữ · TTHC · hoạt động xây dựng · y tế · giáo dục & đào tạo · kiểm soát tài sản, thu nhập · và CSDL tổng hợp QG."},
+ {t:"Nền tảng số Từ điển dữ liệu dùng chung",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #5. Tỉnh phải ánh xạ Từ điển dữ liệu cấp tỉnh vào đây — điều kiện bắt buộc để chia sẻ dữ liệu lên trên."},
+ {t:"NDXP — Nền tảng tích hợp, chia sẻ dữ liệu QG",o:"Bộ KH&CN",k:"dc",nt:1,d:"Nhóm A #8. Nền tảng trung gian kết nối, chia sẻ dữ liệu giữa các HTTT, CSDL của cơ quan nhà nước."},
+ {t:"NDOP — Nền tảng chia sẻ, điều phối dữ liệu của TTDLQG",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #7. Mọi hoạt động kết nối, chia sẻ dữ liệu BẮT BUỘC phải thực hiện qua NDOP để giám sát, truy vết và đánh giá hiệu quả. Gồm 3 thành phần Tích hợp – Phân phối – Chia sẻ, cùng AGN đặt tại từng cơ quan."},
+ {t:"Nền tảng định danh và xác thực điện tử",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #6."},
+ {t:"Nền tảng chuỗi khối (blockchain) quốc gia",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #9."},
+ {t:"CSDL quốc gia về AI · về hệ thống AI",o:"—",k:"dc",d:""},
+ {t:"Bản đồ số quốc gia & hệ thống mã bưu chính",o:"—",k:"dc",d:"Bảo đảm định vị chính xác."},
+ {t:"Nền tảng phân tích dữ liệu lớn & AI dùng chung",o:"—",k:"dc",d:"Hỗ trợ phát triển, huấn luyện, tinh chỉnh, triển khai, giám sát và quản trị mô hình AI; chia sẻ bộ tri thức, mô hình AI chuyên ngành, tài nguyên AI dùng chung qua API chuẩn."}
+],
+"l2-bo":[
+ {t:"Khai thác dữ liệu & nền tảng lõi QG",o:"",k:"kt",d:""},
+ {t:"Kho dữ liệu dùng chung cấp bộ",o:"Bộ chủ quản",k:"dr",d:""},
+ {t:"Kho quản lý dữ liệu điện tử của tổ chức, cá nhân",o:"Bộ chủ quản",k:"dr",d:"Nền tảng thực thi nguyên tắc khai báo một lần, sử dụng nhiều lần."},
+ {t:"CSDL dùng chung & CSDL chuyên ngành cấp bộ",o:"Bộ chủ quản",k:"dr",d:""},
+ {t:"Khung KTDL cấp bộ · Khung quản trị dữ liệu · Từ điển dữ liệu cấp bộ",o:"Bộ chủ quản",k:"dr",d:"Phải đồng bộ với Khung KTDL quốc gia và Từ điển dữ liệu dùng chung."},
+ {t:"LGSP / LDOP cấp bộ",o:"Bộ chủ quản",k:"dr",d:"Kết nối, chia sẻ dữ liệu giữa các HTTT, CSDL trong cùng cơ quan cấp bộ."},
+ {t:"Nền tảng tổng hợp, phân tích dữ liệu cấp bộ",o:"Bộ chủ quản",k:"dr",d:""}
+],
+"l2-tinh":[
+ {t:"Khai thác dữ liệu & nền tảng lõi QG",o:"",k:"kt",d:"Khai thác 20 CSDL QG, CSDL tổng hợp QG, NDXP/NDOP, định danh & xác thực, bản đồ số QG, blockchain QG."},
+ {t:"Kho dữ liệu dùng chung cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Nơi tập trung dữ liệu từ tất cả CSDL của sở, ngành; nguồn cấp cho IOC và cổng dữ liệu mở."},
+ {t:"Từ điển dữ liệu dùng chung cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"BẮT BUỘC. Phải ánh xạ với Từ điển dữ liệu dùng chung quốc gia — điều kiện kỹ thuật để dữ liệu của tỉnh chia sẻ được lên NDOP."},
+ {t:"Khung KTDL cấp tỉnh · Khung quản trị, quản lý dữ liệu cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Kèm Cơ chế quản trị dữ liệu cấp tỉnh và Danh mục dữ liệu cấp xã phải cập nhật."},
+ {t:"Kho quản lý dữ liệu điện tử của tổ chức, cá nhân",o:"UBND tỉnh",k:"dr",d:""},
+ {t:"CSDL dùng chung & CSDL chuyên ngành cấp tỉnh",o:"Sở, ngành",k:"dr",d:"Phải ban hành theo danh mục, chuẩn hóa theo Từ điển dữ liệu dùng chung."},
+ {t:"LGSP / LDOP cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Cửa ngõ duy nhất giữa hệ thống trong tỉnh với nền tảng quốc gia, qua AGN."},
+ {t:"Nền tảng tổng hợp, phân tích dữ liệu cấp tỉnh",o:"UBND tỉnh",k:"dr",d:""},
+ {t:"Nền tảng kết nối thiết bị IoT · Nền tảng quản lý video (VMS)",o:"UBND tỉnh",k:"dr",d:""}
+],
+"l2-xa":[
+ {t:"Số hóa hồ sơ & kết quả giải quyết TTHC",o:"UBND xã",k:"dr",d:"Bắt buộc. Lưu trữ, tra cứu và tái sử dụng dữ liệu số theo quy trình một cửa điện tử — dữ liệu liên thông giữa các phòng/ban để người dân không phải nộp lại kết quả TTHC đã có."},
+ {t:"Cập nhật dữ liệu KT-XH địa phương & dữ liệu quản lý địa bàn",o:"UBND xã",k:"dr",d:"Bắt buộc. Theo danh mục, biểu mẫu số do cấp tỉnh ban hành."},
+ {t:"Chuẩn hóa, lưu trữ, chia sẻ, khai thác dữ liệu",o:"UBND xã",k:"dr",d:"Theo nguyên tắc 'đúng, đủ, sạch, sống, thống nhất, dùng chung'."},
+ {t:"Khai thác CSDL QG & chuyên ngành qua NDXP/NDOP – LGSP/LDOP",o:"",k:"kt",d:""},
+ {t:"Khai thác nền tảng lõi của TW và tỉnh theo thẩm quyền",o:"",k:"kt",d:"Cấp xã không đầu tư nền tảng lõi riêng."}
+],
+"l1-qg":[
+ {t:"Nền tảng điện toán đám mây trong TTDLQG",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #1. Hạ tầng trung tâm cung cấp tài nguyên tính toán, lưu trữ, sao lưu dự phòng tập trung. Ưu tiên sử dụng, hạn chế xây dựng TTDL mới."},
+ {t:"Trung tâm tính toán hiệu năng cao (HPC) của TTDLQG",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #2. Tỉnh khai thác cho tác vụ AI, phân tích dữ liệu lớn."},
+ {t:"Hệ thống phòng vệ mạng quốc gia",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #4. Lớp phòng thủ chủ động tập trung: WAF quốc gia, chống DDoS quy mô lớn, lọc & điều phối lưu lượng thông minh, ngăn bot độc hại, bảo vệ API. Các cơ quan nhà nước KHÔNG cần đầu tư giải pháp tính năng tương tự."},
+ {t:"Nền tảng SOC quốc gia thế hệ mới",o:"Bộ Công an",k:"dc",nt:1,d:"Nhóm A #3. Nền tảng điều hành an ninh mạng quốc gia."},
+ {t:"Trung tâm dữ liệu quốc gia",o:"Bộ Công an",k:"dc",d:"Hạ tầng vật lý nền cho toàn bộ hệ thống."},
+ {t:"Mạng thông tin diện rộng của Đảng",o:"Văn phòng TW Đảng",k:"dc",d:"Độ tin cậy và bảo mật cao nhất; định hướng thành mạng lõi dùng chung cho các kết nối yêu cầu độ mật cao nhất."},
+ {t:"Mạng Truyền số liệu chuyên dùng (TSLCD)",o:"—",k:"dc",d:"Tách biệt với Internet công cộng, phục vụ hoạt động quản lý, điều hành của các cơ quan Đảng, Nhà nước các cấp."},
+ {t:"Hệ thống chứng thực chữ ký số chuyên dùng công vụ",o:"Ban Cơ yếu Chính phủ",k:"dc",d:""},
+ {t:"Hạ tầng chứng thực điện tử quốc gia",o:"Tổ chức cung cấp dịch vụ chứng thực điện tử QG",k:"dc",d:"Bao gồm Cổng kết nối dịch vụ chứng thực chữ ký số công cộng."},
+ {t:"Kết nối đặc thù vùng sâu, vùng xa",o:"—",k:"dc",d:"Internet vệ tinh, di động 4G/5G."}
+],
+"l1-bo":[
+ {t:"Khai thác hạ tầng & ANM dùng chung QG",o:"",k:"kt",d:""},
+ {t:"Trung tâm dữ liệu cấp bộ",o:"Bộ chủ quản",k:"dr",d:"Ưu tiên sử dụng TTDL hiện có; chỉ xây mới khi thật sự cần thiết."},
+ {t:"Mạng nội bộ LAN/Intranet · Internet băng rộng · kết nối TSLCD",o:"Bộ chủ quản",k:"dr",d:""},
+ {t:"Thiết bị đầu cuối · số hóa hồ sơ · hội nghị trực tuyến",o:"Bộ chủ quản",k:"dr",d:""},
+ {t:"Hệ thống, giải pháp bảo đảm ANM cấp bộ",o:"Bộ chủ quản",k:"dr",d:""}
+],
+"l1-tinh":[
+ {t:"Khai thác hạ tầng & ANM dùng chung QG",o:"",k:"kt",d:"Ưu tiên dùng hạ tầng và nền tảng đám mây tại TTDL quốc gia; kết nối SOC tỉnh lên Nền tảng SOC quốc gia; được bảo vệ bởi Hệ thống phòng vệ mạng quốc gia."},
+ {t:"Trung tâm dữ liệu cấp tỉnh / hạ tầng đám mây cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Ưu tiên sử dụng TTDL hiện có. Xây dựng, triển khai mới chỉ khi thật sự cần thiết."},
+ {t:"Mạng nội bộ · Internet băng rộng · kết nối TSLCD · hội nghị trực tuyến dùng chung",o:"UBND tỉnh",k:"dr",d:""},
+ {t:"Thiết bị thu thập dữ liệu, cảm biến, camera, IoT, điện toán biên",o:"UBND tỉnh",k:"dr",d:"Với địa phương có nhu cầu triển khai đô thị thông minh."},
+ {t:"Hệ thống giám sát ATTT / SOC cấp tỉnh",o:"UBND tỉnh",k:"dr",d:"Hoặc mô hình tương đương để hỗ trợ các cấp."}
+],
+"l1-xa":[
+ {t:"Mạng nội bộ LAN/Intranet & Internet băng rộng · kết nối TSLCD",o:"UBND xã",k:"dr",d:"Bắt buộc tối thiểu."},
+ {t:"Thiết bị đầu cuối · thiết bị số hóa hồ sơ · thiết bị hội nghị trực tuyến",o:"UBND xã",k:"dr",d:"Bắt buộc tối thiểu. Tham khảo danh mục và cấu hình tối thiểu tại Công văn 519/BKHCN-CĐSQG (28/01/2026)."},
+ {t:"Biện pháp ATTT mức cơ sở · bảo vệ thiết bị đầu cuối · sao lưu · an toàn truy cập mạng",o:"UBND xã",k:"dr",d:"Bắt buộc tối thiểu."},
+ {t:"Khai thác hạ tầng & ANM do TW, tỉnh cung cấp",o:"",k:"kt",d:"Không đầu tư trùng lặp."},
+ {t:"Bổ sung theo địa bàn: Wi-Fi công cộng, camera, truyền thanh CNTT-VT, IoT (đô thị) · điểm truy cập Internet công cộng (nông thôn) · 4G/5G, vệ tinh, điểm hỗ trợ số, DVC lưu động (miền núi, biên giới, hải đảo)",o:"Tỉnh hoặc xã",k:"dr",d:"Xã làm sau khi xin ý kiến cấp tỉnh. Không bắt buộc thống nhất toàn quốc."}
+]
+ }
+};
+
+const cols=[['qg','QUỐC GIA','Dùng chung toàn hệ thống chính trị'],['bo','BỘ, NGÀNH TW','Chính phủ số cấp bộ'],['tinh','CẤP TỈNH','Chính quyền số cấp tỉnh'],['xa','CẤP XÃ','Mô hình CĐS cấp xã']];
+const mx=document.getElementById('mx');
+let html='<div class="mh corner"></div>';
+cols.forEach(c=>html+=`<div class="mh ${c[0]}">${c[1]}<div style="font-weight:400;font-size:10.5px;opacity:.8;margin-top:2px">${c[2]}</div></div>`);
+DATA.layers.forEach(L=>{
+  html+=`<div class="rowlab" style="background:${L.color}18;border-left:3px solid ${L.color};color:${L.color}">${L.name}<small>${L.sub}</small></div>`;
+  cols.forEach(c=>{
+    const items=DATA.cells[L.id+'-'+c[0]]||[];
+    html+='<div class="cell">'+items.map((it,i)=>
+      `<div class="chip ${it.k}" data-k="${L.id}-${c[0]}" data-i="${i}"><span class="t">${it.t}${it.nt?'<i class="nt">NT</i>':''}</span>${it.o?`<span class="o">${it.o}</span>`:''}</div>`
+    ).join('')+'</div>';
+  });
+});
+mx.innerHTML=html;
+
+const ov=document.getElementById('ov'),md=document.getElementById('md');
+mx.addEventListener('click',e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  const it=DATA.cells[c.dataset.k][+c.dataset.i];
+  const L=DATA.layers.find(l=>l.id===c.dataset.k.split('-')[0]);
+  const col=cols.find(x=>x[0]===c.dataset.k.split('-')[1]);
+  const kind={dc:'Thành phần dùng chung — cấp trên xây dựng và vận hành',kt:'Khai thác lại — cấp này KHÔNG đầu tư mới',dr:'Cấp này tự tổ chức triển khai'}[it.k];
+  md.innerHTML=`<button class="close" onclick="document.getElementById('ov').classList.remove('on')">×</button>
+    <h3>${it.t}</h3><div class="who">${col[1]} · ${L.name}</div>
+    ${it.d?`<p>${it.d}</p>`:'<p style="color:var(--dim)">Thành phần được nêu tên trong Khung kiến trúc; chi tiết kỹ thuật do văn bản hướng dẫn chuyên ngành quy định.</p>'}
+    ${it.nt?'<p style="background:rgba(242,118,46,.1);border-left:3px solid var(--qg);padding:9px 12px;border-radius:0 5px 5px 0;font-size:12.4px"><b>Thuộc danh mục 79 nền tảng số dùng chung quốc gia</b> (QĐ 1132/QĐ-TTg ngày 24/6/2026). Cơ quan, tổ chức không đầu tư, mua sắm, thuê dịch vụ hoặc mở rộng hệ thống có chức năng, mục tiêu, phạm vi sử dụng tương tự.</p>':''}
+    <div class="kv"><b>Cơ quan chủ quản</b><span>${it.o||'Theo phân công của cấp có thẩm quyền'}</span>
+    <b>Tính chất</b><span>${kind}</span>
+    <b>Lớp kiến trúc</b><span>${L.name}</span></div>`;
+  ov.classList.add('on');
+});
+ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('on')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')ov.classList.remove('on')});
+
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); document.getElementById('tab-'+b.dataset.t).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+</script>
+</body>
+</html>
