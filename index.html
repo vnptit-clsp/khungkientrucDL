@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bức tranh tổng quan Kiến trúc số Quốc gia – Bộ – Tỉnh – Xã (bản 2.0)</title>
+<title>Bức tranh tổng quan Khung kiến trúc số và Khung kiến trúc dữ liệu</title>
 <style>
 :root{
   --bg:#0d1117; --panel:#161b22; --panel2:#1c2129; --line:#2d333b;
@@ -132,7 +132,8 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
 <body>
 
 <header>
-  <h1>Bức tranh tổng quan Kiến trúc số Việt Nam: Quốc gia ↔ Bộ ngành ↔ Tỉnh ↔ Xã</h1>
+  <h1>Bức tranh tổng quan Khung kiến trúc số và Khung kiến trúc dữ liệu</h1>
+  <div style="color:var(--dim);font-size:13.5px;margin:-2px 0 8px">Quốc gia ↔ Bộ ngành ↔ Tỉnh ↔ Xã</div>
   <div class="sub">
     <b>Bản 3.1</b> — tích hợp Danh mục <b>79 nền tảng số dùng chung quốc gia</b> (QĐ 1132/QĐ-TTg) và <b>lát cắt 3 bộ ngành</b>: Nông nghiệp &amp; Môi trường, Văn hóa – Thể thao – Du lịch, Giáo dục &amp; Đào tạo.
     Nguồn: QĐ 1425/QĐ-TTg (29/7/2026) · QĐ 2439/QĐ-TTg (04/11/2025) · QĐ 11/2026/QĐ-TTg · QĐ 1132/QĐ-TTg · QĐ 1805/QĐ-BNNMT (19/5/2026) · Bộ tài liệu Khung kiến trúc Bộ VHTTDL PB 1.0 (4 phần, 361 trang) · Khung KTDL và Khung QTQL dữ liệu Bộ GD&amp;ĐT PB 1.0 · QĐ 31/QĐ-BVHTTDL (07/01/2026) · mẫu Khung KTDL cấp tỉnh · Tài liệu hướng dẫn Mô hình CĐS cấp xã (BKHCN, 2026) · đối chiếu thực tiễn Thanh Hóa, Sơn La, Quảng Ngãi, Cần Thơ.
@@ -142,7 +143,7 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
     <div class="ct"><b>79</b>nền tảng số dùng chung QG</div>
     <div class="ct"><b>20</b>cơ sở dữ liệu quốc gia</div>
     <div class="ct"><b>06</b>miền dữ liệu cơ bản</div>
-    <div class="ct"><b>06</b>tháng để tỉnh ban hành khung</div>
+    <div class="ct"><b>30/11/2026</b>hạn tỉnh ban hành khung</div>
   </div>
 </header>
 
@@ -175,7 +176,6 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
         <li>Danh mục thành phần dùng chung cấp tỉnh</li>
         <li><b>Kiến trúc của Mô hình chuyển đổi số cấp xã</b> — là một thành phần của khung tỉnh, không phải văn bản riêng</li>
         <li><b>Lộ trình xử lý các hệ thống chưa phù hợp hoặc trùng lặp</b></li>
-        <li>Khung kiến trúc an ninh mạng cấp tỉnh</li>
       </ul>
     </div>
     <div class="card acc2">
@@ -195,8 +195,8 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
   <h3 class="sec">Bốn lý do bắt buộc, xếp theo mức độ khẩn</h3>
 
   <div class="step"><div class="num">1</div><div>
-    <b>Nghĩa vụ pháp lý có hạn định — khoảng cuối tháng 01/2027</b>
-    <span>QĐ 1425 Điều 3 khoản 4: trong <b style="color:var(--txt)">06 tháng</b> kể từ ngày hiệu lực (29/7/2026), UBND tỉnh phải hoàn thành xây dựng mới hoặc rà soát, cập nhật và ban hành Khung kiến trúc số của mình phù hợp Khung KTTT quốc gia số. Việc rà soát <b style="color:var(--txt)">phải xác định lộ trình xử lý hạ tầng, hệ thống, nền tảng, CSDL chưa phù hợp hoặc trùng lặp</b>, bảo đảm kế thừa kết quả đầu tư và tránh lãng phí. Khung hiện hành chỉ được tiếp tục áp dụng cho đến khi được thay thế, với điều kiện không trái Khung KTTT quốc gia số.</span>
+    <b>Nghĩa vụ pháp lý có hạn định — mốc gần nhất là 30/11/2026</b>
+    <span>Theo <b style="color:var(--txt)">Kế hoạch 05 của Ban Chỉ đạo Trung ương</b>, hạn để bộ, ngành và địa phương <b style="color:var(--txt)">ban hành khung là 30/11/2026</b> — mốc sớm nhất trong tất cả. Song song, QĐ 1425 Điều 3 khoản 4 đặt hạn <b style="color:var(--txt)">06 tháng</b> kể từ ngày hiệu lực (29/7/2026) để UBND tỉnh hoàn thành xây dựng mới hoặc rà soát, cập nhật và ban hành Khung kiến trúc số của mình. Việc rà soát <b style="color:var(--txt)">phải xác định lộ trình xử lý hạ tầng, hệ thống, nền tảng, CSDL chưa phù hợp hoặc trùng lặp</b>. Khung hiện hành chỉ được tiếp tục áp dụng cho đến khi được thay thế, với điều kiện không trái Khung KTTT quốc gia số.</span>
   </div></div>
 
   <div class="step"><div class="num">2</div><div>
@@ -218,6 +218,27 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
     <b>Lý do đặc thù giai đoạn này:</b> QĐ 1425 Điều 3 khoản 4b — với các tỉnh, thành phố hình thành sau <b>sắp xếp, hợp nhất đơn vị hành chính</b>, phải "ưu tiên hợp nhất, tích hợp, kế thừa các hệ thống hiện có; chỉ đầu tư, xây dựng mới khi chưa có thành phần dùng chung". Khung kiến trúc số cấp tỉnh là công cụ duy nhất có giá trị pháp lý để quyết định giữ hệ thống của tỉnh nào, bỏ hệ thống nào, hợp nhất theo lộ trình ra sao.
   </div>
 
+  <h3 class="sec">Bốn mốc thời hạn</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:16%">Mốc</th><th style="width:15%">Trạng thái</th><th style="width:36%">Nội dung</th><th>Căn cứ</th></tr></thead>
+    <tbody>
+      <tr><td><b>30/12/2025</b></td><td><span class="pill p-tinh">đã qua</span></td>
+        <td>Chuẩn hóa dữ liệu và ban hành <b>danh mục dữ liệu chủ chuyên ngành, dữ liệu mở, dữ liệu dùng chung</b> đối với các CSDL tại Phụ lục I</td><td>NĐ 278/2025/NĐ-CP</td></tr>
+      <tr style="background:rgba(229,83,75,.09)"><td><b>30/11/2026</b><br><small style="color:var(--l1)">gần nhất</small></td><td><span class="pill p-qg">còn ~3,5 tháng</span></td>
+        <td><b>Bộ, ngành và địa phương ban hành khung</b></td><td><b>Kế hoạch 05</b> của Ban Chỉ đạo Trung ương</td></tr>
+      <tr style="background:rgba(242,118,46,.06)"><td><b>31/12/2026</b></td><td><span class="pill p-qg">còn ~4,5 tháng</span></td>
+        <td>Các CSDL, HTTT còn lại <b>hoàn thành chuẩn hóa</b>; kết nối, chia sẻ dữ liệu bắt buộc thực hiện <b>thống nhất qua Nền tảng chia sẻ, điều phối dữ liệu</b></td><td>NĐ 278/2025/NĐ-CP</td></tr>
+      <tr><td><b>~cuối 01/2027</b></td><td><span class="pill p-bo">còn ~5,5 tháng</span></td>
+        <td>Hạn 06 tháng kể từ 29/7/2026 để <b>rà soát, cập nhật</b> khung theo Khung kiến trúc tổng thể quốc gia số</td><td>QĐ 1425 Điều 3 khoản 4</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note r">
+    <b>Hai mốc 30/11/2026 và 31/12/2026 cách nhau đúng một tháng và ràng buộc lẫn nhau</b> — ban hành khung xong mới có căn cứ để chuẩn hóa và kết nối. Với tỉnh chưa bắt đầu, lịch rất căng: riêng kiểm kê hiện trạng đã 3–5 tuần, dựng khung 4–6 tuần, chưa kể lấy ý kiến và trình ban hành. Khuyến nghị làm <b>song song thay vì tuần tự</b>.<br>
+    <span class="pill p-y" style="background:rgba(210,153,34,.22);color:#e3b341">CẦN ĐỐI CHIẾU BẢN GỐC</span> Tra công khai thấy <b>Kế hoạch 05-KH/BCĐTW ngày 11/7/2026</b> là kế hoạch hành động 100 ngày xử lý điểm nghẽn chuyển đổi số — khớp niên đại với mốc 30/11/2026. Cần bổ sung bản gốc để ghi chính xác số hiệu và điều khoản.
+  </div>
+
   <h3 class="sec">Vị trí hai khung trong hệ thống văn bản</h3>
   <div class="scroll">
   <table>
@@ -230,51 +251,17 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
       <tr><td><span class="pill p-bo">CẤP BỘ</span></td>
         <td>Khung kiến trúc Chính phủ số cấp bộ</td>
         <td>Khung KTDL cấp bộ · Khung quản trị, quản lý dữ liệu cấp bộ · Từ điển dữ liệu dùng chung cấp bộ</td>
-        <td>Khung kiến trúc an ninh mạng cấp bộ</td></tr>
+        <td><small>Không phải văn bản riêng. Bộ bảo đảm an ninh mạng theo Khung kiến trúc an ninh mạng quốc gia và pháp luật về an ninh mạng.</small></td></tr>
       <tr style="background:rgba(46,160,67,.06)"><td><span class="pill p-tinh">CẤP TỈNH</span><br><b>← trọng tâm</b></td>
         <td><b>Khung kiến trúc Chính quyền số cấp tỉnh</b><br><small>Nằm trong Khung kiến trúc tham chiếu tổng thể số cấp tỉnh — gồm cả thành phần của Đảng, MTTQ, Tòa án, Viện kiểm sát triển khai trên địa bàn</small></td>
         <td><b>Khung KTDL cấp tỉnh · Khung quản trị, quản lý dữ liệu cấp tỉnh · Từ điển dữ liệu dùng chung cấp tỉnh</b></td>
-        <td><b>Khung kiến trúc an ninh mạng cấp tỉnh</b><br><small>Lớp 1 của khung tỉnh phải ghi rõ "Bảo đảm tuân thủ Khung kiến trúc an ninh mạng cấp tỉnh"</small></td></tr>
+        <td><b>Không ban hành khung riêng.</b><br><small>Danh mục Lớp 1 cấp tỉnh của QĐ 1425 chỉ nêu: thành phần an ninh mạng dùng chung giữa các cơ quan trong hệ thống chính trị · <b>các hệ thống, giải pháp phục vụ bảo đảm an ninh mạng cấp tỉnh</b> · thành phần an ninh mạng đặc thù khác. Tỉnh bảo đảm an ninh mạng theo Khung kiến trúc an ninh mạng quốc gia và pháp luật về an ninh mạng.</small></td></tr>
       <tr><td><span class="pill p-xa">CẤP XÃ</span></td>
         <td><b>Kiến trúc của Mô hình CĐS cấp xã</b> — là thành phần của khung cấp tỉnh, tỉnh hướng dẫn và kiểm tra thực hiện. Xã <b>không thiết kế, không ban hành mô hình riêng</b>.</td>
         <td>Không ban hành riêng. Xã thực hiện theo Danh mục dữ liệu cấp xã phải cập nhật và biểu mẫu số do tỉnh ban hành.</td>
         <td>Không ban hành riêng. Xã thực hiện biện pháp ATTT mức cơ sở, khai thác thành phần ANM dùng chung của TW và tỉnh.</td></tr>
     </tbody>
   </table>
-  </div>
-
-  <h3 class="sec">Khung kiến trúc an ninh mạng quốc gia — trạng thái và những gì QĐ 1425 đã ràng buộc trước</h3>
-  <p class="hint">QĐ 1425 nhắc tới Khung kiến trúc an ninh mạng quốc gia ở <b>04 vị trí</b>, dù khung này <b>chưa được ban hành</b>. Nghĩa là tỉnh vẫn có đủ căn cứ để thiết kế phần an ninh mạng trong khung của mình ngay bây giờ.</p>
-
-  <div class="scroll">
-  <table>
-    <thead><tr><th style="width:22%">Vị trí trong QĐ 1425</th><th>Nội dung</th></tr></thead>
-    <tbody>
-      <tr><td><b>Điều 2, khoản 3, điểm a</b><br><small>Trách nhiệm Bộ Công an</small></td>
-        <td>"Chủ trì xây dựng, cập nhật Khung kiến trúc dữ liệu quốc gia, Khung quản trị, quản lý dữ liệu quốc gia, Từ điển dữ liệu dùng chung và <b>Khung kiến trúc an ninh mạng quốc gia</b> bảo đảm đồng bộ với Khung kiến trúc tổng thể quốc gia số theo quy định của pháp luật."</td></tr>
-      <tr style="background:rgba(242,118,46,.07)"><td><b>Phần II, mục 2.2, điểm g</b><br><small>Nguyên tắc thiết kế — <b>quan trọng nhất</b></small></td>
-        <td>"<b>Nguyên tắc đồng bộ với Khung kiến trúc an ninh mạng quốc gia.</b> Bảo đảm an ninh mạng theo mô hình <b>phòng thủ chiều sâu</b> và <b>bảo mật ngay từ khâu thiết kế</b>, gồm:<br>
-        — Tuân thủ các nguyên tắc cốt lõi: <b>Phòng thủ chiều sâu (Defense-in-Depth)</b>, <b>Lấy dữ liệu làm trung tâm (Data-Centric)</b>, <b>Phòng vệ chủ động (Active Defense)</b> trong nguyên tắc thiết kế kiến trúc theo Khung kiến trúc an ninh mạng.<br>
-        — <b>Thiết kế an toàn ngay từ đầu (Security by Design)</b>: an ninh mạng phải được lồng ghép trong toàn bộ vòng đời hệ thống từ kiến trúc, mã nguồn đến vận hành.<br>
-        — <b>Quản trị rủi ro theo cấp độ</b>: áp dụng cơ chế bảo vệ an ninh mạng hệ thống thông tin theo cấp độ, triển khai đồng bộ các biện pháp kỹ thuật, tổ chức, nghiệp vụ tương ứng."</td></tr>
-      <tr><td><b>Mô hình khái quát — Lớp 1</b><br><small>Hình 1, Hình 2 và các khung tham chiếu</small></td>
-        <td>Nhánh <b>AN NINH MẠNG</b> của Lớp 1 được chú thích rõ: <i>"(Bảo đảm tuân thủ Khung kiến trúc an ninh mạng quốc gia)"</i>. Ở khung tham chiếu cấp bộ và cấp tỉnh, chú thích tương ứng là <i>"Bảo đảm tuân thủ Khung kiến trúc an ninh mạng cấp bộ / cấp tỉnh"</i>.</td></tr>
-      <tr><td><b>Phần III, mục 1</b><br><small>Cơ chế điều phối chung</small></td>
-        <td>"Bộ Công an chủ trì các nội dung liên quan đến dữ liệu và an ninh mạng, bao gồm Khung kiến trúc dữ liệu quốc gia, Khung quản trị, quản lý dữ liệu quốc gia, Từ điển dữ liệu dùng chung và <b>Khung kiến trúc an ninh mạng quốc gia</b>."</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="note r">
-    <b>Trạng thái ban hành:</b> Bộ Công an đã xây dựng <b>dự thảo Quyết định của Thủ tướng Chính phủ ban hành Khung kiến trúc an ninh mạng quốc gia</b>, đăng lấy ý kiến trên Cổng TTĐT Chính phủ ngày <b>05/5/2026</b> (gồm tờ trình, dự thảo quyết định, phụ lục Khung kiến trúc, báo cáo đánh giá tác động). Thời hạn góp ý đã kết thúc, <b>chưa có thông tin ban hành chính thức</b>. Khi viết tờ trình, nên ghi "đang trong quá trình xây dựng, dự kiến ban hành" thay vì dẫn như văn bản đã có hiệu lực.
-  </div>
-
-  <div class="note g">
-    <b>Tỉnh làm gì trong lúc chờ:</b> QĐ 1425 đã chốt sẵn <b>03 nguyên tắc cốt lõi</b> (Phòng thủ chiều sâu · Data-Centric · Phòng vệ chủ động) cộng Security by Design và quản trị rủi ro theo cấp độ. Tỉnh hoàn toàn có thể thiết kế Khung kiến trúc an ninh mạng cấp tỉnh dựa trên năm nguyên tắc này cùng mô hình bảo vệ 4 lớp hiện hành, rồi cập nhật khi khung quốc gia ban hành. Ba văn bản an ninh mạng đã có hiệu lực để dẫn: <b>QĐ 437/QĐ-TTg</b> (16/3/2026 — kế hoạch thi hành Luật An ninh mạng), <b>QĐ 515/QĐ-TTg</b> (30/3/2026 — nâng cao năng lực lực lượng bảo vệ ANM quốc gia), <b>QĐ 808/QĐ-TTg</b> (06/5/2026 — phát triển nền tảng bảo mật và ANM cho hạ tầng số quốc gia).
-  </div>
-
-  <div class="note">
-    <b>Điểm dễ bỏ sót khi lập dự toán:</b> QĐ 1425 nêu rõ <b>Hệ thống phòng vệ mạng quốc gia</b> cung cấp sẵn các dịch vụ dùng chung cốt lõi — tường lửa ứng dụng web quốc gia, phòng chống DDoS tập trung quy mô lớn, lọc và điều phối lưu lượng thông minh, ngăn chặn bot độc hại, bảo vệ API — và <i>"các cơ quan nhà nước <b>không cần đầu tư, xây dựng các giải pháp có tính năng tương tự</b>; được bảo vệ thông qua nền tảng dùng chung, tránh trùng lặp và tiết kiệm nguồn lực."</i> Đây là căn cứ trực tiếp để cắt các hạng mục WAF, anti-DDoS trong đề xuất đầu tư của sở/ngành.
   </div>
 
   <h3 class="sec">Trình tự công việc gợi ý cho tỉnh</h3>
@@ -292,7 +279,7 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
         <li>Phân vai 3 cấp: TW cung cấp / tỉnh cung cấp / xã triển khai</li>
         <li>Ban hành Danh mục CSDL dùng chung + Từ điển dữ liệu cấp tỉnh ánh xạ Từ điển QG</li>
         <li>Ban hành Danh mục dữ liệu cấp xã phải cập nhật</li>
-        <li>Dựng phần <b>an ninh mạng cấp tỉnh</b> theo 3 nguyên tắc QĐ 1425 đã chốt, cập nhật khi Khung KTANM quốc gia ban hành</li>
+        <li>Dựng <b>phần an ninh mạng trong Khung kiến trúc số cấp tỉnh</b> — không ban hành khung riêng; bám nguyên tắc bảo vệ theo cấp độ và mô hình 4 lớp hiện hành</li>
       </ul></div>
     <div class="card"><h4>Bước 3 — Lộ trình &amp; giám sát</h4>
       <ul style="margin-top:2px">
@@ -999,7 +986,7 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
     <tbody>
       <tr><td><b>Thanh Hóa</b></td>
         <td>Danh mục CSDL dùng chung theo <b>QĐ 5355/QĐ-UBND (2020)</b>; Danh mục dữ liệu mở theo <b>QĐ 3111/QĐ-UBND (25/7/2024)</b>; Cổng dữ liệu mở đang có ~119 tập dữ liệu; IOC tỉnh chính thức vận hành cuối tháng 3/2026; đang yêu cầu các sở, ngành chuẩn hóa &amp; kết nối CSDL theo nguyên tắc "đúng, đủ, sạch, sống, thống nhất, dùng chung".</td>
-        <td>Đã có Lớp 2 (kho dữ liệu, danh mục CSDL) và Lớp 4 (IOC, cổng dữ liệu mở). <b>Khoảng trống lớn nhất:</b> danh mục CSDL ban hành từ 2020 — trước Luật Dữ liệu 2024, QĐ 2439, QĐ 11/2026 và QĐ 1425. Cần rà soát theo Từ điển dữ liệu dùng chung, bổ sung Danh mục dữ liệu cấp xã phải cập nhật, và đối chiếu toàn bộ hệ thống hiện có với 79 nền tảng QG.</td></tr>
+        <td>Đã có Lớp 2 (kho dữ liệu, danh mục CSDL) và Lớp 4 (IOC, cổng dữ liệu mở). <b>Hạn 30/11/2026 chỉ còn ~3,5 tháng.</b> <b>Khoảng trống lớn nhất:</b> danh mục CSDL ban hành từ 2020 — trước Luật Dữ liệu 2024, QĐ 2439, QĐ 11/2026 và QĐ 1425. Cần rà soát theo Từ điển dữ liệu dùng chung, bổ sung Danh mục dữ liệu cấp xã phải cập nhật, và đối chiếu toàn bộ hệ thống hiện có với 79 nền tảng QG.</td></tr>
       <tr><td><b>Sơn La</b></td>
         <td>Kho dữ liệu dùng chung với hơn <b>330 danh mục dữ liệu từ 18 sở, ngành</b>, gồm <b>990 bảng dữ liệu, 13.974 trường dữ liệu, ~31,5 triệu bản ghi</b> lưu trong gần 40.000 tệp; phục vụ IOC và cổng dữ liệu mở. Mạng TSLCD, hội nghị trực tuyến, thư công vụ, cổng TTĐT, HTTT báo cáo, eCabinet kết nối thông suốt <b>từ tỉnh xuống xã</b> và với TW. Đang "chấm KPI" xã, phường trong xây dựng CSDL đất đai.</td>
         <td>Mô hình gần thiết kế chuẩn nhất: Lớp 2 mạnh, vận hành tập trung cấp tỉnh – xã khai thác (đúng nguyên tắc "không đầu tư riêng lẻ ở cấp xã"), đã áp dụng KPI theo Nguyên tắc 1. <b>Cần kiểm chứng:</b> tỷ lệ dữ liệu "sống" trên tổng bản ghi, và mức độ ánh xạ 13.974 trường dữ liệu với Từ điển dữ liệu dùng chung quốc gia — đây là điều kiện để đẩy lên NDOP.</td></tr>
@@ -1040,7 +1027,12 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
           <tr style="background:rgba(242,118,46,.06)"><td><b>Khung KTDL + Khung QTQL dữ liệu Bộ GD&amp;ĐT</b><br><small>PB 1.0, trình ban hành 6/2026</small></td><td>Khung kiến trúc dữ liệu 5 lớp, 5 miền dữ liệu, 6 mục tiêu định lượng 2026–2030, kiến trúc an toàn dữ liệu 8 lớp. Khung QTQL: mô hình 2 cấp, 05 bộ phận chuyên trách, mục tiêu mức trưởng thành ≥4 vào 2030.</td></tr>
           <tr style="background:rgba(242,118,46,.06)"><td><b>Bộ tài liệu Khung kiến trúc Bộ VHTTDL</b><br><small>PB 1.0, 2026 — 4 phần, 361 trang</small></td><td>Phần A Khung kiến trúc số cấp bộ (4 lớp, phân tích khoảng cách, lộ trình, thẩm định tuân thủ) · Phần B Khung KTDL · Phần C Khung QTQL dữ liệu · Phần D Từ điển dữ liệu dùng chung. Phủ văn hóa, thể thao, du lịch, báo chí, xuất bản, thông tin.</td></tr>
           <tr><td><b>QĐ 31/QĐ-BVHTTDL</b><br><small>07/01/2026</small></td><td>Kế hoạch xây dựng Khung kiến trúc dữ liệu du lịch Việt Nam, hoàn thành Quý 2/2026. Kế thừa QĐ 2710/QĐ-BVHTTDL (17/9/2024) về Đề án Hệ thống CSDL ngành du lịch.</td></tr>
-          <tr><td><b>NĐ 165/2025/NĐ-CP · NĐ 194/2025/NĐ-CP · NĐ 278/2025/NĐ-CP</b></td><td>Chi tiết Luật Dữ liệu · CSDL quốc gia, kết nối chia sẻ, dữ liệu mở · <b>kết nối, chia sẻ dữ liệu bắt buộc</b> giữa các cơ quan trong hệ thống chính trị.</td></tr>
+          <tr style="background:rgba(242,118,46,.07)"><td><b>NĐ 278/2025/NĐ-CP</b><br><small>22/10/2025</small></td><td><b>Kết nối, chia sẻ dữ liệu BẮT BUỘC</b> giữa các cơ quan hệ thống chính trị. 5 chương 25 điều. <b>Thay thế NĐ 47/2020/NĐ-CP</b>. Quy định danh mục CSDL bắt buộc kết nối (Phụ lục I, II), 4 phương thức kết nối, Agent Node, mốc 30/12/2025 và <b>31/12/2026</b>.</td></tr>
+          <tr><td><b>NĐ 165/2025/NĐ-CP · NĐ 194/2025/NĐ-CP</b></td><td>Chi tiết thi hành Luật Dữ liệu · CSDL quốc gia, kết nối chia sẻ, dữ liệu mở phục vụ giao dịch điện tử.</td></tr>
+          <tr style="background:rgba(229,83,75,.07)"><td><b>Kế hoạch 05</b><br><small>Ban Chỉ đạo Trung ương</small><br><span class="pill p-y" style="background:rgba(210,153,34,.22);color:#e3b341">ĐỐI CHIẾU BẢN GỐC</span></td><td>Đặt hạn <b>30/11/2026</b> để bộ, ngành và địa phương <b>ban hành khung</b> — mốc sớm nhất trong tất cả. Tra công khai thấy Kế hoạch 05-KH/BCĐTW ngày 11/7/2026 là kế hoạch hành động 100 ngày xử lý điểm nghẽn CĐS.</td></tr>
+          <tr><td><b>Kế hoạch 02-KH/BCĐTW</b><br><small>19/6/2025</small></td><td>Kế hoạch của Ban Chỉ đạo Trung ương — căn cứ được viện dẫn trong QĐ 2439/QĐ-TTg.</td></tr>
+          <tr style="background:rgba(163,113,247,.07)"><td><b>QĐ 20-QĐ/BCĐ</b> · <b>HD 07-HD/VPTW</b><br><small>khối Đảng · 29/5/2026</small></td><td>Khung quản trị, quản lý dữ liệu trong các cơ quan Đảng · Hướng dẫn kết nối, tích hợp, chia sẻ dữ liệu trong cơ quan Đảng. <b>Khối thường bị bỏ sót</b> khi tỉnh dựng khung.</td></tr>
+          <tr style="background:rgba(210,153,34,.07)"><td><b>Thông báo 2540/TTDLQG-P1</b><br><b>Thông báo 2638/TTDLQG-P4</b><br><small style="color:var(--yl)">CẦN BỔ SUNG</small></td><td>Văn bản của Trung tâm Dữ liệu quốc gia, chưa có trên nguồn công khai. Cùng nhóm với <b>CV 562/TTDLQG-P4</b> (02/3/2026 — hướng dẫn tạm thời vận hành Cổng DVCQG tại TTDLQG) và <b>CV 2570/BCA-TTDLQG</b> (28/5/2026). Là hướng dẫn nghiệp vụ trực tiếp cho việc kết nối.</td></tr>
           <tr><td><b>NQ 214/NQ-CP</b> <small>23/7/2025</small></td><td>Kế hoạch hành động thúc đẩy, tạo lập dữ liệu phục vụ chuyển đổi số toàn diện.</td></tr>
           <tr style="background:rgba(210,153,34,.07)"><td><b>Khung kiến trúc an ninh mạng quốc gia</b><br><small style="color:var(--l2)"><b>DỰ THẢO</b> — lấy ý kiến 05/5/2026</small></td><td>Bộ Công an chủ trì. <b>Chưa ban hành.</b> QĐ 1425 đã chốt trước 3 nguyên tắc cốt lõi: Phòng thủ chiều sâu · Data-Centric · Phòng vệ chủ động, cộng Security by Design và quản trị rủi ro theo cấp độ.</td></tr>
           <tr style="background:rgba(63,185,80,.06)"><td><b>CV 39/TTg-KSTT</b> <small>09/01/2026</small></td><td>Chỉ đạo của Thủ tướng về triển khai <b>HTTT giải quyết TTHC theo mô hình tập trung</b>; giao Bộ KH&amp;CN ban hành quy định tiêu chuẩn, tính năng, chức năng kỹ thuật của hệ thống. Lộ trình: thí điểm 01/3–30/6/2026, vận hành chính thức toàn quốc từ <b>01/7/2026</b>.</td></tr>
