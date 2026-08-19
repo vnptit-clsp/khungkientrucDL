@@ -157,6 +157,8 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
   <button data-t="b">⑦ Cắt lớp 3 bộ: NN&amp;MT · VHTTDL · GD&amp;ĐT</button>
   <button data-t="r">⑧ Đối chiếu thực tiễn</button>
   <button data-t="p">⑨ Căn cứ pháp lý</button>
+  <button data-t="tk">⑩ Thống kê triển khai</button>
+  <button data-t="tn">⑪ Thuật ngữ &amp; viết tắt</button>
 </nav>
 
 <main>
@@ -399,7 +401,7 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
         <div class="box hi">Nền tảng SOC quốc gia thế hệ mới</div>
         <div class="box hi">Nền tảng định danh &amp; xác thực điện tử · VNeID</div>
         <div class="box hi">Cổng Dịch vụ công quốc gia</div>
-        <div class="box hi">Nền tảng đám mây trong TTDLQG · HPC</div>
+        <div class="box hi">Nền tảng đám mây trong TTDLQG · HPC <small style="color:var(--dim)">(tính toán hiệu năng cao)</small></div>
         <div class="box hi">Nền tảng chuỗi khối quốc gia</div>
       </div>
     </div>
@@ -760,17 +762,18 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
     <div class="card acc2"><h4>07 lớp dữ liệu của mỗi lĩnh vực chuyên ngành</h4>
       <p style="font-size:12.4px;color:var(--dim);margin:0 0 8px">Mỗi lớp có quy định riêng về nguồn tạo lập, đơn vị chủ quản, mã định danh, tần suất cập nhật, quy tắc chất lượng, mức độ chia sẻ, thời hạn lưu trữ và mức độ bảo vệ.</p>
       <table style="margin-top:4px">
-        <thead><tr><th style="width:52px">Mã</th><th>Lớp dữ liệu</th></tr></thead>
+        <thead><tr><th style="width:52px">Mã</th><th style="width:34%">Tên đầy đủ</th><th>Mô tả</th></tr></thead>
         <tbody>
-          <tr><td><b>SDL</b></td><td>Siêu dữ liệu — <i>bao trùm và quản trị toàn bộ 6 lớp còn lại</i></td></tr>
-          <tr><td><b>DLG</b></td><td>Dữ liệu gốc — thô, nguyên bản, thu nhận trực tiếp tại nguồn</td></tr>
-          <tr><td><b>DM</b></td><td>Dữ liệu danh mục — bảng mã, phân loại do cơ quan nhà nước ban hành</td></tr>
-          <tr style="background:rgba(242,118,46,.09)"><td><b>DLC</b></td><td><b>Dữ liệu chủ — trung tâm của mô hình</b>, chuẩn hóa theo DM, cập nhật từ DLG và GD</td></tr>
-          <tr><td><b>GD</b></td><td>Dữ liệu giao dịch — tạo ra từ DLG, DLC và DM</td></tr>
-          <tr><td><b>TH</b></td><td>Dữ liệu tổng hợp và phân tích</td></tr>
-          <tr><td><b>MO</b></td><td>Dữ liệu mở — dẫn xuất từ nhiều lớp</td></tr>
+          <tr><td><b>SDL</b></td><td><b>Siêu dữ liệu</b><br><small>Metadata</small></td><td>Dữ liệu mô tả dữ liệu — bảng nào, cột nào, kiểu gì, ai tạo, cập nhật khi nào. <b>Bao trùm và quản trị toàn bộ 6 lớp còn lại.</b></td></tr>
+          <tr><td><b>DLG</b></td><td><b>Dữ liệu gốc</b><br><small>Raw Data</small></td><td>Thô, nguyên bản, chưa qua xử lý, thu nhận trực tiếp tại nơi phát sinh nghiệp vụ. Ví dụ: hồ sơ đăng ký tàu cá do xã nhập vào.</td></tr>
+          <tr><td><b>DM</b></td><td><b>Dữ liệu danh mục</b><br><small>Reference Data</small></td><td>Bảng mã, danh mục, phân loại do cơ quan nhà nước ban hành, dùng chung. Ví dụ: danh mục nghề khai thác thủy sản.</td></tr>
+          <tr style="background:rgba(242,118,46,.09)"><td><b>DLC</b></td><td><b>Dữ liệu chủ</b><br><small>Master Data — trung tâm của mô hình</small></td><td>Bản ghi chuẩn, ổn định về một đối tượng. Được <b>chuẩn hóa theo Dữ liệu danh mục (DM)</b>, <b>cập nhật từ Dữ liệu gốc (DLG) và Dữ liệu giao dịch (GD)</b> sau khi làm sạch và đồng bộ. Ví dụ: bản ghi chuẩn về một con tàu cá — số đăng ký, chủ sở hữu, thông số kỹ thuật.</td></tr>
+          <tr><td><b>GD</b></td><td><b>Dữ liệu giao dịch</b><br><small>Transaction Data</small></td><td>Phát sinh từ hoạt động, giao dịch hằng ngày. Tạo ra từ DLG, DLC và DM. Ví dụ: mỗi lần cấp phép, gia hạn, chuyển nhượng tàu cá.</td></tr>
+          <tr><td><b>TH</b></td><td><b>Dữ liệu tổng hợp và phân tích</b><br><small>Aggregate &amp; Analytic Data</small></td><td>Đã tổng hợp, tính toán, phân tích từ các lớp khác. Gồm cả kết quả mô hình học máy và AI. Ví dụ: tổng số tàu cá đang hoạt động theo huyện.</td></tr>
+          <tr><td><b>MO</b></td><td><b>Dữ liệu mở</b><br><small>Open Data</small></td><td>Đã chọn lọc, làm sạch, ẩn danh thông tin nhạy cảm và công bố công khai. Dẫn xuất từ nhiều lớp.</td></tr>
         </tbody>
       </table>
+      <p style="font-size:12.3px;color:var(--dim);margin:9px 0 0"><b>Đọc theo chiều dữ liệu chảy:</b> DLG và DM là hai nguồn đầu vào cơ bản → DLC được chắt lọc, chuẩn hóa từ đó → GD phát sinh khi có nghiệp vụ → TH tổng hợp lên → MO là phần được phép công bố. SDL bao trùm và mô tả tất cả.</p>
       <p style="font-size:12.2px;color:var(--dim);margin:10px 0 0">Áp dụng nguyên tắc <b>ghi một lần (single-writer)</b> cho dữ liệu chủ và danh mục dùng chung.</p>
     </div>
   </div>
@@ -1094,16 +1097,227 @@ code{background:var(--panel2);padding:1px 5px;border-radius:3px;font-size:11.5px
   </div>
 </section>
 
+
+<!-- ============ ⑪ THỐNG KÊ TRIỂN KHAI ============ -->
+<section class="tab" id="tab-tk">
+  <h2>Thống kê triển khai Khung kiến trúc dữ liệu — Bộ ngành và 34 tỉnh, thành</h2>
+  <p class="hint">Rà soát nguồn công khai và nội bộ VNPT đến <b>18/8/2026</b>. Baseline: <b>QĐ 2439/QĐ-TTg ngày 04/11/2025</b>. Bấm vào từng dòng để xem điểm nổi bật của khung. Lưu ý: nhiều tỉnh có số quyết định nhưng là <b>Khung kiến trúc SỐ</b> chứ không phải Khung kiến trúc DỮ LIỆU — cột trạng thái phản ánh đúng điều này.</p>
+
+  <div class="kpi" id="tkKpi"></div>
+
+  <h3 class="sec">Toàn cảnh</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin:0 0 10px;font-size:13.5px">Bộ, cơ quan ngang bộ <span style="color:var(--dim);font-weight:400">— 17 bộ + Viện Hàn lâm KHXH</span></h4>
+      <div id="barBo" class="bars"></div></div>
+    <div class="card"><h4 style="margin:0 0 10px;font-size:13.5px">34 tỉnh, thành phố</h4>
+      <div id="barTinh" class="bars"></div></div>
+  </div>
+
+  <div class="note"><b>Cách gộp của bảng Tổng quan:</b> 34 tỉnh chia thành <b>17 đã ban hành · 7 đang xây dựng · 10 chưa ban hành</b>. Trong nhóm "đang xây dựng" gồm 4 tỉnh đang soạn thảo, 2 tỉnh <b>tích hợp phần dữ liệu vào Khung kiến trúc số</b> chứ chưa có khung dữ liệu riêng, và 1 tỉnh đã công bố nhưng chưa xác minh được số quyết định.</div>
+
+  <h3 class="sec">14 tỉnh VNPT đồng hành</h3>
+  <div id="vnptBox"></div>
+
+  <h3 class="sec">Bảng chi tiết</h3>
+  <div class="fbar">
+    <input id="tkq" placeholder="Tìm theo tên bộ, tỉnh hoặc số quyết định…">
+    <label>Khối</label>
+    <select id="tkk"><option value="">Tất cả</option><option value="tinh">Tỉnh, thành phố</option><option value="bo">Bộ, cơ quan</option></select>
+    <label>Trạng thái</label>
+    <select id="tks"><option value="">Tất cả</option><option value="DA">Đã ban hành</option><option value="DANG">Đang xây dựng</option><option value="TH">Tích hợp trong Khung số</option><option value="CBO">Chưa xác minh số QĐ</option><option value="CHUA">Chưa ban hành</option></select>
+    <label>VNPT</label>
+    <select id="tkv"><option value="">Tất cả</option><option value="x">VNPT đồng hành</option></select>
+    <span id="tkCnt"></span>
+  </div>
+  <div class="scroll">
+  <table id="tkTab">
+    <thead><tr><th style="width:34px">#</th><th style="width:19%">Đơn vị</th><th style="width:56px">VNPT</th><th style="width:130px">Trạng thái</th><th style="width:15%">Số quyết định</th><th style="width:82px">Ngày</th><th style="width:13%">Đơn vị đồng hành</th><th>Điểm nổi bật</th></tr></thead>
+    <tbody id="tkBody"></tbody>
+  </table>
+  </div>
+
+  <div class="note y"><span class="lb" style="display:block;font-weight:700;margin-bottom:5px;font-size:11.5px;letter-spacing:.4px">ĐỌC BẢNG NÀY THẾ NÀO</span>
+    <b>①</b> Có số quyết định <b>không đồng nghĩa đã có khung dữ liệu</b>. Hà Nội có QĐ 2906/QĐ-UBND, Lai Châu có QĐ 1181, Quảng Ninh có QĐ 3654 — nhưng đều là <b>Khung kiến trúc số</b>, phần dữ liệu chưa tách riêng.<br>
+    <b>②</b> Cột "Đơn vị đồng hành" mới xác minh được <b>6/34 tỉnh</b> — chủ yếu là Toàn Cầu Xanh (4 tỉnh). 28 tỉnh còn lại <b>chưa xác minh được đơn vị tư vấn</b>, tức là còn trống.<br>
+    <b>③</b> Trong 14 tỉnh VNPT đồng hành: <b>7 đã ban hành · 4 đang xây dựng · 3 chưa ban hành</b>. Nhóm 4 tỉnh đang xây dựng là nơi can thiệp có giá trị nhất.
+  </div>
+</section>
+
+<!-- ============ ⑪ THUẬT NGỮ ============ -->
+<section class="tab" id="tab-tn">
+  <h2>Thuật ngữ và viết tắt</h2>
+  <p class="hint">Tổng hợp từ <b>Phụ lục III QĐ 1425/QĐ-TTg</b>, QĐ 2439/QĐ-TTg, NĐ 278/2025/NĐ-CP và QĐ 1805/QĐ-BNNMT. Dùng để tra nhanh khi đọc văn bản hoặc khi anh chị em cần giải thích cho tỉnh.</p>
+
+  <h3 class="sec">Nền tảng và hệ thống dùng chung</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:12%">Viết tắt</th><th style="width:30%">Tên đầy đủ</th><th>Giải thích</th></tr></thead>
+    <tbody>
+      <tr><td><b>NDXP</b></td><td>National Data Exchange Platform</td><td><b>Nền tảng tích hợp, chia sẻ dữ liệu quốc gia</b> — Bộ KH&amp;CN chủ quản. Nhóm A #8 trong danh mục 79 nền tảng.</td></tr>
+      <tr style="background:rgba(242,118,46,.07)"><td><b>NDOP</b></td><td>National Data Orchestration Platform</td><td><b>Nền tảng chia sẻ, điều phối dữ liệu của Trung tâm dữ liệu quốc gia</b> — Bộ Công an chủ quản. Nhóm A #7. Mọi chia sẻ dữ liệu bắt buộc phải đi qua đây, thống nhất chậm nhất 31/12/2026.</td></tr>
+      <tr><td><b>LGSP</b></td><td>Local Government Service Platform</td><td><b>Nền tảng tích hợp, chia sẻ dữ liệu cấp bộ, cấp tỉnh</b>. Là nền tảng hiện hữu.</td></tr>
+      <tr><td><b>LDOP</b></td><td>Local Data Orchestration Platform</td><td><b>Nền tảng chia sẻ, điều phối dữ liệu cấp bộ, cấp tỉnh</b>. Là mô hình mục tiêu — LGSP được nâng cấp dần thành LDOP, không phát sinh nền tảng song song.</td></tr>
+      <tr style="background:rgba(242,118,46,.07)"><td><b>AGN</b></td><td>Agent Node</td><td><b>Máy chủ bảo mật điểm kết nối</b> — thành phần của Nền tảng chia sẻ, điều phối dữ liệu. <b>Do Trung tâm Dữ liệu quốc gia thiết lập, cấu hình, cài đặt</b>, không phải hạng mục tỉnh mua sắm.</td></tr>
+      <tr><td><b>VDXP</b></td><td>—</td><td>Nền tảng tích hợp, chia sẻ dữ liệu của <b>Văn phòng Chính phủ</b>.</td></tr>
+      <tr><td><b>NAS</b></td><td>National Architecture Management System</td><td><b>Hệ thống quản lý kiến trúc số quốc gia</b> — Bộ KH&amp;CN vận hành. Nơi công bố, cập nhật, giám sát mức độ tuân thủ kiến trúc trên toàn quốc.</td></tr>
+      <tr style="background:rgba(88,166,255,.07)"><td><b>HPC</b></td><td>High Performance Computing</td><td><b>Tính toán hiệu năng cao.</b> Trong danh mục 79 nền tảng là <b>"Trung tâm tính toán hiệu năng cao của Trung tâm dữ liệu quốc gia"</b> (Nhóm A #2, Bộ Công an). Là cụm siêu máy tính dùng chung, phục vụ xử lý dữ liệu lớn và huấn luyện mô hình AI. QĐ 1425 yêu cầu bộ và tỉnh <b>ưu tiên khai thác HPC quốc gia</b>, không tự mua cụm tính toán riêng.</td></tr>
+      <tr><td><b>TTDLQG</b></td><td>—</td><td><b>Trung tâm dữ liệu quốc gia</b> — Bộ Công an chủ trì. Nơi đặt CSDL tổng hợp quốc gia, NDOP, HPC, nền tảng đám mây dùng chung.</td></tr>
+      <tr><td><b>IOC</b></td><td>Intelligent Operations Center</td><td><b>Trung tâm giám sát, điều hành thông minh</b> — thành phần Lớp 3 cấp tỉnh.</td></tr>
+      <tr><td><b>SOC</b></td><td>Security Operations Center</td><td><b>Trung tâm điều hành an ninh mạng</b> — giám sát, phát hiện, cảnh báo và ứng phó sự cố an ninh mạng.</td></tr>
+      <tr><td><b>WAF</b></td><td>Web Application Firewall</td><td><b>Tường lửa ứng dụng web.</b> Hệ thống phòng vệ mạng quốc gia đã cung cấp WAF quốc gia — cơ quan nhà nước <b>không cần đầu tư giải pháp tính năng tương tự</b>.</td></tr>
+      <tr><td><b>VMS</b></td><td>Video Management System</td><td><b>Nền tảng quản lý video</b> — thành phần Lớp 2 cấp tỉnh.</td></tr>
+      <tr><td><b>TSLCD</b></td><td>—</td><td><b>Mạng Truyền số liệu chuyên dùng</b> của các cơ quan Đảng, Nhà nước. Tách biệt với Internet công cộng.</td></tr>
+      <tr><td><b>SSO</b></td><td>Single Sign-On</td><td>Đăng nhập một lần. Lưu ý: nên hợp nhất và tích hợp <b>Nền tảng định danh và xác thực điện tử / VNeID</b> thay vì đầu tư SSO riêng của tỉnh.</td></tr>
+      <tr><td><b>DVCQG · DVCTT</b></td><td>—</td><td>Cổng Dịch vụ công quốc gia · Dịch vụ công trực tuyến.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Lớp dữ liệu — theo QĐ 1805/QĐ-BNNMT</h3>
+  <div class="scroll">
+  <table>
+    <thead><tr><th style="width:12%">Mã</th><th style="width:30%">Tên</th><th>Giải thích</th></tr></thead>
+    <tbody>
+      <tr><td><b>SDL</b></td><td>Siêu dữ liệu — Metadata</td><td>Dữ liệu mô tả dữ liệu. <b>Bao trùm và quản trị 6 lớp còn lại.</b> Gồm siêu dữ liệu kỹ thuật, hoạt động và nghiệp vụ.</td></tr>
+      <tr><td><b>DLG</b></td><td>Dữ liệu gốc — Raw Data</td><td>Thô, nguyên bản, thu nhận trực tiếp tại nguồn.</td></tr>
+      <tr><td><b>DM</b></td><td>Dữ liệu danh mục — Reference Data</td><td>Bảng mã, danh mục, phân loại do cơ quan nhà nước ban hành, dùng chung.</td></tr>
+      <tr style="background:rgba(229,83,75,.08)"><td><b>DLC</b></td><td>Dữ liệu chủ — Master Data</td><td><b>Trung tâm của mô hình.</b> Cốt lõi, ổn định, tham chiếu cao. Bắt buộc tích hợp, đồng bộ và sử dụng dữ liệu chủ quốc gia.</td></tr>
+      <tr><td><b>GD</b></td><td>Dữ liệu giao dịch — Transaction Data</td><td>Phát sinh từ hoạt động, giao dịch hằng ngày.</td></tr>
+      <tr><td><b>TH</b></td><td>Dữ liệu tổng hợp và phân tích</td><td>Đã tổng hợp, tính toán, phân tích. Gồm cả kết quả mô hình ML/AI.</td></tr>
+      <tr><td><b>MO</b></td><td>Dữ liệu mở — Open Data</td><td>Đã làm sạch, ẩn danh, công bố công khai.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Mô hình tham chiếu</h3>
+  <div class="scroll">
+  <table>
+    <tbody>
+      <tr><td style="width:12%"><b>BRM</b></td><td style="width:30%">Business Reference Model</td><td>Mô hình tham chiếu <b>nghiệp vụ</b></td></tr>
+      <tr><td><b>DRM</b></td><td>Data Reference Model</td><td>Mô hình tham chiếu <b>dữ liệu</b></td></tr>
+      <tr><td><b>ARM</b></td><td>Application Reference Model</td><td>Mô hình tham chiếu <b>ứng dụng</b></td></tr>
+      <tr><td><b>TRM</b></td><td>Technical Reference Model</td><td>Mô hình tham chiếu <b>hạ tầng, kỹ thuật, công nghệ</b></td></tr>
+      <tr><td><b>SRM</b></td><td>Security Reference Model</td><td>Mô hình tham chiếu <b>an ninh mạng</b></td></tr>
+      <tr><td><b>IRM · PRM</b></td><td>Infrastructure · Performance Reference Model</td><td>Mô hình tham chiếu <b>hạ tầng</b> · <b>hiệu suất</b></td></tr>
+      <tr><td><b>RACI</b></td><td>Responsible · Accountable · Consulted · Informed</td><td>Ma trận <b>phân quyền và trách nhiệm</b> — ai làm, ai chịu trách nhiệm, ai được hỏi ý kiến, ai được thông báo</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Nguyên tắc thiết kế</h3>
+  <div class="scroll">
+  <table>
+    <tbody>
+      <tr><td style="width:22%"><b>API First</b></td><td>Ưu tiên thiết kế và công bố API ngay từ đầu để sẵn sàng kết nối, chia sẻ và tái sử dụng dịch vụ. API phải được đăng ký, công bố, quản lý vòng đời, phân quyền, quản lý phiên bản và truy vết.</td></tr>
+      <tr><td><b>Data-Centric</b></td><td><b>Lấy dữ liệu làm trung tâm.</b> Dữ liệu là tài sản chiến lược và là nền tảng cho mọi hoạt động quản trị, vận hành và ra quyết định.</td></tr>
+      <tr><td><b>Security by Design</b></td><td>Tích hợp yêu cầu bảo đảm an ninh mạng <b>ngay từ giai đoạn thiết kế</b>, xuyên suốt vòng đời hệ thống.</td></tr>
+      <tr><td><b>Privacy by Design</b></td><td>Tích hợp yêu cầu bảo vệ dữ liệu cá nhân và quyền riêng tư ngay từ thiết kế: tối thiểu hóa dữ liệu, phân loại, kiểm soát truy cập, quản trị vòng đời.</td></tr>
+      <tr><td><b>AI Governance by Design</b></td><td>Tích hợp yêu cầu quản trị, kiểm soát và giám sát AI ngay từ giai đoạn thiết kế hệ thống.</td></tr>
+      <tr><td><b>AI First</b></td><td>Ưu tiên xem xét, ứng dụng trí tuệ nhân tạo trong thiết kế quy trình nghiệp vụ, hệ thống số và hoạt động chỉ đạo, điều hành.</td></tr>
+      <tr><td><b>Cloud First</b></td><td>Ưu tiên sử dụng hạ tầng và dịch vụ điện toán đám mây khi xây dựng hệ thống số.</td></tr>
+      <tr><td><b>Modular Design</b></td><td>Thiết kế theo mô-đun — các thành phần có thể phát triển, nâng cấp hoặc thay thế độc lập.</td></tr>
+      <tr><td><b>Open Standard</b></td><td>Tiêu chuẩn mở, công khai để bảo đảm liên thông, tương thích và tránh phụ thuộc nhà cung cấp.</td></tr>
+      <tr><td><b>Single-writer</b></td><td><b>Ghi một lần.</b> Nguyên tắc áp dụng cho dữ liệu chủ và danh mục dùng chung — chỉ một nơi được ghi.</td></tr>
+      <tr><td><b>Nguồn dữ liệu tin cậy duy nhất</b></td><td>Một dữ liệu chỉ có <b>một nguồn</b>. Cơ sở của nguyên tắc "thu thập một lần, sử dụng nhiều lần".</td></tr>
+      <tr><td><b>Đúng, đủ, sạch, sống, thống nhất, dùng chung</b></td><td>Sáu tiêu chí chất lượng dữ liệu theo Luật Dữ liệu và QĐ 2439. <b>"Sống"</b> = được cập nhật kịp thời, phản ánh hiện trạng thực tế.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sec">Viết tắt khác</h3>
+  <div class="scroll">
+  <table>
+    <tbody>
+      <tr><td style="width:14%"><b>CSDL · CSDLQG</b></td><td style="width:36%">Cơ sở dữ liệu · Cơ sở dữ liệu quốc gia</td><td style="width:14%"><b>HTTT</b></td><td>Hệ thống thông tin</td></tr>
+      <tr><td><b>TTHC</b></td><td>Thủ tục hành chính</td><td><b>KPI</b></td><td>Chỉ số đo lường kết quả</td></tr>
+      <tr><td><b>CĐS</b></td><td>Chuyển đổi số</td><td><b>ATTT</b></td><td>An toàn thông tin</td></tr>
+      <tr><td><b>ANM</b></td><td>An ninh mạng</td><td><b>KTDL</b></td><td>Kiến trúc dữ liệu</td></tr>
+      <tr><td><b>QTQL</b></td><td>Quản trị, quản lý</td><td><b>QLVB&amp;ĐH</b></td><td>Quản lý văn bản và điều hành</td></tr>
+      <tr><td><b>BI</b></td><td>Business Intelligence — phân tích, trực quan hóa dữ liệu</td><td><b>DR</b></td><td>Disaster Recovery — phục hồi thảm họa</td></tr>
+      <tr><td><b>IoT</b></td><td>Internet vạn vật</td><td><b>PPP</b></td><td>Hợp tác công - tư</td></tr>
+      <tr><td><b>OCOP</b></td><td>Mỗi xã một sản phẩm</td><td><b>LAN</b></td><td>Mạng cục bộ</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
 </main>
 
 <div class="ov" id="ov"><div class="modal" id="md"></div></div>
 
 <script>
+
+/* ===== THỐNG KÊ TRIỂN KHAI ===== */
+const TK_BO=[["Bộ Quốc phòng", "CHUA", "", "", "chưa xác minh Khung dữ liệu riêng từ nguồn công khai. Hàm ý triển khai (không coi là nội dung văn bản đã ban hành): do dữ liệu có yêu cầu phân loại/bảo vệ cao, kiến trúc cần ưu tiên phân vùng dữ liệu, kiểm soát truy cập theo vai trò/thuộc tính, audit/lineage và tách môi trường chia sẻ. Giá trị thực "], ["Bộ Công an", "CHUA", "", "", "chưa xác minh QĐ riêng về Khung dữ liệu nội bộ Bộ từ nguồn công khai; Bộ giữ vai trò đặc thù trong quản lý nhà nước và hạ tầng dữ liệu quốc gia. Giá trị thực tiễn: các hệ thống Bộ/ngành/địa phương khi thiết kế Khung cần coi kết nối với Trung tâm dữ liệu quốc gia/NDOP, định danh, nhật ký khai thác và"], ["Bộ Ngoại giao", "CHUA", "", "", "chưa xác minh Khung dữ liệu riêng. Hàm ý triển khai: dữ liệu ngoại giao có tính phân tán theo cơ quan đại diện và biên giới hệ thống; Khung tương lai cần làm rõ nguồn chuẩn, đồng bộ khi kết nối hạn chế, phân loại/chia sẻ theo thẩm quyền, metadata đa ngôn ngữ và truy vết. Giá trị thực tiễn: nên thiết"], ["Bộ Nội vụ", "DA", "664/QĐ-BNV", "17/06/2026", "QĐ 664/QĐ-BNV ban hành đồng thời Architecture + Governance + Từ điển dữ liệu dùng chung. Giá trị thực tiễn: với dữ liệu tổ chức/cán bộ thường xuyên thay đổi theo sắp xếp bộ máy, trọng tâm nên là MDM tổ chức–đơn vị, versioning cơ cấu, mã định danh ổn định, lịch sử hiệu lực và mapping trước/sau thay đ"], ["Bộ Tư pháp", "DA", "953/QĐ-BTP", "07/04/2026", "Khung chia 4 vùng dữ liệu (nghiệp vụ/thô; dùng chung; tổng hợp-phân tích; mở), có lộ trình 3 giai đoạn và nhấn mạnh mã hóa, masking, data lineage, mô hình an toàn nhiều lớp. Giá trị thực tiễn: rất phù hợp để thiết kế pipeline từ hồ sơ nghiệp vụ → master/reference → BI/AI → open data có kiểm soát. Lư"], ["Bộ Tài chính", "DA", "1323/QĐ-BTC", "29/05/2026", "QĐ 1323/QĐ-BTC dùng nguyên tắc 'chia sẻ dữ liệu là mặc định', có mô hình metadata đa lớp; song song QĐ 100/QĐ-BTC đã thiết kế CSDL doanh nghiệp tích hợp đăng ký, thuế, BHXH, xuất nhập khẩu, tín dụng/đầu tư và phân tích AI/ML. Giá trị thực tiễn: đây là benchmark mạnh cho Entity-360/MDM – một thực thể"], ["Bộ Công Thương", "DA", "235/QĐ-BCT", "03/02/2026", "QĐ 235/QĐ-BCT ban hành khá sớm nhưng tên/phạm vi quyết định là Khung kiến trúc dữ liệu; không thấy trong chính QĐ này gói Governance + Từ điển như nhiều Bộ ban hành sau. Giá trị thực tiễn: cần theo dõi/bổ sung lớp vận hành gồm Data Owner/Steward, danh mục dữ liệu, DQ, metadata/từ điển và quy trình t"], ["Bộ Nông nghiệp và Môi trường", "DA", "1805/QĐ-BNNMT", "19/05/2026", "QĐ 1805/QĐ-BNNMT là một trong các Khung chi tiết nhất: 27 miền dữ liệu/20 lĩnh vực, 7 lớp dữ liệu, quy tắc đặt tên bảng, metadata trung tâm liên kết Từ điển, dữ liệu gốc/chủ có version và cấu trúc kỹ thuật cụ thể; quản trị áp dụng toàn vòng đời và phân cấp Trung ương–địa phương. Giá trị thực tiễn: c"], ["Bộ Xây dựng", "DA", "942/QĐ-BXD", "17/06/2026", "không dừng ở QĐ 942 về Architecture + Governance; cùng ngày 17/06/2026 Bộ ban hành QĐ 943 (dữ liệu mở & kế hoạch 2026–2030), QĐ 945 (Từ điển dùng chung) và QĐ 946 (dữ liệu gốc/chủ/chuyên ngành dùng chung). Giá trị thực tiễn: đây là benchmark tốt nhất cho chuỗi 'Khung → Dictionary → Data Catalog → Op"], ["Bộ Văn hóa, Thể thao và Du lịch", "DA", "1495/QĐ-BVHTTDL", "26/06/2026", "QĐ 1495/QĐ-BVHTTDL gộp Khung kiến trúc số + Khung kiến trúc dữ liệu + Governance + Từ điển dữ liệu dùng chung trong cùng một bộ tài liệu. Giá trị thực tiễn: phù hợp mô hình 'core governance dùng chung + domain pack' cho các miền rất khác nhau như văn hóa, thể thao, du lịch, báo chí/truyền thông. Lưu"], ["Bộ Khoa học và Công nghệ", "DA", "1973/QĐ-BKHCN", "31/03/2026", "QĐ 1973/QĐ-BKHCN ngày 31/03/2026 đã ban hành Khung kiến trúc dữ liệu và Khung quản trị/quản lý v1.0. Khung yêu cầu giám sát đo lường bằng KPI/KQI, truy vết/nhật ký, kiểm soát chia sẻ; chất lượng và quản trị được coi là năng lực đo được chứ không chỉ nguyên tắc. Giá trị thực tiễn: đây là benchmark ch"], ["Bộ Giáo dục và Đào tạo", "DA", "1866/QĐ-BGDĐT", "29/06/2026", "QĐ 1866/QĐ-BGDĐT ban hành Architecture + Governance; ngay 30/06/2026, QĐ 1871/QĐ-BGDĐT chuyển tiếp sang danh mục dữ liệu gốc, dữ liệu chủ và danh mục dùng chung, với các thực thể cụ thể như cơ sở giáo dục, học bạ số, văn bằng số/hồ sơ học tập. Giá trị thực tiễn: benchmark rất tốt cho 'Khung → tài sả"], ["Bộ Y tế", "CHUA", "2146/QĐ-BYT (Khung kiến trúc số)", "15/07/2026", "đã ban hành QĐ 2146/QĐ-BYT ngày 15/07/2026 về Khung kiến trúc số Bộ Y tế; chưa xác minh QĐ riêng về Khung kiến trúc dữ liệu tương đương QĐ 2439. Giá trị thực tiễn: Khung số nên được dùng làm bối cảnh hệ thống/liên thông, còn lớp dữ liệu vẫn cần tài liệu riêng về master/reference, metadata/từ điển, D"], ["Bộ Dân tộc và Tôn giáo", "CHUA", "", "", "chưa xác minh Khung dữ liệu riêng. Hàm ý triển khai: nếu xây Khung, cần đặc biệt rõ mục đích sử dụng, tối thiểu hóa dữ liệu, phân quyền và quality/lineage đối với dữ liệu cá nhân/nhóm đối tượng; đồng thời chuẩn hóa mã địa bàn, tổ chức và chương trình/chính sách. Giá trị thực tiễn: ưu tiên reference/"], ["Ngân hàng Nhà nước Việt Nam", "CHUA", "", "", "chưa xác minh Khung dữ liệu riêng từ nguồn công khai. Hàm ý triển khai: dữ liệu tài chính–tín dụng có yêu cầu độ chính xác, thời điểm và truy vết cao; Khung tương lai cần ưu tiên data contract, lineage, DQ theo SLA, reference/master tổ chức–định chế và phân quyền khai thác. Giá trị thực tiễn: data o"], ["Thanh tra Chính phủ", "CHUA", "", "", "chưa xác minh Khung dữ liệu riêng. Hàm ý triển khai: với dữ liệu vụ việc, khiếu nại/tố cáo, thanh tra và kết luận, cần mô hình thực thể xuyên suốt vòng đời hồ sơ, mã định danh vụ việc, quan hệ tổ chức–đối tượng–văn bản, lineage và phân quyền chặt. Giá trị thực tiễn: chuẩn hóa mô hình dữ liệu trước s"], ["Văn phòng Chính phủ", "CHUA", "", "", "chưa xác minh Khung dữ liệu nội bộ riêng. Hàm ý triển khai: VPCP khai thác dữ liệu từ nhiều Bộ/ngành/địa phương nên giá trị lớn nhất nằm ở metadata, semantic mapping, data contract, độ tươi/chất lượng và truy vết nguồn của chỉ tiêu điều hành. Giá trị thực tiễn: nên ưu tiên 'federated data products' "], ["Viện Hàn Lâm KHXH VN (VASS)", "DA", "1264-QĐ/VHLKHXHVN", "03/07/2026", "Giản lược hơn so với khung kiến trúc quốc gia"]];
+const TK_TINH=[["TP. Hà Nội", "CHUA", "", "2906/QĐ-UBND", "08/06/2026", "", "QĐ 2906/QĐ-UBND là Khung kiến trúc số, chưa phải Quyết định riêng về Khung kiến trúc dữ liệu. Giá trị triển khai: khi xây Khung dữ liệu cần tách rõ 5 sản phẩm có thể nghiệm thu: kiểm kê tài sản dữ liệu; mô hình dữ liệu chủ/tham chiếu; từ điển & metadata; RACI Owner/Steward; bộ qu"], ["TP. Hồ Chí Minh", "DA", "", "1293/QĐ-UBND", "05/03/2026", "", "Khung đi xa hơn mức nguyên tắc khi xác định 7 lớp kiến trúc và 6 nhóm dữ liệu lõi Con người, Tổ chức, Tài sản, Địa chính, Địa chỉ, Nền địa lý; đồng thời hướng tới dịch vụ dữ liệu/Sàn dữ liệu chất lượng cao. Giá trị triển khai: đây là benchmark tốt cho MDM cấp địa phương – cần xác"], ["TP. Hải Phòng", "DA", "x", "1154/QĐ-UBND", "31/03/2026", "", "Thành phố đã có Khung riêng trong khi Kho dữ liệu dùng chung đang được triển khai trong gói nền tảng dữ liệu. Giá trị triển khai: nên dùng Khung làm chuẩn kiểm tra ngược dự án Kho dữ liệu: dữ liệu nào là nguồn chuẩn, dữ liệu chủ nào cần MDM, API nào phải tái sử dụng, metadata/lin"], ["TP. Đà Nẵng", "DA", "", "2754/QĐ-UBND", "24/06/2026", "Toàn Cầu Xanh", "Khung được ban hành sau sắp xếp địa giới, vì vậy bài toán quan trọng không chỉ là kiến trúc mới mà là hợp nhất dữ liệu kế thừa từ các hệ thống cũ. Giá trị triển khai: cần lập bản đồ hệ thống/dữ liệu trước–sau hợp nhất, quy tắc đối soát mã dùng chung, xử lý trùng thực thể và quyết"], ["TP. Cần Thơ", "DA", "", "2679/QĐ-UBND", "", "", "Thành phố đang đồng bộ dữ liệu/IOC của Cần Thơ cũ, Sóc Trăng cũ và Hậu Giang cũ; Kho dữ liệu dùng chung đã có khối lượng dữ liệu lớn và nhiều phân hệ. Giá trị triển khai: ưu tiên canonical data model, entity resolution, chuẩn mã định danh, quy tắc dedup và chất lượng dữ liệu xuyê"], ["TP. Huế", "DA", "", "1385/QĐ-UBND", "28/04/2026", "", "Khung cụ thể hóa khá rõ mô hình tổ chức – Sở KH&CN đầu mối kiến trúc/tiêu chuẩn, Công an phụ trách an ninh, Sở Tài chính gắn nguồn lực đầu tư, HueIOC vận hành hạ tầng/nền tảng. Giá trị triển khai: đây là benchmark tốt về nối Architecture → Governance → Budget → Operation, giúp tr"], ["Đồng Nai", "DA", "", "468/QĐ-UBND", "28/05/2026", "", "Văn bản đã bao phủ Khung kiến trúc, quản trị/quản lý, Từ điển và Danh mục dữ liệu – tức đã có nền tảng để chuyển từ 'thiết kế' sang 'thực thi'. Giá trị triển khai: trọng tâm tiếp theo nên là gắn từng dataset với Owner/Steward, nguồn chuẩn, SLA cập nhật, chỉ số chất lượng và API/d"], ["An Giang", "CHUA", "", "", "", "MobiFone + Toàn Cầu Xanh (đang xây dựng; trúng gói 20/07/2026)", "đến thời điểm rà soát chưa xác minh QĐ ban hành Khung riêng; đã có gói tư vấn xây dựng Khung. Giá trị triển khai: hồ sơ nghiệm thu nên bắt buộc có As-Is inventory, target data model, danh mục source/master/reference/open data, RACI, bộ DQ/lineage và roadmap đầu tư có ưu tiên. Lưu"], ["Bắc Ninh", "DA", "", "1060/QĐ-UBND", "29/04/2026", "", "sau QĐ 1060/QĐ-UBND, tỉnh đã tiếp tục ban hành QĐ 1744/QĐ-UBND về danh mục CSDL gốc và dữ liệu lớn (đợt 1). Giá trị triển khai: đây là mô hình thực thi tốt 'Khung → backlog tài sản dữ liệu'; mỗi CSDL trong danh mục có thể tiếp tục gắn Owner/Steward, mức DQ, API, tần suất đồng bộ "], ["Cao Bằng", "CHUA", "x", "", "", "", "chưa xác minh Khung dữ liệu riêng, nhưng QĐ 601/QĐ-UBND ngày 14/04/2026 đã ban hành danh mục dữ liệu chủ chuyên ngành, dữ liệu dùng chung và dữ liệu mở. Giá trị triển khai: tỉnh đã có đầu vào rất tốt để xây kiến trúc – không cần khảo sát lại từ đầu; nên bổ sung owner, nguồn chuẩn"], ["Cà Mau", "DA", "x", "2300/QĐ-UBND", "23/06/2026", "Toàn Cầu Xanh", "Khung đã được ban hành trong bối cảnh tỉnh mới sau hợp nhất; yêu cầu thực tế lớn nhất là chuẩn hóa dữ liệu kế thừa và quản trị đến cấp xã/phường. Giá trị triển khai: cần thiết lập source-of-truth/MDM cho các thực thể dùng chung, mapping mã cũ–mới, kế hoạch migrate/federate và bộ "], ["Điện Biên", "DA", "x", "964/QĐ-UBND", "11/05/2026", "", "đã có Khung kiến trúc dữ liệu làm baseline pháp lý cấp tỉnh. Giá trị triển khai: bước có giá trị nhất tiếp theo là biến Khung thành danh mục dữ liệu gốc/chủ/tham chiếu, Data Owner/Steward, bộ quy tắc DQ, metadata/lineage và backlog API kết nối các CSDL chuyên ngành với nền tảng d"], ["Đắk Lắk", "TH", "", "436/QĐ-UBND", "03/02/2026", "", "QĐ 436/QĐ-UBND là Khung kiến trúc số, không phải Khung kiến trúc dữ liệu riêng. Giá trị triển khai: Khung số có thể dùng làm bối cảnh kiến trúc tổng thể, nhưng phần dữ liệu vẫn cần deliverable riêng về inventory, master/reference, dictionary/metadata, governance, DQ và data flow."], ["Đồng Tháp", "CHUA", "", "", "", "", "chưa xác minh QĐ Khung dữ liệu riêng cho tỉnh mới. Giá trị triển khai: ưu tiên kiểm kê và hợp nhất tài sản dữ liệu của Đồng Tháp cũ và Tiền Giang cũ, xác định CSDL trùng chức năng, mã định danh xung đột và dữ liệu nào giữ tại nguồn thay vì sao chép về kho. Lưu ý: đây là cơ hội là"], ["Gia Lai", "DA", "", "1088/QĐ-UBND", "30/03/2026", "", "QĐ 1088/QĐ-UBND ban hành đồng thời Khung kiến trúc, Khung quản trị/quản lý, Từ điển và Danh mục dữ liệu – mức độ hoàn chỉnh cao về bộ tài liệu. Giá trị triển khai: không nên tiếp tục mua thêm 'báo cáo kiến trúc'; cần chuyển sang thực thi: mapping nguồn chuẩn, MDM, Data Catalog, D"], ["Hà Tĩnh", "DANG", "x", "770/UBND2 (văn bản xin ý kiến dự thảo)", "16/06/2026", "", "đang ở giai đoạn dự thảo/xin ý kiến, chưa phải QĐ ban hành chính thức. Giá trị triển khai: đây là thời điểm tốt để chốt As-Is bằng số liệu thật: số CSDL, chất lượng, tần suất cập nhật, chủ quản, API, chi phí vận hành và điểm trùng lặp; từ đó mới thiết kế To-Be. Lưu ý: nên đưa roa"], ["Hưng Yên", "CBO", "", "", "", "", "đã có tài liệu Khung được công bố trên cổng tỉnh nhưng chưa xác minh được số QĐ/bản quyết định ký kèm. Giá trị triển khai: có thể sử dụng nội dung công bố để chuẩn bị kỹ thuật và inventory, nhưng khi lập hồ sơ đầu tư/đấu thầu cần đối chiếu đúng bản QĐ chính thức và phụ lục có hiệ"], ["Khánh Hòa", "CHUA", "", "", "", "Toàn Cầu Xanh", "nguồn tỉnh ngày 23/06/2026 cho thấy đang triển khai Kế hoạch thực hiện QĐ 2439 và xây dựng Khung, chưa đủ căn cứ xác nhận đã ban hành Khung riêng. Giá trị triển khai: yêu cầu tư vấn nên đi từ inventory thực tế đến target architecture, data catalog, RACI, DQ/lineage và roadmap ưu "], ["Lai Châu", "CHUA", "x", "1181/QĐ-UBND (Khung kiến trúc số)", "11/06/2026", "", "QĐ 1181/QĐ-UBND ngày 11/06/2026 là Khung kiến trúc số, chưa phải Khung kiến trúc dữ liệu riêng. Giá trị triển khai: dùng Khung số làm guardrail về ứng dụng/hạ tầng, sau đó bổ sung data inventory, master/reference, dictionary/metadata, DQ, lineage và RACI để tạo lớp quản trị dữ li"], ["Lào Cai", "TH", "", "1306/QĐ-UBND", "20/04/2026", "", "QĐ 1306/QĐ-UBND là Khung kiến trúc số. Giá trị triển khai: tỉnh mới cần ưu tiên harmonize dữ liệu Lào Cai cũ–Yên Bái cũ, chuẩn hóa mã địa bàn/đơn vị/tổ chức và xác định hệ thống nguồn trước khi xây kho dữ liệu hợp nhất. Lưu ý: Khung dữ liệu riêng cần biến các nguyên tắc số thành "], ["Lâm Đồng", "DA", "x", "1913/QĐ-UBND", "30/04/2026", "", "QĐ 1913/QĐ-UBND đã ban hành cả Khung kiến trúc dữ liệu và Khung quản trị/quản lý. Giá trị triển khai: trong bối cảnh hợp nhất Lâm Đồng–Bình Thuận–Đắk Nông, cần tập trung vào data harmonization: mapping mã, chủ dữ liệu, dữ liệu địa lý/đất đai, migrate-vs-federate và kiểm soát chất"], ["Lạng Sơn", "DA", "x", "987/QĐ-UBND", "31/05/2026", "", "Khung chú trọng không chỉ kiến trúc đích mà cả cơ chế rà soát/cập nhật khi có thay đổi; thực tế tỉnh đang đẩy mạnh làm sạch, chuẩn hóa và kết nối dữ liệu chuyên ngành. Giá trị triển khai: nên có Architecture Repository/Data Catalog có version, lineage, impact analysis và quy trìn"], ["Nghệ An", "DANG", "x", "", "", "", "đã có kiến trúc số nhưng báo cáo của tỉnh cho thấy Khung kiến trúc dữ liệu/Khung quản trị/Từ điển riêng chưa hoàn tất ở thời điểm rà soát. Giá trị triển khai: nên tận dụng giai đoạn xây dựng để chuẩn hóa danh mục CSDL, chủ dữ liệu, mô hình master/reference và tiêu chí chất lượng "], ["Ninh Bình", "CHUA", "", "362/QĐ-UBND", "06/02/2026", "", "chưa xác minh QĐ Khung dữ liệu riêng, nhưng QĐ 1905/QĐ-UBND ngày 26/05/2026 đã có Chiến lược dữ liệu với nguyên tắc hạn chế trùng lặp, ưu tiên tái sử dụng dữ liệu quốc gia và luồng dữ liệu trực tiếp cho chính quyền 2 cấp. Giá trị triển khai: Khung dữ liệu sau này nên chuyển các n"], ["Phú Thọ", "DA", "", "1042/QĐ-UBND", "05/04/2026", "", "Khung có mức kỹ thuật cao: 7 lớp; on-premise kết hợp cloud; ETL/ELT và CDC; LGSP/LDOP kết nối NDOP; API catalog; RPO/RTO; metadata, audit, masking/encryption. Giá trị triển khai: có thể dùng trực tiếp như checklist thiết kế và nghiệm thu nền tảng dữ liệu, đặc biệt cho data pipeli"], ["Quảng Ngãi", "CHUA", "", "", "", "Toàn Cầu Xanh", "chưa xác minh QĐ Khung dữ liệu riêng cho tỉnh mới. Giá trị triển khai: cần rà soát tài sản dữ liệu Quảng Ngãi cũ và Kon Tum cũ, nhất là dữ liệu địa lý, đất đai, dân sinh và các nền tảng IOC; xác định hệ thống nào giữ vai trò nguồn chuẩn. Lưu ý: chỉ sau khi rationalize nguồn mới n"], ["Quảng Ninh", "DANG", "x", "3654/QĐ-UBND (Khung CQ số 4.0)", "29/09/2025", "", "QĐ 3654/QĐ-UBND là Khung kiến trúc Chính quyền số 4.0; tỉnh cũng đã có Chiến lược dữ liệu, nhưng chưa xác minh QĐ riêng về Khung kiến trúc dữ liệu. Giá trị triển khai: Khung dữ liệu cần nối các danh mục CSDL hiện có với Owner/Steward, master/reference, DQ, lineage và kiến trúc mụ"], ["Quảng Trị", "DA", "", "1089/QĐ-UBND", "31/03/2026", "", "mục tiêu trọng tâm là khắc phục dữ liệu phân tán/cục bộ và tăng tích hợp, chuẩn hóa, chia sẻ dữ liệu chuyên ngành với dữ liệu quốc gia. Giá trị triển khai: nên chuyển mục tiêu thành KPI đo được: completeness/accuracy/freshness, tỷ lệ dataset có Owner, tỷ lệ API tái sử dụng, số ng"], ["Sơn La", "DANG", "x", "", "", "", "Điểm thực tế: dù chưa xác minh Khung dữ liệu riêng, QĐ 1134/QĐ-UBND ngày 13/05/2026 đã quy định quản lý, vận hành, khai thác Kho dữ liệu dùng chung và IOC. Giá trị triển khai: Khung dữ liệu tương lai không nên thiết kế 'greenfield' mà phải baseline kho hiện hữu, chuẩn hóa catalog"], ["Thanh Hóa", "CHUA", "", "", "", "", "Điểm thực tế: chưa xác minh QĐ Khung kiến trúc dữ liệu riêng, nhưng QĐ 2053/QĐ-UBND ngày 07/07/2026 đã ban hành Danh mục dữ liệu chủ chuyên ngành, dữ liệu dùng chung và dữ liệu mở. Giá trị triển khai: danh mục này là đầu vào trực tiếp cho Data Catalog/MDM; nên bổ sung owner, nguồ"], ["Thái Nguyên", "DA", "", "1873/QĐ-UBND", "18/06/2026", "", "QĐ 1873/QĐ-UBND ban hành đồng thời Khung kiến trúc, Khung quản trị/quản lý và Từ điển dữ liệu dùng chung. Giá trị triển khai: ưu tiên đưa Từ điển vào Data Catalog có version, gắn mã định danh, owner/steward và mapping dữ liệu kế thừa sau hợp nhất với Bắc Kạn; từ đó mới chuẩn hóa "], ["Tuyên Quang", "DA", "x", "665/QĐ-UBND", "31/03/2026", "", "Khung tổ chức theo 7 lớp và bám các nhóm dữ liệu lõi; có định hướng dữ liệu mở và catalog. Giá trị triển khai: nên biến nhóm lõi Con người/Tổ chức/Tài sản/Địa lý… thành MDM có golden record và biến catalog/open data thành backlog API/data product có chủ sở hữu, SLA và chất lượng."], ["Tây Ninh", "DA", "x", "7182/QĐ-UBND", "28/04/2026", "Đang chọn thầu đơn vị trúng thầu", "đã xác minh QĐ 7182/QĐ-UBND ngày 28/04/2026 ban hành Khung kiến trúc dữ liệu, Khung quản trị, quản lý dữ liệu và Từ điển dữ liệu dùng chung tỉnh Tây Ninh. Giá trị triển khai: vì tỉnh đã có đủ 3 cấu phần, trọng tâm nên chuyển sang inventory–owner/steward–DQ–metadata–API và kiểm tr"], ["Vĩnh Long", "CHUA", "x", "3988/QĐ-UBND", "22/06/2026", "", "QĐ 3988/QĐ-UBND là Khung kiến trúc số, chưa phải Khung kiến trúc dữ liệu riêng. Giá trị triển khai: tỉnh mới sau hợp nhất Vĩnh Long–Bến Tre–Trà Vinh cần ưu tiên inventory và harmonization dữ liệu, đặc biệt mã đơn vị/địa bàn, tổ chức và hệ thống chuyên ngành trùng chức năng. Lưu ý"]];
+const TK_L={DA:['Đã ban hành','t-da'],DANG:['Đang xây dựng','t-dang'],TH:['Tích hợp trong Khung số','t-th'],CBO:['Chưa xác minh số QĐ','t-cbo'],CHUA:['Chưa ban hành','t-chua']};
+const TK_ROWS=[
+  ...TK_TINH.map(r=>({k:'tinh',ten:r[0],st:r[1],v:r[2],qd:r[3],ng:r[4],dv:r[5],nb:r[6]})),
+  ...TK_BO.map(r=>({k:'bo',ten:r[0],st:r[1],v:'',qd:r[2],ng:r[3],dv:'',nb:r[4]}))
+];
+(function(){
+  const cT={},cB={};
+  TK_TINH.forEach(r=>cT[r[1]]=(cT[r[1]]||0)+1);
+  TK_BO.forEach(r=>cB[r[1]]=(cB[r[1]]||0)+1);
+  const nV=TK_TINH.filter(r=>r[2]==='x').length;
+  document.getElementById('tkKpi').innerHTML=
+    `<div><b>${cB.DA||0}/18</b>bộ, cơ quan đã ban hành</div>
+     <div><b>${cT.DA||0}/34</b>tỉnh đã ban hành khung dữ liệu</div>
+     <div><b>${(cT.DANG||0)+(cT.TH||0)+(cT.CBO||0)}</b>tỉnh đang xây dựng</div>
+     <div><b>${cT.CHUA||0}</b>tỉnh chưa ban hành</div>
+     <div><b>${nV}</b>tỉnh VNPT đồng hành</div>`;
+  function bars(el,c,tot,order){
+    document.getElementById(el).innerHTML=order.map(k=>{
+      const n=c[k]||0,pc=tot?(n*100/tot):0;
+      const col=k==='DA'?'g':(k==='CHUA'?'r':'y');
+      return `<div class="brow"><span>${TK_L[k][0]}</span><div class="btr"><div class="bfill ${col}" style="width:${pc}%"></div></div><span><b>${n}</b> · ${pc.toFixed(0)}%</span></div>`;
+    }).join('');
+  }
+  bars('barBo',cB,18,['DA','CHUA']);
+  bars('barTinh',cT,34,['DA','DANG','TH','CBO','CHUA']);
+
+  const vs=TK_TINH.filter(r=>r[2]==='x');
+  const grp={DA:[],DANG:[],CHUA:[]};
+  vs.forEach(r=>{const g=(r[1]==='DA')?'DA':(r[1]==='CHUA'?'CHUA':'DANG');grp[g].push(r[0])});
+  document.getElementById('vnptBox').innerHTML=
+   `<div class="grid3">
+     <div class="card" style="border-top:3px solid var(--ok)"><b style="color:var(--ok)">Đã ban hành — ${grp.DA.length}</b>
+       <p style="font-size:12.8px;color:var(--dim);margin:7px 0 0">${grp.DA.join(' · ')}</p>
+       <p style="font-size:12.3px;margin:8px 0 0">Không chào xây khung. Chào <b>rà soát, cập nhật</b> và ba việc tiếp theo: Từ điển dữ liệu, nâng cấp LGSP → LDOP kèm AGN, đăng ký NAS.</p></div>
+     <div class="card" style="border-top:3px solid var(--acc)"><b style="color:var(--acc)">Đang xây dựng — ${grp.DANG.length}</b>
+       <p style="font-size:12.8px;color:var(--dim);margin:7px 0 0">${grp.DANG.join(' · ')}</p>
+       <p style="font-size:12.3px;margin:8px 0 0"><b>Ưu tiên số 1.</b> Xin đọc dự thảo, làm bản rà soát tương thích miễn phí. Can thiệp lúc này giá trị nhất, chi phí thấp nhất.</p></div>
+     <div class="card" style="border-top:3px solid var(--l1)"><b style="color:var(--l1)">Chưa ban hành — ${grp.CHUA.length}</b>
+       <p style="font-size:12.8px;color:var(--dim);margin:7px 0 0">${grp.CHUA.join(' · ')}</p>
+       <p style="font-size:12.3px;margin:8px 0 0">Nguy cơ trễ hạn <b>30/11/2026</b>. Mở đầu bằng rủi ro và thời hạn, đề xuất gói khởi động nhanh làm song song.</p></div>
+    </div>`;
+
+  const q=document.getElementById('tkq'),fk=document.getElementById('tkk'),fs=document.getElementById('tks'),fv=document.getElementById('tkv'),cnt=document.getElementById('tkCnt'),body=document.getElementById('tkBody');
+  function render(){
+    const s=q.value.trim().toLowerCase(),k=fk.value,st=fs.value,v=fv.value;
+    const rows=TK_ROWS.filter(r=>(!k||r.k===k)&&(!st||r.st===st)&&(!v||r.v==='x')&&(!s||(r.ten+' '+r.qd).toLowerCase().includes(s)));
+    body.innerHTML=rows.map((r,i)=>`<tr>
+      <td>${i+1}</td>
+      <td><b>${r.ten}</b><br><small style="color:var(--dim)">${r.k==='bo'?'Bộ, cơ quan':'Tỉnh, thành'}</small></td>
+      <td style="text-align:center">${r.v==='x'?'<span class="tag t-vnpt">VNPT</span>':''}</td>
+      <td><span class="tag ${TK_L[r.st][1]}">${TK_L[r.st][0]}</span></td>
+      <td><small>${r.qd||'—'}</small></td>
+      <td><small>${r.ng||'—'}</small></td>
+      <td><small>${r.dv||'—'}</small></td>
+      <td><small>${r.nb||'—'}</small></td></tr>`).join('')
+      ||'<tr><td colspan="8" style="text-align:center;color:var(--dim);padding:22px">Không có đơn vị nào khớp bộ lọc.</td></tr>';
+    const nt=rows.filter(r=>r.k==='tinh').length;
+    cnt.innerHTML=`Hiển thị <b>${rows.length}</b>/52 &nbsp;·&nbsp; tỉnh: ${nt} · bộ: ${rows.length-nt}`;
+  }
+  [q,fk,fs,fv].forEach(e=>e.addEventListener('input',render));
+  render();
+})();
+
 /* ===================== 79 NỀN TẢNG ===================== */
 const P=[
 // Nhóm A — 17
 [1,'A','Nền tảng điện toán đám mây trong Trung tâm dữ liệu quốc gia',1,'Bộ Công an','Tỉnh ưu tiên đưa hệ thống lên đây thay vì mở rộng TTDL riêng. QĐ 1425: chỉ xây TTDL mới khi thật sự cần thiết.'],
-[2,'A','Trung tâm tính toán hiệu năng cao của Trung tâm dữ liệu quốc gia',1,'Bộ Công an','Tỉnh khai thác cho tác vụ AI, phân tích dữ liệu lớn — không đầu tư cụm tính toán riêng.'],
+[2,'A','Trung tâm tính toán hiệu năng cao (HPC) của Trung tâm dữ liệu quốc gia',1,'Bộ Công an','HPC = High Performance Computing — hạ tầng tính toán hiệu năng cao phục vụ xử lý dữ liệu lớn và trí tuệ nhân tạo. QĐ 1425 yêu cầu hạ tầng và nền tảng AI của bộ, tỉnh phải ƯU TIÊN khai thác hạ tầng AI quốc gia, HPC và Nền tảng phân tích dữ liệu lớn dùng chung; chỉ đầu tư mới khi thành phần dùng chung không đáp ứng. Tỉnh KHÔNG tự mua cụm GPU riêng.'],
 [3,'A','Nền tảng SOC quốc gia thế hệ mới (Nền tảng điều hành an ninh mạng quốc gia)',1,'Bộ Công an','SOC cấp tỉnh kết nối lên, không xây hệ thống điều hành ANM cấp quốc gia song song.'],
 [4,'A','Hệ thống phòng vệ mạng quốc gia',1,'Bộ Công an','Cung cấp WAF QG, chống DDoS tập trung, chặn bot, bảo vệ API. Cơ quan nhà nước KHÔNG cần đầu tư giải pháp tính năng tương tự.'],
 [5,'A','Nền tảng số Từ điển dữ liệu dùng chung',2,'Bộ Công an','Tỉnh phải ánh xạ Từ điển dữ liệu cấp tỉnh vào đây — điều kiện bắt buộc để chia sẻ dữ liệu lên trên.'],
