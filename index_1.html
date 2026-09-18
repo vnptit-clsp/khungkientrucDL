@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sổ tay Từ điển dữ liệu cấp tỉnh</title>
+<meta name="description" content="Định hướng VNPT Tỉnh tư vấn tỉnh thực hiện Công văn 2910/BCA-TTDLQG: ánh xạ trường dữ liệu vào Từ điển dữ liệu quốc gia và chuẩn bộ ngành.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F4F6F9; --paper:#FFFFFF; --ink:#132033; --ink-2:#48566B; --line:#D8DEE7; --soft:#E9EEF5;
+  --accent:#0A58A8; --accent-soft:#E3EEFA; --amber:#9A5B00; --amber-soft:#FBF0DC;
+  --green:#1D7A46; --green-soft:#E1F3E8; --red:#B3261E; --red-soft:#FBE5E3; --violet:#5B3FA6; --violet-soft:#ECE6FA;
+  --sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E141C; --paper:#151D28; --ink:#E6ECF4; --ink-2:#A3B0C2; --line:#2A3544; --soft:#1C2633;
+    --accent:#6FB0F2; --accent-soft:#16304D; --amber:#E8B25A; --amber-soft:#3A2B12;
+    --green:#6BCB93; --green-soft:#133222; --red:#F08A82; --red-soft:#3D1A18; --violet:#B7A2F0; --violet-soft:#2A2145;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E141C; --paper:#151D28; --ink:#E6ECF4; --ink-2:#A3B0C2; --line:#2A3544; --soft:#1C2633;
+  --accent:#6FB0F2; --accent-soft:#16304D; --amber:#E8B25A; --amber-soft:#3A2B12;
+  --green:#6BCB93; --green-soft:#133222; --red:#F08A82; --red-soft:#3D1A18; --violet:#B7A2F0; --violet-soft:#2A2145;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:clamp(26px,4.2vw,38px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:22px;font-weight:700;letter-spacing:-.01em}
+h3{font-size:16px;font-weight:700}
+p{margin:0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--ink-2)}
+code,.mono{font-family:var(--mono);font-size:.86em}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{padding-block:40px 28px;border-bottom:1px solid var(--line);display:grid;gap:14px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--ink-2)}
+.meta b{color:var(--ink);font-weight:600}
+.lede{max-width:70ch;font-size:16px;color:var(--ink-2)}
+
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding-inline:16px;overflow-x:auto}
+nav.toc ul{display:flex;gap:4px;list-style:none;margin:0 auto;padding:8px 0;max-width:1040px;white-space:nowrap}
+nav.toc a{display:block;padding:6px 10px;border-radius:6px;font-size:13px;font-weight:500;color:var(--ink-2);text-decoration:none}
+nav.toc a:hover{background:var(--soft);color:var(--ink)}
+
+section{padding-block:36px 8px;display:grid;gap:18px}
+.sec-head{display:grid;gap:6px}
+.sec-head p{max-width:72ch}
+
+.answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.ans{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:10px;align-content:start}
+.ans .q{font-size:13px;font-weight:600;color:var(--ink-2)}
+.ans .a{font-size:17px;font-weight:700}
+.ans ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.ans.hl{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+
+.note{border-radius:8px;padding:14px 16px;font-size:14px;display:grid;gap:6px}
+.note.warn{background:var(--amber-soft);color:var(--ink)}
+.note.warn b.t{color:var(--amber)}
+.note.info{background:var(--accent-soft)}
+.note.info b.t{color:var(--accent)}
+.note.risk{background:var(--red-soft)}
+.note.risk b.t{color:var(--red)}
+
+.tbl{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);background:var(--soft)}
+tr:last-child td{border-bottom:0}
+td.c{text-align:center;font-weight:700}
+.raci-R{color:var(--accent)} .raci-A{color:var(--violet)} .raci-C{color:var(--amber)} .raci-I{color:var(--ink-2);font-weight:500}
+
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.p-ok{background:var(--green-soft);color:var(--green)}
+.p-fmt{background:var(--amber-soft);color:var(--amber)}
+.p-miss{background:var(--red-soft);color:var(--red)}
+.p-own{background:var(--violet-soft);color:var(--violet)}
+.p-new{background:var(--accent-soft);color:var(--accent)}
+
+/* Overview */
+.ov{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;counter-reset:o}
+.ov a{display:grid;gap:6px;align-content:start;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px;text-decoration:none;color:var(--ink);font-size:13px;line-height:1.4}
+.ov a:hover{border-color:var(--accent)}
+.ov .n{font-size:12px;font-weight:700;color:var(--accent)}
+.ov .t{font-weight:600}
+.ov .tag{font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;justify-self:start}
+.ov .tag.s{background:var(--green-soft);color:var(--green)}
+.ov .tag.v{background:var(--soft);color:var(--ink-2)}
+@media (max-width:860px){.ov{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:480px){.ov{grid-template-columns:repeat(2,1fr)}}
+/* Steps */
+.steps{display:grid;gap:14px;counter-reset:s}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.step-h{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.num{flex:none;width:34px;height:34px;border-radius:8px;background:var(--accent);color:var(--paper);display:grid;place-items:center;font-weight:800;font-size:15px}
+.step-h .tt{flex:1;min-width:220px;display:grid;gap:3px}
+.step-h .when{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--soft);padding:4px 10px;border-radius:6px;white-space:nowrap}
+.lanes{display:grid;grid-template-columns:repeat(3,1fr)}
+.lane{padding:14px 18px;display:grid;gap:6px;align-content:start;font-size:14px}
+.lane + .lane{border-left:1px solid var(--line)}
+.lane .lh{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.lane.l1 .lh{color:var(--accent)} .lane.l2 .lh{color:var(--green)} .lane.l3 .lh{color:var(--violet)}
+.lane ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.out{padding:10px 18px;background:var(--soft);font-size:13px;border-top:1px solid var(--line)}
+.out b{font-weight:600}
+@media (max-width:760px){
+  .lanes{grid-template-columns:1fr}
+  .lane + .lane{border-left:0;border-top:1px solid var(--line)}
+}
+
+/* Timeline */
+.tl{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow-x:auto}
+.tl-grid{min-width:680px;display:grid;grid-template-columns:170px repeat(15,1fr);gap:4px 2px;font-size:12px;align-items:center}
+.tl-grid .wk{text-align:center;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tl-grid .lbl{font-weight:600;font-size:13px;padding-right:8px}
+.bar{height:18px;border-radius:4px;background:var(--accent)}
+.bar.b2{background:var(--green)} .bar.b3{background:var(--violet)} .bar.b4{background:var(--amber)}
+.dl{grid-column:16/17;justify-self:end;font-weight:700;color:var(--red);font-size:11px}
+.tl-legend{margin-top:10px;font-size:12px;color:var(--ink-2)}
+
+/* Checklist */
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.cgroup{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:8px;align-content:start}
+.cgroup label{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer}
+.cgroup input{margin-top:4px;accent-color:var(--accent);width:16px;height:16px;flex:none}
+.cgroup input:checked + span{color:var(--ink-2);text-decoration:line-through}
+.progress{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:6px 12px;border-radius:6px;cursor:pointer}
+.btn:hover{background:var(--soft)}
+
+details.faq{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:0 18px}
+details.faq + details.faq{margin-top:-8px}
+details.faq summary{cursor:pointer;padding:14px 0;font-weight:600;list-style-position:outside}
+details.faq[open] summary{border-bottom:1px solid var(--line)}
+details.faq div{padding:12px 0 16px;font-size:14px;display:grid;gap:8px;max-width:78ch}
+
+.twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:8px;align-content:start;font-size:14px}
+.box ul,.box ol{margin:0;padding-left:20px;display:grid;gap:5px}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2);display:grid;gap:6px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+section[id],article[id]{scroll-margin-top:60px}
+.sheets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:8px;align-content:start;font-size:14px}
+.sheet .sn{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.fact{background:var(--paper);padding:14px 16px;display:grid;gap:4px}
+.fact .k{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.fact .v{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.fact .v.late{color:var(--red)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.ph{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:10px;align-content:start;font-size:14px}
+.ph.now{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.ph .pk{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+.ph ul{margin:0;padding-left:18px;display:grid;gap:5px}
+.do{padding:14px 18px;display:grid;gap:8px;font-size:14px}
+.do ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.vn{padding:10px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
+.vn b{color:var(--green)}
+.docs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.doc{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-decoration:none;color:var(--ink)}
+.doc:hover{border-color:var(--accent)}
+.doc .ic{width:44px;height:52px;border-radius:6px;display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--paper)}
+.doc .ic.pdf{background:var(--red)} .doc .ic.xls{background:var(--green)}
+.doc .dt{display:grid;gap:4px;font-size:14px}
+.doc .dt b{font-size:15px}
+.doc .go{font-size:13px;font-weight:600;color:var(--accent)}
+
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">Tài liệu định hướng · VNPT Tỉnh/Thành phố</span>
+  <h1>Sổ tay Từ điển dữ liệu cấp tỉnh</h1>
+  <p class="lede">Định hướng để VNPT Tỉnh tư vấn, phối hợp với tỉnh thực hiện <b>Công văn 2910/BCA-TTDLQG</b>: giai đoạn 1 chỉ <b>ánh xạ</b> trường dữ liệu vào Từ điển dữ liệu quốc gia và chuẩn dữ liệu của bộ ngành, không tự tạo mới từ điển. Đặc thù địa phương để giai đoạn 2.</p>
+  <div class="meta">
+    <span><b>Đơn vị soạn:</b> Ban Chiến lược Sản phẩm – VNPT IT</span>
+    <span><b>Phiên bản:</b> 3.0 (dự thảo)</span>
+    <span><b>Ngày:</b> 18/09/2026</span>
+    <span><b>Phạm vi:</b> 34 tỉnh/thành phố</span>
+  </div>
+</header>
+</div>
+
+<nav class="toc" aria-label="Mục lục">
+  <ul>
+    <li><a href="#tai-lieu">Tài liệu gốc</a></li>
+    <li><a href="#dinh-huong">Định hướng</a></li>
+    <li><a href="#cv2910">CV 2910</a></li>
+    <li><a href="#chuan-nganh">Chuẩn bộ ngành</a></li>
+    <li><a href="#quy-trinh">5 bước</a></li>
+    <li><a href="#vi-du">Ví dụ ánh xạ</a></li>
+    <li><a href="#lo-trinh">Lộ trình</a></li>
+    <li><a href="#cong-cu">Công cụ hỗ trợ</a></li>
+    <li><a href="#xep-hang">Xếp hạng CSDL</a></li>
+    <li><a href="#can-cu">Căn cứ</a></li>
+    <li><a href="#hoi-dap">Hỏi đáp</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+<section id="tai-lieu">
+  <div class="sec-head">
+    <span class="eyebrow">Tài liệu gốc</span>
+    <h2>Văn bản và biểu mẫu cần có</h2>
+    <p class="muted">Đọc văn bản trước, sau đó dùng biểu mẫu Phụ lục III để làm Bước 3 (ánh xạ).</p>
+  </div>
+  <div class="docs">
+    <a class="doc" href="CV_2910_BCA-TTDLQG.pdf" target="_blank" rel="noopener">
+      <span class="ic pdf">PDF</span>
+      <span class="dt"><b>Công văn 2910/BCA-TTDLQG</b><span class="muted">Ngày 12/6/2026 · Hướng dẫn Từ điển dữ liệu và đánh giá, xếp hạng CSDL · kèm Phụ lục I, II · 41 trang (bản scan, đã ẩn số điện thoại và email cá nhân)</span><span class="go">Mở văn bản →</span></span>
+    </a>
+    <a class="doc" href="https://docs.google.com/spreadsheets/d/1f5fSEiWy2T5_SK5KEluzgjOkEo20Lc09/edit?gid=414823886#gid=414823886" target="_blank" rel="noopener">
+      <span class="ic xls">XLSX</span>
+      <span class="dt"><b>PL3 – Nhập thông tin Từ điển dữ liệu (V3.2)</b><span class="muted">Biểu mẫu nhập thông tin kèm CV 2910 · Google Trang tính</span><span class="go">Mở biểu mẫu →</span></span>
+    </a>
+  </div>
+</section>
+
+<section id="dinh-huong">
+  <div class="sec-head">
+    <span class="eyebrow">Định hướng chung</span>
+    <h2>Ba nguyên tắc cho giai đoạn 1</h2>
+  </div>
+  <div class="answers">
+    <div class="ans hl">
+      <span class="q">Nguyên tắc 1</span>
+      <span class="a">Lấy chuẩn chung của bộ ngành làm gốc, không lấy cấu trúc phần mềm.</span>
+      <p style="font-size:14px">Mỗi ngành đã có chuẩn dữ liệu chung (y tế có chuẩn XML theo QĐ 130/QĐ-BYT và các lần sửa đổi, giáo dục có quy định kỹ thuật CSDL ngành…). Mọi phần mềm trong ngành, của bất kỳ nhà cung cấp nào, đều phải tuân theo. Ánh xạ từ chuẩn ngành cho kết quả thống nhất giữa các tỉnh; xuất từ từng phần mềm thì mỗi nơi một kiểu.</p>
+    </div>
+    <div class="ans hl">
+      <span class="q">Nguyên tắc 2</span>
+      <span class="a">Tối đa là ánh xạ theo phương án B của CV 2910 – không tự tạo mới từ điển.</span>
+      <p style="font-size:14px">Trường nào khớp phần tử dữ liệu cốt lõi (CDE) thì ghép vào mã CDE. Trường thuộc chuẩn ngành mà chưa có CDE thì ghi tham chiếu chuẩn ngành, để bộ chủ quản đề xuất – tỉnh không tự định nghĩa lại. CV 2910 cũng cấm định nghĩa lại khái niệm đã có.</p>
+    </div>
+    <div class="ans hl">
+      <span class="q">Nguyên tắc 3</span>
+      <span class="a">Đặc thù địa phương để giai đoạn 2.</span>
+      <p style="font-size:14px">Trường riêng của tỉnh (không có trong từ điển quốc gia, không có trong chuẩn bộ ngành) được đánh dấu, lập danh sách, và xử lý từ 2027 – cùng thời điểm Giai đoạn 2 trong lộ trình của CV 2910.</p>
+    </div>
+  </div>
+  <div class="note info">
+    <b class="t">Vì sao không xuất từ phần mềm chuyên ngành</b>
+    <p>CV 2910 (Phụ lục I, mục II) phân biệt rõ: “cột dữ liệu trong phần mềm” là cấu trúc kỹ thuật để lưu trữ; “từ điển dữ liệu” là mô tả chuẩn về ý nghĩa, nguồn gốc, phạm vi chia sẻ. Phần kỹ thuật đã do Trung tâm Dữ liệu quốc gia (C12) trích xuất; việc của tỉnh là gắn đúng ý nghĩa nghiệp vụ – và ý nghĩa đó đã được bộ ngành chuẩn hóa sẵn.</p>
+  </div>
+</section>
+
+<section id="cv2910">
+  <div class="sec-head">
+    <span class="eyebrow">Văn bản gốc</span>
+    <h2>Công văn 2910/BCA-TTDLQG tóm tắt</h2>
+    <p class="muted">V/v hướng dẫn Từ điển dữ liệu và đánh giá, xếp hạng cơ sở dữ liệu. Gửi các bộ, cơ quan trung ương và UBND các tỉnh, thành phố.</p>
+  </div>
+  <div class="facts">
+    <div class="fact"><span class="k">Ngày ký</span><span class="v">12/06/2026</span><span class="muted" style="font-size:13px">KT. Bộ trưởng – Thứ trưởng Nguyễn Văn Long</span></div>
+    <div class="fact"><span class="k">Hạn gửi từ điển về BCA</span><span class="v late">31/07/2026</span><span class="muted" style="font-size:13px">Đã qua – nhiều tỉnh đang làm tiếp</span></div>
+    <div class="fact"><span class="k">Hạn chuẩn hóa, kết nối</span><span class="v">31/12/2026</span><span class="muted" style="font-size:13px">Điều 24 NĐ 278/2025</span></div>
+    <div class="fact"><span class="k">Đơn vị chủ trì tại tỉnh</span><span class="v">Đơn vị chuyên trách CNTT</span><span class="muted" style="font-size:13px">Thường là Sở KH&amp;CN</span></div>
+  </div>
+  <div class="twocol">
+    <div class="box">
+      <h3>Cách làm theo CV 2910</h3>
+      <ul>
+        <li>Toàn văn: <a href="CV_2910_BCA-TTDLQG.pdf" target="_blank" rel="noopener">CV 2910 (PDF)</a>.</li>
+        <li>C12 trích xuất trường kỹ thuật từ CSDL đã kết nối về Trung tâm Dữ liệu quốc gia, gửi tỉnh tệp Excel 3 sheet.</li>
+        <li><b>Sheet I</b> – Bộ từ vựng cốt lõi (CDE): chỉ đọc, không định nghĩa lại.</li>
+        <li><b>Sheet II</b> – Ánh xạ field → CDE: các trường C12 đã tìm thấy tương đồng.</li>
+        <li><b>Sheet III</b> – Form nhập: các trường chưa ánh xạ, cần tỉnh xử lý và nộp lại (<a href="https://docs.google.com/spreadsheets/d/1f5fSEiWy2T5_SK5KEluzgjOkEo20Lc09/edit?gid=414823886#gid=414823886" target="_blank" rel="noopener">biểu mẫu V3.2</a>).</li>
+        <li>Tỉnh ban hành QĐ công bố Từ điển dữ liệu chuyên ngành v1.0, gửi hồ sơ về TTDLQG.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Hai phương án ở cột G</h3>
+      <ul>
+        <li><span class="pill p-ok">B</span> <b>Ghép vào CDE có sẵn</b>: ghi mã CDE ở cột H, bỏ trống cột I–P. <i>Đây là phương án của giai đoạn 1.</i></li>
+        <li><span class="pill p-own">A</span> <b>Tạo CDE mới</b>: điền tên, định nghĩa, ngữ cảnh, kiểu, độ dài, căn cứ (cột I–P). <i>Nên để bộ ngành đề xuất cho trường chuẩn ngành; đặc thù địa phương để giai đoạn 2.</i></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="chuan-nganh">
+  <div class="sec-head">
+    <span class="eyebrow">Nguồn chuẩn để ánh xạ</span>
+    <h2>Chuẩn dữ liệu của bộ ngành</h2>
+    <p class="muted">Thứ tự ưu tiên khi ánh xạ một trường: (1) Từ điển dữ liệu quốc gia – CDE; (2) chuẩn dữ liệu, từ điển dữ liệu do bộ ngành ban hành; (3) chưa có ở cả hai → đánh dấu để xử lý sau.</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:16%">Ngành</th><th style="width:34%">Chuẩn dữ liệu chung</th><th>Dùng khi ánh xạ</th></tr></thead>
+      <tbody>
+        <tr><td><b>Y tế</b></td><td>QĐ 130/QĐ-BYT (18/01/2023), sửa đổi bởi QĐ 4750/QĐ-BYT (29/12/2023) và <b>QĐ 3176/QĐ-BYT</b> (29/10/2024): chuẩn và định dạng dữ liệu đầu ra khám, chữa bệnh – bảng check-in và 15 bảng XML. <b>Thông tư 12/2026/TT-BTC</b> (10/02/2026) về giám định chi phí KCB BHYT dẫn chiếu chuẩn này cho bảng kê chi tiết và quy định danh mục dùng trong liên thông dữ liệu (Phụ lục II). Kèm theo: Khung kiến trúc số Bộ Y tế (QĐ 2146/QĐ-BYT, 15/7/2026)</td><td>Tên chỉ tiêu, định nghĩa, kiểu, độ dài trong từng bảng XML là căn cứ để xác định trường tương ứng với CDE. Cơ sở khám, chữa bệnh gửi dữ liệu theo chuẩn này để giám định, thanh toán BHYT – dùng bản mới nhất sau các lần sửa đổi.</td></tr>
+        <tr><td><b>Giáo dục</b></td><td>NĐ 88/2026/NĐ-CP về quản lý dữ liệu giáo dục và đào tạo (hiệu lực 15/5/2026); QĐ 4998/QĐ-BGDĐT (2021) quy định kỹ thuật về dữ liệu của CSDL giáo dục và đào tạo; Thông tư 42/2021/TT-BGDĐT (rà lại hiệu lực sau NĐ 88)</td><td>Trường về cơ sở giáo dục, học sinh, giáo viên, mã định danh trên CSDL ngành.</td></tr>
+        <tr><td><b>Ngành khác</b></td><td>Từ điển dữ liệu, khung kiến trúc, danh mục dùng chung của bộ quản lý ngành (ví dụ Bộ VHTT&amp;DL đã ban hành từ điển kèm khung kiến trúc – QĐ 1495/QĐ-BVHTTDL)</td><td>Tra văn bản của bộ trước; chỉ khi bộ chưa có chuẩn mới xem xét đề xuất.</td></tr>
+        <tr><td><b>Dùng chung mọi ngành</b></td><td>Từ điển dữ liệu dùng chung v1.0 (QĐ 2439/QĐ-TTg); danh mục đơn vị hành chính; mã định danh cá nhân</td><td>Họ tên, ngày sinh, giới tính, số định danh, địa chỉ… luôn ghép về CDE.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="quy-trinh">
+  <div class="sec-head">
+    <span class="eyebrow">Cách làm</span>
+    <h2>Năm bước thực hiện giai đoạn 1</h2>
+    <p class="muted">Tỉnh chủ trì (qua đơn vị chuyên trách CNTT). VNPT Tỉnh tư vấn, hỗ trợ ở các bước phù hợp.</p>
+  </div>
+  <div class="steps">
+    <article class="step" id="b1">
+      <div class="step-h"><span class="num">1</span><div class="tt"><h3>Nắm tình trạng thực hiện và tệp Excel C12 của tỉnh</h3><p class="muted">Tỉnh đã nhận tệp chưa, đã nộp chưa, đã có QĐ công bố chưa.</p></div></div>
+      <div class="vn"><b>VNPT Tỉnh:</b> làm việc với Sở KH&amp;CN để nắm tình hình và nhu cầu hỗ trợ.</div>
+    </article>
+    <article class="step" id="b2">
+      <div class="step-h"><span class="num">2</span><div class="tt"><h3>Xác định chuẩn ngành áp dụng cho từng CSDL</h3><p class="muted">Nhóm các CSDL trong tệp C12 theo ngành; gắn mỗi nhóm với văn bản chuẩn dữ liệu tương ứng (mục <a href="#chuan-nganh">Chuẩn bộ ngành</a>).</p></div></div>
+      <div class="vn"><b>VNPT Tỉnh:</b> cung cấp thông tin chuẩn ngành mà các hệ thống đang tuân theo.</div>
+    </article>
+    <article class="step" id="b3">
+      <div class="step-h"><span class="num">3</span><div class="tt"><h3>Ánh xạ trường – chỉ theo phương án B</h3><p class="muted">Sheet II: kiểm tra đề xuất của C12. Sheet III: đối chiếu từng trường với chuẩn ngành, rồi phân loại.</p></div></div>
+      <div class="do">
+        <ul>
+          <li><span class="pill p-ok">Ghép CDE</span> khớp khái niệm trong Từ điển quốc gia → chọn B, ghi mã CDE</li>
+          <li><span class="pill p-fmt">Chuẩn ngành</span> có trong chuẩn bộ ngành nhưng chưa có CDE → ghi tham chiếu (văn bản, bảng, chỉ tiêu), chờ bộ ngành đề xuất</li>
+          <li><span class="pill p-own">Đặc thù</span> chỉ có ở địa phương → lập danh sách cho giai đoạn 2</li>
+          <li><span class="pill p-miss">Loại bỏ</span> trường kỹ thuật nội bộ (khóa, cờ hệ thống, ghi chú tự do) → không đưa vào từ điển</li>
+        </ul>
+      </div>
+      <div class="vn"><b>VNPT Tỉnh:</b> tỉnh có VNPT Data Lakehouse có thể dùng module từ điển dữ liệu để gợi ý ánh xạ (mục <a href="#cong-cu">Công cụ hỗ trợ</a>).</div>
+    </article>
+    <article class="step" id="b4">
+      <div class="step-h"><span class="num">4</span><div class="tt"><h3>Xác nhận và ban hành</h3><p class="muted">Đơn vị nghiệp vụ xác nhận ánh xạ; pháp chế rà căn cứ, phạm vi chia sẻ, mức bảo vệ; UBND tỉnh ban hành QĐ công bố Từ điển dữ liệu chuyên ngành v1.0; gửi hồ sơ về TTDLQG.</p></div></div>
+      <div class="vn"><b>VNPT Tỉnh:</b> hỗ trợ tài liệu mô tả hệ thống, phương thức kết nối khi tỉnh cần cho hồ sơ.</div>
+    </article>
+    <article class="step" id="b5">
+      <div class="step-h"><span class="num">5</span><div class="tt"><h3>Duy trì và chuẩn bị đánh giá, xếp hạng</h3><p class="muted">Cập nhật trên Hệ thống quản lý Từ điển dữ liệu dùng chung khi C12 cấp tài khoản; theo dõi tỷ lệ ánh xạ và các điều kiện kiểm toán (mục <a href="#xep-hang">Xếp hạng CSDL</a>).</p></div></div>
+      <div class="vn"><b>VNPT Tỉnh:</b> tư vấn các chỉ số liên quan đến hệ thống đang vận hành.</div>
+    </article>
+  </div>
+</section>
+
+<section id="vi-du">
+  <div class="sec-head">
+    <span class="eyebrow">Minh họa</span>
+    <h2>Ví dụ ánh xạ với chuẩn XML ngành y tế</h2>
+    <p class="muted">Ví dụ minh họa cách phân loại – tên trường lấy theo chuẩn XML; khái niệm và mã CDE thực tế tra trong Sheet I của tệp C12.</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Trường theo chuẩn XML (QĐ 130 và các lần sửa đổi)</th><th>Khái niệm</th><th>Phân loại</th><th>Ghi vào biểu mẫu</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">HO_TEN</td><td>Họ và tên người bệnh</td><td><span class="pill p-ok">Ghép CDE</span></td><td>G = B; H = mã CDE “Họ và tên”</td></tr>
+        <tr><td class="mono">NGAY_SINH</td><td>Ngày sinh</td><td><span class="pill p-ok">Ghép CDE</span></td><td>G = B; H = mã CDE “Ngày sinh”</td></tr>
+        <tr><td class="mono">SO_CCCD</td><td>Số định danh cá nhân</td><td><span class="pill p-ok">Ghép CDE</span></td><td>G = B; H = mã CDE “Số định danh cá nhân”</td></tr>
+        <tr><td class="mono">MA_BENH_CHINH</td><td>Mã bệnh chính (ICD-10)</td><td><span class="pill p-fmt">Chuẩn ngành</span></td><td>Ghi tham chiếu chuẩn XML (QĐ 130 và sửa đổi), bảng tương ứng; chờ Bộ Y tế đề xuất CDE</td></tr>
+        <tr><td><i>Trường riêng của tỉnh</i></td><td>Ví dụ chỉ tiêu theo dõi đặc thù của địa phương</td><td><span class="pill p-own">Đặc thù</span></td><td>Đưa vào danh sách giai đoạn 2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note info">
+    <b class="t">Nguyên tắc từ CV 2910</b>
+    <p>Nhiều cột khác tên cùng nghĩa (<span class="mono">ngay_sinh</span>, <span class="mono">birth_date</span>, <span class="mono">DOB</span>) cùng ánh xạ về “Ngày sinh”. Cột tên gần giống nhưng khác nghĩa (<span class="mono">ngay_cap</span>, <span class="mono">ngay_dang_ky</span>) không được gom vào “Ngày sinh”.</p>
+  </div>
+</section>
+
+<section id="lo-trinh">
+  <div class="sec-head">
+    <span class="eyebrow">Lộ trình</span>
+    <h2>Hai giai đoạn, theo mốc thời gian của CV 2910</h2>
+  </div>
+  <div class="phase">
+    <div class="ph now">
+      <span class="pk">Giai đoạn 1 · 2026</span>
+      <h3>Ánh xạ với từ điển quốc gia và bộ ngành</h3>
+      <ul>
+        <li>Chỉ phương án B; trường chuẩn ngành chưa có CDE ghi tham chiếu</li>
+        <li>Ban hành QĐ công bố Từ điển dữ liệu chuyên ngành v1.0 của tỉnh</li>
+        <li>Chuẩn hóa, kết nối trước 31/12/2026 (NĐ 278)</li>
+        <li><b>Ưu tiên triển khai sớm</b> ở các tỉnh đã có VNPT Data Lakehouse</li>
+      </ul>
+    </div>
+    <div class="ph">
+      <span class="pk">Giai đoạn 2 · từ 2027</span>
+      <h3>Đặc thù địa phương và vận hành thường xuyên</h3>
+      <ul>
+        <li>Xử lý danh sách trường đặc thù đã lập ở giai đoạn 1 (phương án A khi cần)</li>
+        <li>Cập nhật trên Hệ thống quản lý Từ điển dữ liệu dùng chung</li>
+        <li>Mở rộng ánh xạ khi bộ ngành bổ sung CDE mới</li>
+        <li>Đánh giá tuân thủ định kỳ</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="cong-cu">
+  <div class="sec-head">
+    <span class="eyebrow">Công cụ hỗ trợ</span>
+    <h2>VNPT Data Lakehouse – module từ điển dữ liệu</h2>
+  </div>
+  <div class="twocol">
+    <div class="box">
+      <h3>Hỗ trợ được</h3>
+      <ul>
+        <li>Quản lý từ điển dữ liệu của tỉnh tập trung, có phiên bản</li>
+        <li>Gợi ý ánh xạ một phần giữa trường dữ liệu và từ điển</li>
+        <li>Thuận lợi cho các tỉnh đã đưa dữ liệu vào Data Lakehouse</li>
+      </ul>
+    </div>
+    <div class="note warn">
+      <b class="t">Lưu ý khi dùng</b>
+      <p>Kết quả gợi ý chỉ hỗ trợ kỹ thuật. <b>Người dùng phải xác nhận độ chính xác ở bước cuối</b> – đúng như CV 2910 quy định với công cụ AI của C12: cơ quan chủ quản vẫn chịu trách nhiệm rà soát, xác nhận, giải nghĩa và phê duyệt.</p>
+    </div>
+  </div>
+</section>
+
+<section id="xep-hang">
+  <div class="sec-head">
+    <span class="eyebrow">Phụ lục II – CV 2910</span>
+    <h2>Đánh giá, xếp hạng cơ sở dữ liệu</h2>
+    <p class="muted">Kết quả xếp hạng ảnh hưởng thi đua và phân bổ ngân sách chuyển đổi số của tỉnh. Việc ánh xạ từ điển tác động trực tiếp tới tiêu chí TC4.</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Mã</th><th>Tiêu chí (khoản 2 Điều 15 NĐ 278)</th><th style="text-align:right">Trọng số</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">TC1</td><td>Tỷ lệ dữ liệu bắt buộc đã kết nối, chia sẻ đúng hạn</td><td class="num">15%</td></tr>
+        <tr><td class="mono">TC2</td><td>Mức độ sử dụng dữ liệu nội bộ, chia sẻ cho bên thứ ba</td><td class="num">10%</td></tr>
+        <tr><td class="mono">TC3</td><td>Dịch vụ công dùng dữ liệu dùng chung, tự động hóa</td><td class="num">10%</td></tr>
+        <tr><td class="mono">TC4</td><td>Chất lượng dữ liệu, chuẩn hóa theo Từ điển dữ liệu – gồm <b>TC4c: % thuộc tính đã ánh xạ</b></td><td class="num">15%</td></tr>
+        <tr><td class="mono">TC5</td><td>Tuân thủ tiêu chuẩn kỹ thuật, ATTT, bảo vệ dữ liệu cá nhân</td><td class="num">15%</td></tr>
+        <tr><td class="mono">TC6</td><td>Hiệu quả vận hành, giám sát, cảnh báo</td><td class="num">10%</td></tr>
+        <tr><td class="mono">TC7</td><td>Kết quả kiểm toán dữ liệu</td><td class="num">15%</td></tr>
+        <tr><td class="mono">TC8</td><td>Giá trị dữ liệu được khai thác, sử dụng</td><td class="num">10%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="twocol">
+    <div class="box">
+      <h3>Xếp loại</h3>
+      <ul>
+        <li><span class="pill p-ok">Loại A</span> ≥ 80 điểm</li>
+        <li><span class="pill p-new">Loại B</span> 60–79 điểm (Tốt 70–79, Đạt 60–69)</li>
+        <li><span class="pill p-miss">Loại C</span> &lt; 60 điểm hoặc vi phạm điều kiện cứng – phải nộp kế hoạch khắc phục, có thể bị xem xét cắt giảm ngân sách chuyển đổi số</li>
+      </ul>
+    </div>
+    <div class="note risk">
+      <b class="t">4 điều kiện cứng – xếp thẳng Loại C</b>
+      <ul style="margin:0;padding-left:18px;display:grid;gap:5px">
+        <li>Lỗ hổng nghiêm trọng (CVSS ≥ 7,0) chưa khắc phục sau 30 ngày</li>
+        <li>Không có hình thức kiểm toán dữ liệu nào trong năm</li>
+        <li>Tỷ lệ luồng kết nối đúng hạn bằng 0% cả năm</li>
+        <li>Có kết luận chính thức về vi phạm nghiêm trọng bảo mật dữ liệu</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="can-cu">
+  <div class="sec-head">
+    <span class="eyebrow">Căn cứ</span>
+    <h2>Văn bản tham chiếu</h2>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:28%">Văn bản</th><th>Nội dung liên quan</th></tr></thead>
+      <tbody>
+        <tr><td><b>CV 2910/BCA-TTDLQG</b> (12/6/2026)</td><td>Hướng dẫn Từ điển dữ liệu (Phụ lục I) và đánh giá, xếp hạng CSDL (Phụ lục II).</td></tr>
+        <tr><td><b>NĐ 278/2025/NĐ-CP</b> (22/10/2025)</td><td>Kết nối, chia sẻ dữ liệu bắt buộc; Điều 15 đánh giá, xếp hạng; Điều 24 mốc 31/12/2026.</td></tr>
+        <tr><td><b>QĐ 2439/QĐ-TTg</b> (04/11/2025)</td><td>Khung kiến trúc dữ liệu quốc gia, Khung quản trị dữ liệu, Từ điển dữ liệu dùng chung v1.0.</td></tr>
+        <tr><td><b>NĐ 165/2025/NĐ-CP</b> (30/6/2025)</td><td>Hướng dẫn Luật Dữ liệu; Điều 14 về siêu dữ liệu.</td></tr>
+        <tr><td><b>QĐ 130, 4750, 3176/QĐ-BYT; TT 12/2026/TT-BTC; QĐ 2146/QĐ-BYT</b></td><td>Chuẩn và định dạng dữ liệu đầu ra khám, chữa bệnh; giám định chi phí KCB BHYT và danh mục liên thông dữ liệu; Khung kiến trúc số Bộ Y tế (y tế).</td></tr>
+        <tr><td><b>NĐ 88/2026/NĐ-CP; QĐ 4998/QĐ-BGDĐT; TT 42/2021/TT-BGDĐT</b></td><td>Quản lý dữ liệu giáo dục và đào tạo; quy định kỹ thuật về dữ liệu (giáo dục).</td></tr>
+        <tr><td><b>Luật Dữ liệu 2024; QĐ 20/2025/QĐ-TTg</b></td><td>Khung pháp lý chung; danh mục dữ liệu cốt lõi, quan trọng (mức bảo vệ – khác với “Bộ từ vựng cốt lõi” CDE).</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="hoi-dap">
+  <div class="sec-head">
+    <span class="eyebrow">Hỏi đáp</span>
+    <h2>Tình huống thường gặp</h2>
+  </div>
+  <details class="faq"><summary>Tỉnh muốn VNPT xuất toàn bộ cấu trúc từ phần mềm chuyên ngành để làm từ điển?</summary><div><p>Không nên. Phần kỹ thuật C12 đã trích xuất. Từ điển cần ý nghĩa nghiệp vụ thống nhất – lấy từ chuẩn bộ ngành. Xuất theo từng phần mềm dễ tạo ra định nghĩa khác nhau cho cùng một khái niệm, trái với nguyên tắc của CV 2910.</p></div></details>
+  <details class="faq"><summary>Trường không có CDE tương ứng thì có phải chọn phương án A không?</summary><div><p>Giai đoạn 1 khuyến nghị: nếu trường thuộc chuẩn bộ ngành, ghi tham chiếu chuẩn ngành để bộ chủ quản đề xuất CDE thống nhất cho cả nước; nếu là đặc thù địa phương, đưa vào danh sách giai đoạn 2. Trường hợp Sở KH&amp;CN hoặc C12 yêu cầu điền ngay phương án A, tỉnh thực hiện theo yêu cầu đó và bám định nghĩa trong chuẩn ngành.</p></div></details>
+  <details class="faq"><summary>Tỉnh đã nộp từ điển trước 31/7 rồi?</summary><div><p>Rà lại phần ánh xạ theo chuẩn ngành; điều chỉnh khi Hệ thống quản lý Từ điển dữ liệu dùng chung cho phép cập nhật trực tuyến. Song song chuẩn bị cho đánh giá, xếp hạng.</p></div></details>
+  <details class="faq"><summary>Công cụ gợi ý ánh xạ có thay được người rà soát không?</summary><div><p>Không. Công cụ – của VNPT hay của C12 – chỉ gợi ý. Đơn vị nghiệp vụ của tỉnh xác nhận và chịu trách nhiệm về kết quả cuối cùng.</p></div></details>
+</section>
+
+<footer>
+  <p>Tài liệu định hướng, không thay thế hướng dẫn của Bộ Công an (Trung tâm Dữ liệu quốc gia) và Sở KH&amp;CN tỉnh. Khi có vướng mắc, tỉnh liên hệ đầu mối Phòng 1/C12 theo mục 4 CV 2910.</p>
+  <p>Nguồn: CV 2910/BCA-TTDLQG ngày 12/6/2026 kèm Phụ lục I, II; NĐ 278/2025/NĐ-CP; QĐ 2439/QĐ-TTg; QĐ 130, 3176, 2146/QĐ-BYT; TT 12/2026/TT-BTC; NĐ 88/2026/NĐ-CP; QĐ 4998/QĐ-BGDĐT. Rà soát ngày 18/9/2026.</p>
+</footer>
+</main>
+</body>
+</html>
